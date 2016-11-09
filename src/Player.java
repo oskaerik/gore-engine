@@ -21,7 +21,7 @@ public class Player {
      * @param height height of the player
      * @param speed speed of the player (pixels/frame)
      */
-    public Player(double xPos, double yPos, double width, double height, double speed) {
+    public Player(double xPos, double yPos, double width, double height, double speed, double) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
@@ -60,5 +60,13 @@ public class Player {
         rect.setCenterY((float)yPos);
         rect.setSize((float)width, (float)height);
         return rect;
+    }
+
+    public double getXPos() {
+        return xPos;
+    }
+
+    public double getYPos() {
+        return yPos;
     }
 }
