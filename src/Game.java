@@ -14,6 +14,8 @@ public class Game extends BasicGame {
     private TrueTypeFont font;
     private Player player;
     private TiledMap map;
+    private double mapX;
+    private double mapY;
 
     public Game(String title) { super(title); }
 
@@ -21,27 +23,33 @@ public class Game extends BasicGame {
     public void init(GameContainer gameContainer) throws SlickException {
         map = new TiledMap("res/map/sewers.tmx");
         player = new Player(300, 200, 20, 20, 2.5);
+        mapX = 0;
+        mapY = 0;
     }
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
-            player.movement("up");
+            //player.movement("up");
+            mapY += 1;
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
-            player.movement("down");
+            //player.movement("down");
+            mapY -= 1;
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
-            player.movement("left");
+            //player.movement("left");
+            mapX += 1;
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
-            player.movement("right");
+            //player.movement("right");
+            mapX -= 1;
         }
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        map.render(0,0);
+        map.render((int)mapX, (int)mapY);
         graphics.fill(player.getRect());
     }
 
