@@ -15,58 +15,74 @@ public class Player {
 
     /**
      * Constructor of the player class
-     * @param xPos x position of the player
-     * @param yPos y position of the player
+     * @param xPos center x position of the player in relation to the map
+     * @param yPos center y position of the player in relation to the map
      * @param width width of the player
      * @param height height of the player
      * @param speed speed of the player (pixels/frame)
      */
-    public Player(double xPos, double yPos, double width, double height, double speed, double) {
+    public Player(double xPos, double yPos, double width, double height, double speed) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
         this.height = height;
         this.speed = speed;
-        rect = new Rectangle(0, 0, 0, 0);
+        rect = new Rectangle(Game.WIDTH/2, Game.HEIGHT/2, (int)this.width, (int)this.height);
     }
 
     /**
      * Changes the players position according to input
      * @param input A string saying which direction to go. "up", "down", "left", "right"
      */
-    public void movement(String input) {
+    public void movement(String input, int delta) {
         switch (input) {
             case "up":
-                yPos -= speed;
+                yPos += speed * delta;
                 break;
             case "down":
-                yPos += speed;
+                yPos -= speed * delta;
                 break;
             case "left":
-                xPos -= speed;
+                xPos += speed * delta;
                 break;
             case "right":
-                xPos += speed;
+                xPos -= speed * delta;
                 break;
+            default:
+                throw new IllegalArgumentException("Player class received invalid movement instructions");
         }
     }
 
     /**
-     * Updates and returns the player rectangle
      * @return The player rectangle
      */
-    public Rectangle getRect() {
-        rect.setCenterX((float)xPos);
-        rect.setCenterY((float)yPos);
-        rect.setSize((float)width, (float)height);
-        return rect;
-    }
+    public Rectangle getRect() { return rect; }
 
-    public double getXPos() {
+    /**
+     * @return Returns the x-position of players center in relation to the map
+     */
+    public double getXPosition() {
         return xPos;
     }
 
-    public double getYPos() {
+    /**
+     * @return Returns the y-position of players center in relation to the map
+     */
+    public double getYPosition() {
         return yPos;
+    }
+
+    /**
+     * @return Returns the width of the player rectangle
+     */
+    public double getWidth() {
+        return width;
+    }
+
+    /**
+     * @return Returns the height of the player rectangle
+     */
+    public double getHeight() {
+        return height;
     }
 }

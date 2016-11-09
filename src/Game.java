@@ -11,58 +11,80 @@ import java.util.logging.Logger;
  * @version 0.1
  */
 public class Game extends BasicGame {
-    private TrueTypeFont font;
+    public static final int WIDTH = 640;
+    public static final int HEIGHT = 480;
+
     private Player player;
-    private TiledMap map;
-    private int windowWidth;
-    private int windowHeight;
+    private World theWorld;
 
-    public Game(String title) {
-        super(title);
-        this.windowHeight = 480;
-        this.windowWidth = 640;
-    }
+    /**
+     * Constructor for the game class
+     * @param title Title of the game window
+     */
+    public Game(String title) { super(title); }
 
+    /**
+     * Initializing method
+     * @param gameContainer GameContainer object handling game loop etc
+     * @throws SlickException Generic exception
+     */
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
-        map = new TiledMap("res/map/sewers.tmx");
-        player = new Player(300, 200, 20, 20, 2.5);
+        player = new Player(WIDTH/2, HEIGHT/2, 20, 20, 0.2);
+        theWorld = new World("res/map/sewers.tmx", 500, 500);
     }
 
+    /**
+     * Updates every frame
+     * @param gameContainer GameContainer object handling game loop etc
+     * @param delta Amount of time that has passed since last update (ms)
+     * @throws SlickException Generic exception
+     */
     @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
-        if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
-            //player.movement("up");
-            mapY += 1;
-        }
-        if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
-            //player.movement("down");
-            mapY -= 1;
-        }
-        if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
-            //player.movement("left");
-            playerXPos += 1;
-        }
-        if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
-            //player.movement("right");
-            playerXPos -= 1;
-        }
+    public void update(GameContainer gameContainer, int delta) throws SlickException {
+        checkKeyPress(gameContainer, delta);
     }
 
+    /**
+     * Renders every frame
+     * @param gameContainer GameContainer object handling game loop etc
+     * @param graphics Graphics component used to draw
+     * @throws SlickException Generic exception
+     */
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        map.render((int)playerXPos, (int)mapY);
+        theWorld.render(player.getXPosition()+player.getWidth()/2, player.getYPosition()+player.getHeight()/2);
         graphics.fill(player.getRect());
     }
 
     public static void main(String[] args) {
         try {
             AppGameContainer appgc = new AppGameContainer(new Game("slick-game"));
-            appgc.setDisplayMode(640, 480, false);
-            appgc.setTargetFrameRate(60);
+            appgc.setDisplayMode(WIDTH, HEIGHT, false);
+            appgc.setTargetFrameRate(145);
             appgc.start();
         } catch (SlickException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Checks for key presses and executes commands accordingly
+     * @param gameContainer GameContainer object handling game loop etc
+     * @param delta Amount of time that has passed since last update (ms)
+     */
+    private void checkKeyPress(GameContainer gameContainer, int delta) {
+        if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
+            player.movement("up", delta);
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
+            player.movement("down", delta);
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
+            player.movement("left", delta);
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
+            player.movement("right", delta);
         }
     }
 }
