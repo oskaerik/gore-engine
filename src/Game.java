@@ -1,5 +1,6 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,11 +13,13 @@ import java.util.logging.Logger;
 public class Game extends BasicGame {
     private TrueTypeFont font;
     private Player player;
+    private TiledMap map;
 
     public Game(String title) { super(title); }
 
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
+        map = new TiledMap("res/map/sewers.tmx");
         player = new Player(300, 200, 20, 20, 2.5);
     }
 
@@ -38,6 +41,7 @@ public class Game extends BasicGame {
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+        map.render(0,0);
         graphics.fill(player.getRect());
     }
 
