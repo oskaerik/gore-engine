@@ -30,8 +30,8 @@ public class Game extends BasicGame {
      */
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
-        player = new Player(WIDTH/2, HEIGHT/2, 20, 20, 0.2);
-        theWorld = new World("res/map/sewers.tmx", 500, 500);
+        player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2);
+        theWorld = new World("res/map/test_world.tmx", 150, 100);
     }
 
     /**
@@ -59,7 +59,7 @@ public class Game extends BasicGame {
 
     public static void main(String[] args) {
         try {
-            AppGameContainer appgc = new AppGameContainer(new Game("slick-game"));
+            AppGameContainer appgc = new AppGameContainer(new Game("An Awesome Game"));
             appgc.setDisplayMode(WIDTH, HEIGHT, false);
             appgc.setTargetFrameRate(145);
             appgc.start();
