@@ -1,6 +1,8 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
+import org.w3c.dom.css.Rect;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +45,12 @@ public class Game extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         checkKeyPress(gameContainer, delta);
+
+        for (Rectangle block : theWorld.getBlocks()) {
+            if (player.getRect().intersects(block)) {
+                System.out.println("Collision detected!");
+            }
+        }
     }
 
     /**
@@ -55,6 +63,9 @@ public class Game extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         theWorld.render(player.getXPosition()+player.getWidth()/2, player.getYPosition()+player.getHeight()/2);
         graphics.fill(player.getRect());
+        for (Rectangle rect : theWorld.getBlocks()) {
+            graphics.fill(rect);
+        }
     }
 
     public static void main(String[] args) {

@@ -2,15 +2,15 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="test_world" tilewidth="16" tileheight="16" tilecount="120" columns="8">
   <image source="test_world.png" width="128" height="240"/>
+  <tile id="0">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="ground" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3DAQ0AAAzDoAqYf70XckhYNVVVVd89HUdyRRAOAAA=
-  </data>
- </layer>
- <layer name="collision" width="30" height="30">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+2UwQoAIAhD6/9/untktTmJrEGX0D0FtZSvF1WNN4pTc5Vx2blsPSe5u0/NtWph89kcxEvFRXpVc5F8lKu4SywX+Ud9MnMVc8jejuh997Ij7nkUd9VTJNfreZKr3D10pkd7MruhyH7t8Hvfr7vUAAWdGn0QDgAA
+   H4sIAAAAAAAAA+3WMQ4AIAgDQNj9/3t9gYlQsJJ0YJQTiaibmZNiPQ65cpHcU9zTmsgdrHSjueXWuZn521nvzX7l1vT31GvUjdQn9y+38w+HvIPImUx1M7N5cr0MFwm2y4gNKmFuWxAOAAA=
   </data>
  </layer>
 </map>
