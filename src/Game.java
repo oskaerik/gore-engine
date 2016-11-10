@@ -30,8 +30,7 @@ public class Game extends BasicGame {
      */
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
-        player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2);
-        generateWorld("res/map/test_world.tmx", 150, 100);
+        generateWorld("res/maps/center.tmx", 150, 100);
     }
 
     /**
@@ -46,7 +45,7 @@ public class Game extends BasicGame {
 
         for (Exit exit : theWorld.getExits()) {
             if (player.getRect().intersects(exit.getRectangle())) {
-                generateWorld(exit.getDestination(), exit.getXSpawnPosition(), exit.getXSpawnPosition());
+                generateWorld(exit.getDestination(), exit.getXSpawnPosition(), exit.getYSpawnPosition());
             }
         }
     }
@@ -61,9 +60,6 @@ public class Game extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         theWorld.render(player.getXPosition(), player.getYPosition());
         graphics.fill(player.getRect());
-        for (Exit exit : theWorld.getExits()) {
-            graphics.fill(exit.getRectangle());
-        }
     }
 
     public static void main(String[] args) {
@@ -118,6 +114,7 @@ public class Game extends BasicGame {
     }
 
     private void generateWorld(String worldName, int spawnX, int spawnY) throws SlickException {
+        player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2);
         theWorld = new World(worldName, spawnX, spawnY);
     }
 }

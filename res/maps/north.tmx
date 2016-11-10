@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="120" columns="8">
+  <image source="tiles.png" width="128" height="240"/>
+  <tile id="0">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="Exit" value="res/maps/center.tmx"/>
+    <property name="SpawnX" value="232"/>
+    <property name="SpawnY" value="17"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2VsQ7AIAhEYdev8///xcUuTSNwEmmpw8VF8rgTlYmIg1Q2y5Nbg7iefi0eLFlY/d73olkhXA7k8shuJ/dpzc5FaiXu7O5EzbPUh6X/N75Xmv6RN+0Lfg/3cC9JM67hev39mXPOzNWef3Xm/i3nFS6iNoTWdzcSMJkQDgAA
+  </data>
+ </layer>
+</map>

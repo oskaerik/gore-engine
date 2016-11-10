@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="120" columns="8">
+  <image source="tiles.png" width="128" height="240"/>
+  <tile id="0">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="Exit" value="res/maps/north.tmx"/>
+    <property name="SpawnX" value="232"/>
+    <property name="SpawnY" value="447"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA92WMQLAIAgDdS+v6///0qUd25IQBR0ywhlApbfWOqHzFhP76JgsJdeSuEq/iAekFlX9VuRGerCi3124qruT5ffr/JXqjJ6f6csKfitwo383E6uokTeHejdBuEjevxn3cE3oc7TfGdzIfWC4kVlD4t72bu87aSQ3o7+7cTN0AfAFqN4QDgAA
+  </data>
+ </layer>
+</map>
