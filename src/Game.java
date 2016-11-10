@@ -33,7 +33,7 @@ public class Game extends BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2);
-        theWorld = new World("res/map/test_world.tmx", 150, 100);
+        theWorld = new World("res/map/test_world.tmx", 320, 240);
     }
 
     /**
@@ -86,16 +86,16 @@ public class Game extends BasicGame {
      */
     private void checkKeyPress(GameContainer gameContainer, int delta) {
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
-            player.movement("up", delta);
+            theWorld.updateCollisionRectangleY(player.movement("up", delta));
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
-            player.movement("down", delta);
+            theWorld.updateCollisionRectangleY(player.movement("down", delta));
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
-            player.movement("left", delta);
+            theWorld.updateCollisionRectangleX(player.movement("left", delta));
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
-            player.movement("right", delta);
+            theWorld.updateCollisionRectangleX(player.movement("right", delta));
         }
     }
 }

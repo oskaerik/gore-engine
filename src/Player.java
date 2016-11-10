@@ -34,20 +34,20 @@ public class Player {
      * Changes the players position according to input
      * @param input A string saying which direction to go. "up", "down", "left", "right"
      */
-    public void movement(String input, int delta) {
+    public double movement(String input, int delta) {
         switch (input) {
             case "up":
                 yPos += speed * delta;
-                break;
+                return speed * delta;
             case "down":
                 yPos -= speed * delta;
-                break;
+                return -speed * delta;
             case "left":
                 xPos += speed * delta;
-                break;
+                return speed * delta;
             case "right":
                 xPos -= speed * delta;
-                break;
+                return -speed * delta;
             default:
                 throw new IllegalArgumentException("Player class received invalid movement instructions");
         }

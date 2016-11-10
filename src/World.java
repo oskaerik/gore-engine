@@ -16,7 +16,6 @@ public class World {
     private final int spawnY;
     private boolean blocked[][];
     private ArrayList<Rectangle> blocks;
-    private String test; 
     /**
      * Constructor for the World class
      * @param mapName Name of the map .tmx-file in the map-folder
@@ -71,4 +70,16 @@ public class World {
      * @return Returns the player's spawn y-position
      */
     public int getSpawnY() { return spawnY; }
+
+    public void updateCollisionRectangleX(double xChange) {
+        for (Rectangle block : blocks) {
+            block.setX(block.getX() + (float)xChange);
+        }
+    }
+
+    public void updateCollisionRectangleY(double yChange) {
+        for (Rectangle block : blocks) {
+            block.setY(block.getY()+ (float)yChange);
+        }
+    }
 }
