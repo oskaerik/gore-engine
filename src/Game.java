@@ -23,6 +23,17 @@ public class Game extends BasicGame {
      */
     public Game(String title) { super(title); }
 
+    public static void main(String[] args) {
+        try {
+            AppGameContainer appgc = new AppGameContainer(new Game("An Awesome Game"));
+            appgc.setDisplayMode(WIDTH, HEIGHT, false);
+            appgc.setTargetFrameRate(145);
+            appgc.start();
+        } catch (SlickException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * Initializing method
      * @param gameContainer GameContainer object handling game loop etc
@@ -42,12 +53,7 @@ public class Game extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         checkKeyPress(gameContainer, delta);
-
-        for (Exit exit : theWorld.getExits()) {
-            if (player.getRect().intersects(exit.getRectangle())) {
-                generateWorld(exit.getDestination(), exit.getXSpawnPosition(), exit.getYSpawnPosition());
-            }
-        }
+        playerIntersectExit();
     }
 
     /**
@@ -60,17 +66,6 @@ public class Game extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         theWorld.render(player.getXPosition(), player.getYPosition());
         graphics.fill(player.getRect());
-    }
-
-    public static void main(String[] args) {
-        try {
-            AppGameContainer appgc = new AppGameContainer(new Game("An Awesome Game"));
-            appgc.setDisplayMode(WIDTH, HEIGHT, false);
-            appgc.setTargetFrameRate(145);
-            appgc.start();
-        } catch (SlickException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -113,8 +108,31 @@ public class Game extends BasicGame {
         }
     }
 
+    /**
+     * Generate map based on location of .tmx file, and where the "player" should "spawn".
+     * @param worldName String file location with reference to main folder.
+     * @param spawnX X position which "player" "spawns" at.
+     * @param spawnY Y position which "player" "spawns" at.
+     * @throws SlickException Generic exception.
+     */
+
     private void generateWorld(String worldName, int spawnX, int spawnY) throws SlickException {
         player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2);
         theWorld = new World(worldName, spawnX, spawnY);
+    }
+
+    /**
+     * Check if player has intersected with an exit. If so, change map to new destination and
+     * spawn player.
+     * @throws SlickException Generic exception. 
+     */
+
+    private void playerIntersectExit() throws SlickException {
+        for (Exit exit : theWorld.getExits()) {
+            if (player.getRect().intersects(exit.getRectangle())) {
+                generateWorld(exit.getDestination(), exit.getXSpawnPosition(),
+                        exit.getYSpawnPosition());
+            }
+        }
     }
 }
