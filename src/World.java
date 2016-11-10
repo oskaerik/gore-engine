@@ -35,7 +35,8 @@ public class World {
                 String value = map.getTileProperty(tileID, "Blocked", "false");
                 if (value.equals("true")) {
                     blocked[i][j] = true;
-                    blocks.add(new Rectangle((float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
+                    blocks.add(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,
+                            (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
                             map.getTileWidth(), map.getTileHeight()));
                 }
             }

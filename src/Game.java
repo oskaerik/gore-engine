@@ -33,7 +33,7 @@ public class Game extends BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2);
-        theWorld = new World("res/map/test_world.tmx", 320, 240);
+        theWorld = new World("res/map/test_world.tmx", 150, 100);
     }
 
     /**
@@ -61,7 +61,7 @@ public class Game extends BasicGame {
      */
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        theWorld.render(player.getXPosition()+player.getWidth()/2, player.getYPosition()+player.getHeight()/2);
+        theWorld.render(player.getXPosition(), player.getYPosition());
         graphics.fill(player.getRect());
         for (Rectangle rect : theWorld.getBlocks()) {
             graphics.fill(rect);
