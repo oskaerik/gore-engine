@@ -3,6 +3,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * The World class is the current map the player is in
@@ -15,7 +16,7 @@ public class World {
     private final int spawnY;
     private boolean blocked[][];
     private ArrayList<Rectangle> blocks;
-
+    private String test; 
     /**
      * Constructor for the World class
      * @param mapName Name of the map .tmx-file in the map-folder
