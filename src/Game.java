@@ -63,9 +63,6 @@ public class Game extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         theWorld.render(player.getXPosition(), player.getYPosition());
         graphics.fill(player.getRect());
-        for (Rectangle rect : theWorld.getBlocks()) {
-            graphics.fill(rect);
-        }
     }
 
     public static void main(String[] args) {
@@ -87,15 +84,35 @@ public class Game extends BasicGame {
     private void checkKeyPress(GameContainer gameContainer, int delta) {
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
             theWorld.updateCollisionRectangleY(player.movement("up", delta));
+            for (Rectangle block : theWorld.getBlocks()) {
+                if (player.getRect().intersects(block)) {
+                    theWorld.updateCollisionRectangleY(player.movement("down", delta));
+                }
+            }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
             theWorld.updateCollisionRectangleY(player.movement("down", delta));
+            for (Rectangle block : theWorld.getBlocks()) {
+                if (player.getRect().intersects(block)) {
+                    theWorld.updateCollisionRectangleY(player.movement("up", delta));
+                }
+            }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
             theWorld.updateCollisionRectangleX(player.movement("left", delta));
+            for (Rectangle block : theWorld.getBlocks()) {
+                if (player.getRect().intersects(block)) {
+                    theWorld.updateCollisionRectangleX(player.movement("right", delta));
+                }
+            }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
             theWorld.updateCollisionRectangleX(player.movement("right", delta));
+            for (Rectangle block : theWorld.getBlocks()) {
+                if (player.getRect().intersects(block)) {
+                    theWorld.updateCollisionRectangleX(player.movement("left", delta));
+                }
+            }
         }
     }
 }
