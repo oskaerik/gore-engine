@@ -14,8 +14,9 @@ public class World {
     private TiledMap map;
     private final int spawnX;
     private final int spawnY;
-    private boolean blocked[][];
     private ArrayList<Rectangle> blocks;
+    private ArrayList<Exit> exits;
+
     /**
      * Constructor for the World class
      * @param mapName Name of the map .tmx-file in the map-folder
@@ -27,20 +28,10 @@ public class World {
         this.spawnX = spawnX;
         this.spawnY = spawnY;
 
-        blocked = new boolean[map.getWidth()][map.getHeight()];
         blocks = new ArrayList<>();
-        for (int i = 0; i < map.getWidth(); i++) {
-            for (int j = 0; j < map.getHeight(); j++) {
-                int tileID = map.getTileId(i, j, 0);
-                String value = map.getTileProperty(tileID, "Blocked", "false");
-                if (value.equals("true")) {
-                    blocked[i][j] = true;
-                    blocks.add(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,
-                            (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
-                            map.getTileWidth(), map.getTileHeight()));
-                }
-            }
-        }
+        exits = new ArrayList<>();
+
+        generateWorldObjects();
     }
 
     /**
@@ -58,6 +49,11 @@ public class World {
     public ArrayList<Rectangle> getBlocks() { return blocks; }
 
     /**
+     * @return Returns an ArrayList of exits, objects that the player collides with
+     */
+    public ArrayList<Exit> getExits() { return exits; }
+
+    /**
      * @return Returns the TiledMap object
      */
     public TiledMap getMap() { return map; }
@@ -72,15 +68,44 @@ public class World {
      */
     public int getSpawnY() { return spawnY; }
 
-    public void updateCollisionRectangleX(double xChange) {
+    public void updateRectanglesX(double xChange) {
         for (Rectangle block : blocks) {
             block.setX(block.getX() + (float)xChange);
         }
+        for (Exit exit : exits) {
+            exit.getRectangle().setX(exit.getRectangle().getX() + (float)xChange);
+        }
     }
 
-    public void updateCollisionRectangleY(double yChange) {
+    public void updateRectanglesY(double yChange) {
         for (Rectangle block : blocks) {
             block.setY(block.getY()+ (float)yChange);
+        }
+        for (Exit exit : exits) {
+            exit.getRectangle().setY(exit.getRectangle().getY() + (float)yChange);
+        }
+    }
+
+    private void generateWorldObjects() {
+        for (int i = 0; i < map.getWidth(); i++) {
+            for (int j = 0; j < map.getHeight(); j++) {
+                int tileID = map.getTileId(i, j, 0);
+                String value = map.getTileProperty(tileID, "Blocked", "false");
+                if (value.equals("true")) {
+                    blocks.add(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,
+                            (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
+                            map.getTileWidth(), map.getTileHeight()));
+                }
+
+                String destination = map.getTileProperty(tileID, "Exit", "");
+                if (!destination.equals("")) {
+                    int spawnXPosition = Integer.parseInt(map.getTileProperty(tileID, "SpawnX", ""));
+                    int spawnYPosition = Integer.parseInt(map.getTileProperty(tileID, "SpawnY", ""));
+                    exits.add(new Exit(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,
+                            (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
+                            map.getTileWidth(), map.getTileHeight()), destination, spawnXPosition, spawnYPosition));
+                }
+            }
         }
     }
 }

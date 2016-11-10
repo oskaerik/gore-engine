@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="4">
  <tileset firstgid="1" name="test_world" tilewidth="16" tileheight="16" tilecount="120" columns="8">
   <image source="test_world.png" width="128" height="240"/>
   <tile id="0">
@@ -7,10 +7,17 @@
     <property name="Blocked" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="9">
+   <properties>
+    <property name="Exit" value="res/map/sewers.tmx"/>
+    <property name="SpawnX" value="150"/>
+    <property name="SpawnY" value="100"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="ground" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3Uuw4AEAwF0Fob//+9DGyIPtKqdLhjHTcNCADYU4yDI9Uw07Y00/3DPZ37mrubWb1DC5d6drp67ikefW/um67Ofne7lrqUfum+5WrnxuV0oM5GdDl/c+S+Hq4k3q5HGvtIgMkQDgAA
+   H4sIAAAAAAAAA+3WOQ4AIAgEQGzV3v//1EZLjSwiklBsCROMVyKiBCSPILUz9XHCDVfS24u7quGcwZsut/ePbnPqIvdvUVznXaxczX2l7SJvrdTlzBfuX+7tnLjIDNxajy76N/Y6r4UribVrkQ5ZkDovEA4AAA==
   </data>
  </layer>
 </map>

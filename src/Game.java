@@ -1,8 +1,6 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.tiled.TiledMap;
-import org.w3c.dom.css.Rect;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +31,7 @@ public class Game extends BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2);
-        theWorld = new World("res/map/test_world.tmx", 150, 100);
+        generateWorld("res/map/test_world.tmx", 150, 100);
     }
 
     /**
@@ -46,9 +44,9 @@ public class Game extends BasicGame {
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         checkKeyPress(gameContainer, delta);
 
-        for (Rectangle block : theWorld.getBlocks()) {
-            if (player.getRect().intersects(block)) {
-                System.out.println("Collision detected!");
+        for (Exit exit : theWorld.getExits()) {
+            if (player.getRect().intersects(exit.getRectangle())) {
+                generateWorld(exit.getDestination(), exit.getXSpawnPosition(), exit.getXSpawnPosition());
             }
         }
     }
@@ -63,6 +61,9 @@ public class Game extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         theWorld.render(player.getXPosition(), player.getYPosition());
         graphics.fill(player.getRect());
+        for (Exit exit : theWorld.getExits()) {
+            graphics.fill(exit.getRectangle());
+        }
     }
 
     public static void main(String[] args) {
@@ -83,36 +84,40 @@ public class Game extends BasicGame {
      */
     private void checkKeyPress(GameContainer gameContainer, int delta) {
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
-            theWorld.updateCollisionRectangleY(player.movement("up", delta));
+            theWorld.updateRectanglesY(player.movement("up", delta));
             for (Rectangle block : theWorld.getBlocks()) {
                 if (player.getRect().intersects(block)) {
-                    theWorld.updateCollisionRectangleY(player.movement("down", delta));
+                    theWorld.updateRectanglesY(player.movement("down", delta));
                 }
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
-            theWorld.updateCollisionRectangleY(player.movement("down", delta));
+            theWorld.updateRectanglesY(player.movement("down", delta));
             for (Rectangle block : theWorld.getBlocks()) {
                 if (player.getRect().intersects(block)) {
-                    theWorld.updateCollisionRectangleY(player.movement("up", delta));
+                    theWorld.updateRectanglesY(player.movement("up", delta));
                 }
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
-            theWorld.updateCollisionRectangleX(player.movement("left", delta));
+            theWorld.updateRectanglesX(player.movement("left", delta));
             for (Rectangle block : theWorld.getBlocks()) {
                 if (player.getRect().intersects(block)) {
-                    theWorld.updateCollisionRectangleX(player.movement("right", delta));
+                    theWorld.updateRectanglesX(player.movement("right", delta));
                 }
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
-            theWorld.updateCollisionRectangleX(player.movement("right", delta));
+            theWorld.updateRectanglesX(player.movement("right", delta));
             for (Rectangle block : theWorld.getBlocks()) {
                 if (player.getRect().intersects(block)) {
-                    theWorld.updateCollisionRectangleX(player.movement("left", delta));
+                    theWorld.updateRectanglesX(player.movement("left", delta));
                 }
             }
         }
+    }
+
+    private void generateWorld(String worldName, int spawnX, int spawnY) throws SlickException {
+        theWorld = new World(worldName, spawnX, spawnY);
     }
 }
