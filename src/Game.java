@@ -19,6 +19,8 @@ public class Game extends BasicGame {
     private Player player;
     private World currentWorld;
     private HashMap<String, World> worlds;
+    private Animation anitmation;
+    private boolean isMoving;
 
     /**
      * Constructor for the game class
@@ -52,6 +54,9 @@ public class Game extends BasicGame {
         worlds = new HashMap<>();
         worlds.put(currentWorld.getName(), currentWorld);
         worlds.put(north.getName(), north);
+        isMoving = false;
+        anitmation = player.getDefaultAnimation();
+
     }
 
     /**
@@ -88,6 +93,7 @@ public class Game extends BasicGame {
             item.getItemFont().drawString(item.getRectangle().getX(), item.getRectangle().getY(),
                     item.getName(), Color.blue);
         }
+        anitmation.draw(player.getRect().getX()-16, player.getRect().getY()-16);
     }
 
     /**
@@ -103,6 +109,7 @@ public class Game extends BasicGame {
                     currentWorld.updateRectanglesY(player.movement("down", delta));
                 }
             }
+            anitmation = player.getUpAnimation();
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
             currentWorld.updateRectanglesY(player.movement("down", delta));
@@ -111,6 +118,7 @@ public class Game extends BasicGame {
                     currentWorld.updateRectanglesY(player.movement("up", delta));
                 }
             }
+            anitmation = player.getDownAnimation();
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
             currentWorld.updateRectanglesX(player.movement("left", delta));
@@ -119,6 +127,7 @@ public class Game extends BasicGame {
                     currentWorld.updateRectanglesX(player.movement("right", delta));
                 }
             }
+            anitmation = player.getLeftAnimation();
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
             currentWorld.updateRectanglesX(player.movement("right", delta));
@@ -127,6 +136,7 @@ public class Game extends BasicGame {
                     currentWorld.updateRectanglesX(player.movement("left", delta));
                 }
             }
+            anitmation = player.getRightAnimation();
         }
         if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
             ArrayList<Item> intersectedItems = player.getIntersectedItems(currentWorld.getItems());
@@ -139,6 +149,11 @@ public class Game extends BasicGame {
             if (!player.getInventory().checkIfEmpty()) {
                 currentWorld.addItem(player.removeItemFromInventory());
             }
+        }
+        if (!gameContainer.getInput().isKeyDown(Input.KEY_UP) && !gameContainer.getInput()
+                .isKeyDown(Input.KEY_DOWN) && !gameContainer.getInput().isKeyDown(Input
+                .KEY_RIGHT) && !gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
+            anitmation = player.getDefaultAnimation();
         }
     }
 }
