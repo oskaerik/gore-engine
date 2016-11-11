@@ -4,6 +4,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.ArrayList;
 
 /**
  * A game written using Java and Slick2D.
@@ -118,11 +119,16 @@ public class Game extends BasicGame {
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_SPACE)) {
-            theWorld.removeItems(player.getIntersectedItems(theWorld.getItems()));
+            ArrayList<Item> intersectedItems = player.getIntersectedItems(theWorld.getItems());
+            theWorld.removeItems(intersectedItems);
+            for (Item item : intersectedItems) {
+                player.addItemToInventory(item);
+            }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_A)) {
-            theWorld.addItem(new Item(new Rectangle(WIDTH/2, HEIGHT/2, 16, 16),
-                    new Image("res/items/bowl.png"), "res/items/bowl.png", "Bowl"));
+            if (!player.getInventory().checkIfEmpty()) {
+                theWorld.addItem(player.removeItemFromInventory());
+            }
         }
     }
 

@@ -19,6 +19,7 @@ public class Player {
     private double speed;
     private Rectangle rect;
     private Circle range;
+    private Inventory inventory;
 
     /**
      * Constructor of the player class
@@ -36,6 +37,7 @@ public class Player {
         this.speed = speed;
         rect = new Rectangle(Game.WIDTH/2, Game.HEIGHT/2, (int) this.width, (int) this.height);
         range = new Circle(Game.WIDTH/2, Game.HEIGHT/2, (float)radius);
+        inventory = new Inventory();
     }
 
     /**
@@ -104,6 +106,18 @@ public class Player {
             default:
                 throw new IllegalArgumentException("Player class received invalid movement instructions");
         }
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void addItemToInventory(Item item) {
+        inventory.addItem(item);
+    }
+
+    public Item removeItemFromInventory() {
+        return inventory.removeItem();
     }
 
     public Circle getRange() {
