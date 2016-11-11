@@ -115,6 +115,7 @@ public class World {
                             (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
                             map.getTileWidth(), map.getTileHeight()), destination, spawnXPosition, spawnYPosition));
                 }
+                tileID = map.getTileId(i, j, 1);
                 String item = map.getTileProperty(tileID, "Item", "");
                 if (!item.equals("")) {
                     items.add(new Item(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,

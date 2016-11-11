@@ -20,9 +20,14 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Tile Layer 1" width="30" height="30">
+ <layer name="Tile Layer 1" width="30" height="30" visible="0">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA92WOxKAIAxEoTenk/ufxQYbx5DfDokWO2MTHrsJQm+tdYfOKU/trWOzkFxK4iL9WjxYspC4I8Ba1VbN2ZLdLm6kD1/MGc1FnZ0sv6v9V8p5MN/c/qW+vM18Jb+VudG721OLyEi7Bvptwq31nEErT/pvazwQ0Kcn52rcyHnwcCOzZqnj3t3a+4uc3Iz+/o2boQtiQuEREA4AAA==
+   H4sIAAAAAAAAA92WMRbAIAhDcS+n6/3v0qUdqxLyDDpkxE9AlGZmDdD9Con9dC0Wk+siLtNvxEOkFlX9VuRmerCj31O4rNlR+e3lX6nO0fyRvuzgtwI3+3cjsYwazZ7B3k0i3NX9dRFX5XfEzcwDws3ctUjc3949+046yFX09zSuQg9p5xehEA4AAA==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3T0QkAAARFUUPafxbfUspLSd0zATfMgF/8egBBN/PHfQCFcuv8xy36Z2oPOlbTJjTEFm6pCsdsMYYQDgAA
   </data>
  </layer>
 </map>
