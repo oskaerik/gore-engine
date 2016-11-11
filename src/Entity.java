@@ -50,7 +50,5 @@ public class Entity {
     /**
      * @return Returns the height of the entity's rectangle
      */
-    public double getHeight() {
-        return height;
-    }
+    public double getHeight() {return height;}
 }

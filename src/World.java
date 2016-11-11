@@ -16,6 +16,7 @@ public class World {
     private final int spawnY;
     private ArrayList<Rectangle> blocks;
     private ArrayList<Exit> exits;
+    private ArrayList<Item> items;
 
     /**
      * Constructor for the World class
@@ -30,6 +31,7 @@ public class World {
 
         blocks = new ArrayList<>();
         exits = new ArrayList<>();
+        items = new ArrayList<>();
 
         generateWorldObjects();
     }
@@ -53,6 +55,8 @@ public class World {
      */
     public ArrayList<Exit> getExits() { return exits; }
 
+
+    public ArrayList<Item> getItems() {return items;}
     /**
      * @return Returns the TiledMap object
      */
@@ -75,6 +79,9 @@ public class World {
         for (Exit exit : exits) {
             exit.getRectangle().setX(exit.getRectangle().getX() + (float)xChange);
         }
+        for (Item item : items) {
+            item.getRectangle().setX(item.getRectangle().getX() + (float)xChange);
+        }
     }
 
     public void updateRectanglesY(double yChange) {
@@ -83,6 +90,9 @@ public class World {
         }
         for (Exit exit : exits) {
             exit.getRectangle().setY(exit.getRectangle().getY() + (float)yChange);
+        }
+        for (Item item : items) {
+            item.getRectangle().setY(item.getRectangle().getY() + (float)yChange);
         }
     }
 
@@ -104,6 +114,12 @@ public class World {
                     exits.add(new Exit(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,
                             (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
                             map.getTileWidth(), map.getTileHeight()), destination, spawnXPosition, spawnYPosition));
+                }
+                String item = map.getTileProperty(tileID, "Item", "");
+                if (!item.equals("")) {
+                    items.add(new Item(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,
+                            (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
+                            map.getTileWidth(), map.getTileHeight()), item));
                 }
             }
         }

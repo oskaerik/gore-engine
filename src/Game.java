@@ -54,6 +54,7 @@ public class Game extends BasicGame {
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         checkKeyPress(gameContainer, delta);
         playerIntersectExit();
+        playerIntersectItem();
     }
 
     /**
@@ -66,6 +67,11 @@ public class Game extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         theWorld.render(player.getXPosition(), player.getYPosition());
         graphics.fill(player.getRect());
+        for (Item item : theWorld.getItems()) {
+            if (player.getRect().intersects(item.getRectangle())) {
+                graphics.fill(item.getRectangle());
+            }
+        }
     }
 
     /**
@@ -132,6 +138,14 @@ public class Game extends BasicGame {
             if (player.getRect().intersects(exit.getRectangle())) {
                 generateWorld(exit.getDestination(), exit.getXSpawnPosition(),
                         exit.getYSpawnPosition());
+            }
+        }
+    }
+
+    private void playerIntersectItem() throws SlickException {
+        for (Item item : theWorld.getItems()) {
+            if (player.getRect().intersects(item.getRectangle())) {
+                System.out.println("Item!");
             }
         }
     }
