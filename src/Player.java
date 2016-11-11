@@ -113,7 +113,6 @@ public class Player {
     public void update(Graphics graphics, ArrayList<Item> items, ArrayList<Exit> exits) {
         graphics.fill(getRect());
         for (Item item : getIntersectedItems(items)) {
-            graphics.fill(item.getRectangle());
             item.getItemFont().drawString(item.getRectangle().getX(), item.getRectangle().getY(),
                     item.getName(), Color.blue);
         }
