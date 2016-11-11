@@ -33,4 +33,6 @@ public class Inventory {
     public Item removeItem() {
         return items.pop();
     }
+
+    public Stack<Item> getItems() { return items;}
 }

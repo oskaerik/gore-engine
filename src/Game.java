@@ -21,6 +21,7 @@ public class Game extends BasicGame {
     private HashMap<String, World> worlds;
     private Animation anitmation;
     private boolean isMoving;
+    private Rectangle inventory;
 
     /**
      * Constructor for the game class
@@ -56,7 +57,7 @@ public class Game extends BasicGame {
         worlds.put(north.getName(), north);
         isMoving = false;
         anitmation = player.getDefaultAnimation();
-
+        inventory = new Rectangle(0, HEIGHT-100, 300, 100);
     }
 
     /**
@@ -94,6 +95,11 @@ public class Game extends BasicGame {
                     item.getName(), Color.blue);
         }
         anitmation.draw(player.getRect().getX()-16, player.getRect().getY()-16);
+        graphics.draw(inventory);
+        for (int i = 0; i < player.getInventory().getItems().size(); i ++) {
+            graphics.drawImage(player.getInventory().getItems().get(i).getItemImage(), 16*i,
+                    500);
+        }
     }
 
     /**
