@@ -1,3 +1,4 @@
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
@@ -21,8 +22,9 @@ public class Player extends Entity{
      * @param height height of the player
      * @param speed speed of the player (pixels/frame)
      */
-    public Player(double xPos, double yPos, double width, double height, double speed, double radius) {
-        super(xPos,yPos,width,height);
+    public Player(String name, double xPos, double yPos, double width, double height, double speed,
+                  double radius) {
+        super(name, xPos, yPos, width, height);
         this.speed = speed;
         range = new Circle(Game.WIDTH/2, Game.HEIGHT/2, (float)radius);
     }
@@ -58,10 +60,12 @@ public class Player extends Entity{
         graphics.fill(getRect());
         for (Item item : getIntersectedItems(items)) {
             graphics.fill(item.getRectangle());
+            item.getItemText().drawString(item.getRectangle().getX(), item.getRectangle().getY(),
+                    item.getName(), Color.blue);
         }
     }
 
-    private ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {
+    public ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {
         ArrayList<Item> intersectedItems = new ArrayList<>();
         for (Item item : items) {
             if (range.intersects(item.getRectangle())) {

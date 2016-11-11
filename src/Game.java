@@ -11,8 +11,8 @@ import java.util.logging.Logger;
  * @version 0.1
  */
 public class Game extends BasicGame {
-    public static final int WIDTH = 640;
-    public static final int HEIGHT = 480;
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 600;
 
     private Player player;
     private World theWorld;
@@ -121,7 +121,7 @@ public class Game extends BasicGame {
      */
 
     private void generateWorld(String worldName, int spawnX, int spawnY) throws SlickException {
-        player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2, 32);
+        player = new Player("Player", WIDTH/2, HEIGHT/2, 16, 16, 0.2, 32);
         theWorld = new World(worldName, spawnX, spawnY);
     }
 }

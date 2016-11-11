@@ -7,18 +7,20 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class Entity {
 
+    private String name;
     private Rectangle rect;
     private double xPos;
     private double yPos;
     private double width;
     private double height;
 
-    public Entity(double xPos, double yPos, double width, double height) {
-            this.xPos = xPos;
-            this.yPos = yPos;
-            this.width = width;
-            this.height = height;
-            rect = new Rectangle(Game.WIDTH/2, Game.HEIGHT/2, (int) this.width, (int) this.height);
+    public Entity(String name, double xPos, double yPos, double width, double height) {
+        this.name = name;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.width = width;
+        this.height = height;
+        rect = new Rectangle(Game.WIDTH/2, Game.HEIGHT/2, (int) this.width, (int) this.height);
     }
 
     /**
@@ -65,4 +67,8 @@ public class Entity {
      * @param delta Delay in ms
      */
     protected void setXPosition(double speed, int delta) { xPos += speed * delta; }
+
+    protected String getName() {
+        return name;
+    }
 }
