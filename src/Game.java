@@ -128,14 +128,14 @@ public class Game extends BasicGame {
                 }
             }
         }
-        if (gameContainer.getInput().isKeyDown(Input.KEY_SPACE)) {
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
             ArrayList<Item> intersectedItems = player.getIntersectedItems(currentWorld.getItems());
             currentWorld.removeItems(intersectedItems);
             for (Item item : intersectedItems) {
                 player.addItemToInventory(item);
             }
         }
-        if (gameContainer.getInput().isKeyDown(Input.KEY_A)) {
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_A)) {
             if (!player.getInventory().checkIfEmpty()) {
                 currentWorld.addItem(player.removeItemFromInventory());
             }
