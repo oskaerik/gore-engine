@@ -125,7 +125,7 @@ public class Game extends BasicGame {
      */
 
     private void generateWorld(String worldName, int spawnX, int spawnY) throws SlickException {
-        player = new Player("Player", WIDTH/2, HEIGHT/2, 16, 16, 0.2, 32);
+        player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2, 32);
         theWorld = new World(worldName, spawnX, spawnY);
     }
 }
