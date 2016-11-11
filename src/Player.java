@@ -1,16 +1,11 @@
-import org.newdawn.slick.geom.Rectangle;
 
 /**
  * The player class
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
-public class Player {
-    private Rectangle rect;
-    private double xPos;
-    private double yPos;
-    private double width;
-    private double height;
+public class Player extends Entity{
+
     private double speed;
 
     /**
@@ -22,12 +17,8 @@ public class Player {
      * @param speed speed of the player (pixels/frame)
      */
     public Player(double xPos, double yPos, double width, double height, double speed) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+        super(xPos,yPos,width,height);
         this.speed = speed;
-        rect = new Rectangle(Game.WIDTH/2, Game.HEIGHT/2, (int)this.width, (int)this.height);
     }
 
     /**
@@ -51,38 +42,5 @@ public class Player {
             default:
                 throw new IllegalArgumentException("Player class received invalid movement instructions");
         }
-    }
-
-    /**
-     * @return The player rectangle
-     */
-    public Rectangle getRect() { return rect; }
-
-    /**
-     * @return Returns the x-position of players center in relation to the map
-     */
-    public double getXPosition() {
-        return xPos;
-    }
-
-    /**
-     * @return Returns the y-position of players center in relation to the map
-     */
-    public double getYPosition() {
-        return yPos;
-    }
-
-    /**
-     * @return Returns the width of the player rectangle
-     */
-    public double getWidth() {
-        return width;
-    }
-
-    /**
-     * @return Returns the height of the player rectangle
-     */
-    public double getHeight() {
-        return height;
     }
 }
