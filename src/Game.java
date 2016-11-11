@@ -47,7 +47,7 @@ public class Game extends BasicGame {
     /**
      * Updates every frame
      * @param gameContainer GameContainer object handling game loop etc
-     * @param delta Amount of time that has passed since last update (ms)
+     * @param delta Amount of time that has passed since last updateGraphics (ms)
      * @throws SlickException Generic exception
      */
     @Override
@@ -69,17 +69,20 @@ public class Game extends BasicGame {
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         theWorld.render(player.getXPosition(), player.getYPosition());
-        player.update(graphics, theWorld.getItems(), theWorld.getExits());
         for (Item item : theWorld.getItems()) {
-            graphics.drawImage(item.getItemImage(), item.getRectangle().getX(), item.getRectangle
-                    ().getY());
+            graphics.drawImage(item.getItemImage(), item.getRectangle().getX(), item.getRectangle().getY());
+        }
+        player.updateGraphics(graphics, theWorld.getExits());
+        for (Item item : player.getIntersectedItems(theWorld.getItems())) {
+            item.getItemFont().drawString(item.getRectangle().getX(), item.getRectangle().getY(),
+                    item.getName(), Color.blue);
         }
     }
 
     /**
      * Checks for key presses and executes commands accordingly
      * @param gameContainer GameContainer object handling game loop etc
-     * @param delta Amount of time that has passed since last update (ms)
+     * @param delta Amount of time that has passed since last updateGraphics (ms)
      */
     private void checkKeyPress(GameContainer gameContainer, int delta) {
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
@@ -113,6 +116,9 @@ public class Game extends BasicGame {
                     theWorld.updateRectanglesX(player.movement("left", delta));
                 }
             }
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_SPACE)) {
+            theWorld.removeItems(player.getIntersectedItems(theWorld.getItems()));
         }
     }
 

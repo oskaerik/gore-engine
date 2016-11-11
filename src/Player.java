@@ -110,12 +110,8 @@ public class Player {
         return range;
     }
 
-    public void update(Graphics graphics, ArrayList<Item> items, ArrayList<Exit> exits) {
+    public void updateGraphics(Graphics graphics, ArrayList<Exit> exits) {
         graphics.fill(getRect());
-        for (Item item : getIntersectedItems(items)) {
-            item.getItemFont().drawString(item.getRectangle().getX(), item.getRectangle().getY(),
-                    item.getName(), Color.blue);
-        }
     }
 
     public ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {

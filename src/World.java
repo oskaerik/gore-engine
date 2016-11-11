@@ -4,6 +4,8 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.Image;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * The World class is the current map the player is in
  * @author Oskar Eriksson and Gustave Rousselet
@@ -123,6 +125,16 @@ public class World {
                             map.getTileWidth(), map.getTileHeight()), new Image(itemDirectory),
                             itemDirectory, itemName));
                 }
+            }
+        }
+    }
+
+    public void removeItems(ArrayList<Item> intersectedItems) {
+        Iterator<Item> it = items.iterator();
+        while (it.hasNext()) {
+            Item nextItem = it.next();
+            if (intersectedItems.contains(nextItem)) {
+                it.remove();
             }
         }
     }
