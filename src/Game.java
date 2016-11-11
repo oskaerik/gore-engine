@@ -53,7 +53,11 @@ public class Game extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         checkKeyPress(gameContainer, delta);
-        playerIntersectExit();
+        Exit exit = player.getIntersectedExit(theWorld.getExits());
+        if (exit != null) {
+            generateWorld(exit.getDestination(), exit.getXSpawnPosition(),
+                    exit.getYSpawnPosition());
+        }
     }
 
     /**
@@ -65,8 +69,7 @@ public class Game extends BasicGame {
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         theWorld.render(player.getXPosition(), player.getYPosition());
-        graphics.fill(player.getRect());
-        playerIntersectItem(graphics);
+        player.update(graphics, theWorld.getItems(), theWorld.getExits());
     }
 
     /**
@@ -120,28 +123,5 @@ public class Game extends BasicGame {
     private void generateWorld(String worldName, int spawnX, int spawnY) throws SlickException {
         player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2, 32);
         theWorld = new World(worldName, spawnX, spawnY);
-    }
-
-    /**
-     * Check if player has intersected with an exit. If so, change map to new destination and
-     * spawn player.
-     * @throws SlickException Generic exception. 
-     */
-
-    private void playerIntersectExit() throws SlickException {
-        for (Exit exit : theWorld.getExits()) {
-            if (player.getRect().intersects(exit.getRectangle())) {
-                generateWorld(exit.getDestination(), exit.getXSpawnPosition(),
-                        exit.getYSpawnPosition());
-            }
-        }
-    }
-
-    private void playerIntersectItem(Graphics graphics) throws SlickException {
-        for (Item item : theWorld.getItems()) {
-            if (player.getRange().intersects(item.getRectangle())) {
-                graphics.fill(item.getRectangle());
-            }
-        }
     }
 }

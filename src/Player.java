@@ -1,4 +1,7 @@
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
+
+import java.util.ArrayList;
 
 /**
  * The player class
@@ -49,5 +52,31 @@ public class Player extends Entity{
 
     public Circle getRange() {
         return range;
+    }
+
+    public void update(Graphics graphics, ArrayList<Item> items, ArrayList<Exit> exits) {
+        graphics.fill(getRect());
+        for (Item item : getIntersectedItems(items)) {
+            graphics.fill(item.getRectangle());
+        }
+    }
+
+    private ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {
+        ArrayList<Item> intersectedItems = new ArrayList<>();
+        for (Item item : items) {
+            if (range.intersects(item.getRectangle())) {
+                intersectedItems.add(item);
+            }
+        }
+        return intersectedItems;
+    }
+
+    public Exit getIntersectedExit(ArrayList<Exit> exits) {
+        for (Exit exit : exits) {
+            if (getRect().intersects(exit.getRectangle())) {
+                return exit;
+            }
+        }
+        return null;
     }
 }
