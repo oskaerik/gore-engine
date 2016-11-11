@@ -85,6 +85,14 @@ public class Player {
      */
     private void setXPosition(double speed, int delta) { xPos += speed * delta; }
 
+    public void setPlayerXPosition(double xPos) {
+        this.xPos  = xPos;
+    }
+
+    public void setPlayYPosition(double yPos) {
+        this.yPos = yPos;
+    }
+
     /**
      * Changes the players position according to input
      * @param input A string saying which direction to go. "up", "down", "left", "right"

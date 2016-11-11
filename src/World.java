@@ -18,17 +18,20 @@ public class World {
     private ArrayList<Rectangle> blocks;
     private ArrayList<Exit> exits;
     private ArrayList<Item> items;
+    private String name;
 
     /**
      * Constructor for the World class
-     * @param mapName Name of the map .tmx-file in the map-folder
+     * @param mapDirectory Name of the map .tmx-file in the map-folder
      * @param spawnX Player's spawn x-position
      * @param spawnY Player's spawn y-position
      */
-    public World(String mapName, int spawnX, int spawnY) throws SlickException {
-        map = new TiledMap(mapName);
+    public World(String mapDirectory, String mapName, int spawnX, int spawnY) throws
+            SlickException {
+        map = new TiledMap(mapDirectory);
         this.spawnX = spawnX;
         this.spawnY = spawnY;
+        name = mapName;
 
         blocks = new ArrayList<>();
         exits = new ArrayList<>();
@@ -72,6 +75,8 @@ public class World {
      * @return Returns the player's spawn y-position
      */
     public int getSpawnY() { return spawnY; }
+
+    public String getName() { return name;}
 
     public void updateRectanglesX(double xChange) {
         for (Rectangle block : blocks) {

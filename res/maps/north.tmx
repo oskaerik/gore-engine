@@ -9,9 +9,9 @@
   </tile>
   <tile id="82">
    <properties>
-    <property name="Exit" value="res/maps/center.tmx"/>
-    <property name="SpawnX" value="232"/>
-    <property name="SpawnY" value="17"/>
+    <property name="Exit" value="center"/>
+    <property name="SpawnX" value="317"/>
+    <property name="SpawnY" value="385"/>
    </properties>
   </tile>
  </tileset>

@@ -5,6 +5,7 @@ import org.newdawn.slick.geom.Rectangle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A game written using Java and Slick2D.
@@ -16,7 +17,8 @@ public class Game extends BasicGame {
     public static final int HEIGHT = 600;
 
     private Player player;
-    private World theWorld;
+    private World currentWorld;
+    private HashMap<String, World> worlds;
 
     /**
      * Constructor for the game class
@@ -42,7 +44,14 @@ public class Game extends BasicGame {
      */
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
-        generateWorld("res/maps/center.tmx", 150, 100);
+        player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2, 32);
+
+        currentWorld = new World("res/maps/center.tmx", "center", 150, 100);
+        World north = new World("res/maps/north.tmx", "north", 232, 447);
+
+        worlds = new HashMap<>();
+        worlds.put(currentWorld.getName(), currentWorld);
+        worlds.put(north.getName(), north);
     }
 
     /**
@@ -54,10 +63,11 @@ public class Game extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         checkKeyPress(gameContainer, delta);
-        Exit exit = player.getIntersectedExit(theWorld.getExits());
+        Exit exit = player.getIntersectedExit(currentWorld.getExits());
         if (exit != null) {
-            generateWorld(exit.getDestination(), exit.getXSpawnPosition(),
-                    exit.getYSpawnPosition());
+            currentWorld = worlds.get(exit.getDestination());
+            player.setPlayerXPosition(exit.getXSpawnPosition());
+            player.setPlayYPosition(exit.getYSpawnPosition());
         }
     }
 
@@ -69,12 +79,12 @@ public class Game extends BasicGame {
      */
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        theWorld.render(player.getXPosition(), player.getYPosition());
-        for (Item item : theWorld.getItems()) {
+        currentWorld.render(player.getXPosition(), player.getYPosition());
+        for (Item item : currentWorld.getItems()) {
             graphics.drawImage(item.getItemImage(), item.getRectangle().getX(), item.getRectangle().getY());
         }
-        player.updateGraphics(graphics, theWorld.getExits());
-        for (Item item : player.getIntersectedItems(theWorld.getItems())) {
+        player.updateGraphics(graphics, currentWorld.getExits());
+        for (Item item : player.getIntersectedItems(currentWorld.getItems())) {
             item.getItemFont().drawString(item.getRectangle().getX(), item.getRectangle().getY(),
                     item.getName(), Color.blue);
         }
@@ -87,61 +97,48 @@ public class Game extends BasicGame {
      */
     private void checkKeyPress(GameContainer gameContainer, int delta) throws SlickException {
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
-            theWorld.updateRectanglesY(player.movement("up", delta));
-            for (Rectangle block : theWorld.getBlocks()) {
+            currentWorld.updateRectanglesY(player.movement("up", delta));
+            for (Rectangle block : currentWorld.getBlocks()) {
                 if (player.getRect().intersects(block)) {
-                    theWorld.updateRectanglesY(player.movement("down", delta));
+                    currentWorld.updateRectanglesY(player.movement("down", delta));
                 }
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
-            theWorld.updateRectanglesY(player.movement("down", delta));
-            for (Rectangle block : theWorld.getBlocks()) {
+            currentWorld.updateRectanglesY(player.movement("down", delta));
+            for (Rectangle block : currentWorld.getBlocks()) {
                 if (player.getRect().intersects(block)) {
-                    theWorld.updateRectanglesY(player.movement("up", delta));
+                    currentWorld.updateRectanglesY(player.movement("up", delta));
                 }
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
-            theWorld.updateRectanglesX(player.movement("left", delta));
-            for (Rectangle block : theWorld.getBlocks()) {
+            currentWorld.updateRectanglesX(player.movement("left", delta));
+            for (Rectangle block : currentWorld.getBlocks()) {
                 if (player.getRect().intersects(block)) {
-                    theWorld.updateRectanglesX(player.movement("right", delta));
+                    currentWorld.updateRectanglesX(player.movement("right", delta));
                 }
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
-            theWorld.updateRectanglesX(player.movement("right", delta));
-            for (Rectangle block : theWorld.getBlocks()) {
+            currentWorld.updateRectanglesX(player.movement("right", delta));
+            for (Rectangle block : currentWorld.getBlocks()) {
                 if (player.getRect().intersects(block)) {
-                    theWorld.updateRectanglesX(player.movement("left", delta));
+                    currentWorld.updateRectanglesX(player.movement("left", delta));
                 }
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_SPACE)) {
-            ArrayList<Item> intersectedItems = player.getIntersectedItems(theWorld.getItems());
-            theWorld.removeItems(intersectedItems);
+            ArrayList<Item> intersectedItems = player.getIntersectedItems(currentWorld.getItems());
+            currentWorld.removeItems(intersectedItems);
             for (Item item : intersectedItems) {
                 player.addItemToInventory(item);
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_A)) {
             if (!player.getInventory().checkIfEmpty()) {
-                theWorld.addItem(player.removeItemFromInventory());
+                currentWorld.addItem(player.removeItemFromInventory());
             }
         }
-    }
-
-    /**
-     * Generate map based on location of .tmx file, and where the "player" should "spawn".
-     * @param worldName String file location with reference to main folder.
-     * @param spawnX X position which "player" "spawns" at.
-     * @param spawnY Y position which "player" "spawns" at.
-     * @throws SlickException Generic exception.
-     */
-
-    private void generateWorld(String worldName, int spawnX, int spawnY) throws SlickException {
-        player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2, 32);
-        theWorld = new World(worldName, spawnX, spawnY);
     }
 }

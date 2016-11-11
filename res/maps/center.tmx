@@ -9,9 +9,9 @@
   </tile>
   <tile id="82">
    <properties>
-    <property name="Exit" value="res/maps/north.tmx"/>
-    <property name="SpawnX" value="232"/>
-    <property name="SpawnY" value="447"/>
+    <property name="Exit" value="north"/>
+    <property name="SpawnX" value="400"/>
+    <property name="SpawnY" value="300"/>
    </properties>
   </tile>
   <tile id="83">
@@ -27,7 +27,7 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Tile Layer 1" width="30" height="30" visible="0">
+ <layer name="Tile Layer 1" width="30" height="30">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA92WMRbAIAhDcS+n6/3v0qUdqxLyDDpkxE9AlGZmDdD9Con9dC0Wk+siLtNvxEOkFlX9VuRmerCj31O4rNlR+e3lX6nO0fyRvuzgtwI3+3cjsYwazZ7B3k0i3NX9dRFX5XfEzcwDws3ctUjc3949+046yFX09zSuQg9p5xehEA4AAA==
   </data>
