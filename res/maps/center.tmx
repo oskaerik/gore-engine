@@ -22,8 +22,8 @@
   </tile>
   <tile id="90">
    <properties>
-    <property name="ItemDirectory" value="res/items/item1.png"/>
-    <property name="ItemName" value="Bowl"/>
+    <property name="ItemDirectory" value="res/items/chest.png"/>
+    <property name="ItemName" value="Chest"/>
    </properties>
   </tile>
  </tileset>
@@ -34,7 +34,7 @@
  </layer>
  <layer name="Tile Layer 2" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAXDHYQMsP7hBKgRFqPhOQqGKiAm7WJTgy42VPPAUHU3PjAc/TSYwVAO76Hs9oEGo2EHAaPt0cELAMVcZP4QDgAA
+   H4sIAAAAAAAAA+3VMREAAAwCMXzWv4+6oB0SBb9wJPDXXAcAQInPgz67SxZs3M3dEA4AAA==
   </data>
  </layer>
 </map>
