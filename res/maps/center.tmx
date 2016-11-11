@@ -16,7 +16,14 @@
   </tile>
   <tile id="83">
    <properties>
-    <property name="Item" value="Cheese"/>
+    <property name="ItemDirectory" value="res/items/item1.png"/>
+    <property name="ItemName" value="Bowl"/>
+   </properties>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="ItemDirectory" value="res/items/item1.png"/>
+    <property name="ItemName" value="Bowl"/>
    </properties>
   </tile>
  </tileset>
@@ -27,7 +34,7 @@
  </layer>
  <layer name="Tile Layer 2" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3T0QkAAARFUUPafxbfUspLSd0zATfMgF/8egBBN/PHfQCFcuv8xy36Z2oPOlbTJjTEFm6pCsdsMYYQDgAA
+   H4sIAAAAAAAAA2NgGAXDHYQMsP7hBKgRFqPhOQqGKiAm7WJTgy42VPPAUHU3PjAc/TSYwVAO76Hs9oEGo2EHAaPt0cELAMVcZP4QDgAA
   </data>
  </layer>
 </map>

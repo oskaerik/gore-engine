@@ -70,6 +70,10 @@ public class Game extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         theWorld.render(player.getXPosition(), player.getYPosition());
         player.update(graphics, theWorld.getItems(), theWorld.getExits());
+        for (Item item : theWorld.getItems()) {
+            graphics.drawImage(item.getItemImage(), item.getRectangle().getX(), item.getRectangle
+                    ().getY());
+        }
     }
 
     /**

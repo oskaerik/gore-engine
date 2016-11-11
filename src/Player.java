@@ -60,7 +60,7 @@ public class Player extends Entity{
         graphics.fill(getRect());
         for (Item item : getIntersectedItems(items)) {
             graphics.fill(item.getRectangle());
-            item.getItemText().drawString(item.getRectangle().getX(), item.getRectangle().getY(),
+            item.getItemFont().drawString(item.getRectangle().getX(), item.getRectangle().getY(),
                     item.getName(), Color.blue);
         }
     }

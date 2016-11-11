@@ -1,10 +1,9 @@
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.Image;
 
 import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  * The World class is the current map the player is in
  * @author Oskar Eriksson and Gustave Rousselet
@@ -96,7 +95,7 @@ public class World {
         }
     }
 
-    private void generateWorldObjects() {
+    private void generateWorldObjects() throws SlickException {
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
                 int tileID = map.getTileId(i, j, 0);
@@ -116,11 +115,13 @@ public class World {
                             map.getTileWidth(), map.getTileHeight()), destination, spawnXPosition, spawnYPosition));
                 }
                 tileID = map.getTileId(i, j, 1);
-                String item = map.getTileProperty(tileID, "Item", "");
-                if (!item.equals("")) {
-                    items.add(new Item(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,
-                            (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
-                            map.getTileWidth(), map.getTileHeight()), item));
+                String itemDirectory = map.getTileProperty(tileID, "ItemDirectory", "");
+                String itemName = map.getTileProperty(tileID, "ItemName", "");
+                if (!itemDirectory.equals("")) {
+                    items.add(new Item(new Rectangle((float)i * map.getTileWidth()+Game
+                            .WIDTH/2-spawnX, (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
+                            map.getTileWidth(), map.getTileHeight()), new Image(itemDirectory),
+                            itemDirectory, itemName));
                 }
             }
         }
