@@ -55,6 +55,7 @@ public class Game extends BasicGame {
         worlds = new HashMap<>();
         worlds.put(currentWorld.getName(), currentWorld);
         worlds.put(north.getName(), north);
+        
         isMoving = false;
         anitmation = player.getDefaultAnimation();
         inventory = new Rectangle(0, HEIGHT-100, 300, 100);
