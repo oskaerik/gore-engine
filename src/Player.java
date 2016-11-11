@@ -1,3 +1,4 @@
+import org.newdawn.slick.geom.Circle;
 
 /**
  * The player class
@@ -7,6 +8,7 @@
 public class Player extends Entity{
 
     private double speed;
+    private Circle range;
 
     /**
      * Constructor of the player class
@@ -16,9 +18,10 @@ public class Player extends Entity{
      * @param height height of the player
      * @param speed speed of the player (pixels/frame)
      */
-    public Player(double xPos, double yPos, double width, double height, double speed) {
+    public Player(double xPos, double yPos, double width, double height, double speed, double radius) {
         super(xPos,yPos,width,height);
         this.speed = speed;
+        range = new Circle(Game.WIDTH/2, Game.HEIGHT/2, (float)radius);
     }
 
     /**
@@ -28,19 +31,23 @@ public class Player extends Entity{
     public double movement(String input, int delta) {
         switch (input) {
             case "up":
-                yPos += speed * delta;
+                setYPosition(speed, delta);
                 return speed * delta;
             case "down":
-                yPos -= speed * delta;
+                setYPosition(-speed, delta);
                 return -speed * delta;
             case "left":
-                xPos += speed * delta;
+                setXPosition(speed, delta);
                 return speed * delta;
             case "right":
-                xPos -= speed * delta;
+                setXPosition(-speed, delta);
                 return -speed * delta;
             default:
                 throw new IllegalArgumentException("Player class received invalid movement instructions");
         }
+    }
+
+    public Circle getRange() {
+        return range;
     }
 }

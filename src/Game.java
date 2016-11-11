@@ -68,7 +68,7 @@ public class Game extends BasicGame {
         theWorld.render(player.getXPosition(), player.getYPosition());
         graphics.fill(player.getRect());
         for (Item item : theWorld.getItems()) {
-            if (player.getRect().intersects(item.getRectangle())) {
+            if (player.getRange().intersects(item.getRectangle())) {
                 graphics.fill(item.getRectangle());
             }
         }
@@ -123,7 +123,7 @@ public class Game extends BasicGame {
      */
 
     private void generateWorld(String worldName, int spawnX, int spawnY) throws SlickException {
-        player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2);
+        player = new Player(WIDTH/2, HEIGHT/2, 16, 16, 0.2, 32);
         theWorld = new World(worldName, spawnX, spawnY);
     }
 
@@ -144,8 +144,8 @@ public class Game extends BasicGame {
 
     private void playerIntersectItem() throws SlickException {
         for (Item item : theWorld.getItems()) {
-            if (player.getRect().intersects(item.getRectangle())) {
-                System.out.println("Item!");
+            if (player.getRange().intersects(item.getRectangle())) {
+                //System.out.println("Item!");
             }
         }
     }
