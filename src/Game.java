@@ -84,7 +84,7 @@ public class Game extends BasicGame {
      * @param gameContainer GameContainer object handling game loop etc
      * @param delta Amount of time that has passed since last updateGraphics (ms)
      */
-    private void checkKeyPress(GameContainer gameContainer, int delta) {
+    private void checkKeyPress(GameContainer gameContainer, int delta) throws SlickException {
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
             theWorld.updateRectanglesY(player.movement("up", delta));
             for (Rectangle block : theWorld.getBlocks()) {
@@ -119,6 +119,10 @@ public class Game extends BasicGame {
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_SPACE)) {
             theWorld.removeItems(player.getIntersectedItems(theWorld.getItems()));
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_A)) {
+            theWorld.addItem(new Item(new Rectangle(WIDTH/2, HEIGHT/2, 16, 16),
+                    new Image("res/items/bowl.png"), "res/items/bowl.png", "Bowl"));
         }
     }
 

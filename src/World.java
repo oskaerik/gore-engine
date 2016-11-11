@@ -138,4 +138,8 @@ public class World {
             }
         }
     }
+
+    public void addItem(Item item) {
+        items.add(item);
+    }
 }
