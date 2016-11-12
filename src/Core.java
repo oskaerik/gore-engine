@@ -53,6 +53,7 @@ public class Core extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         world.checkEvents(gameContainer, delta);
+        world.updateCharacters(gameContainer, delta);
     }
 
     /**

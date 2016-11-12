@@ -1,6 +1,7 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -253,6 +254,8 @@ public class World {
 
         // Draw the player animation
         animation.draw(player.getRect().getX()-16, player.getRect().getY()-16);
+
+        // Render the enemy
         if (currentRoom.getCharacters().size() > 0) {
             Character enemy = currentRoom.getCharacters().get(0);
             enemy.getAnimation().draw(enemy.getRect().getX() - 16, enemy.getRect().getY() - 16);
@@ -266,4 +269,13 @@ public class World {
     }
 
     public Room getCurrentRoom() { return currentRoom; }
+
+    public void updateCharacters(GameContainer gameContainer, int delta) {
+        ArrayList<Character> characters = currentRoom.getCharacters();
+        if (characters.size() > 0) {
+            for (Character character : characters) {
+                character.updateLocation();
+            }
+        }
+    }
 }
