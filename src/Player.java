@@ -54,8 +54,8 @@ public class Player {
         inventory.addItem(item);
     }
 
-    public Item removeItemFromInventory() {
-        return inventory.removeItem();
+    public Item removeItemFromInventory(int ItemNumber) {
+        return inventory.removeItemNumber(ItemNumber);
     }
 
     public ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {

@@ -1,4 +1,4 @@
-import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  * The player class
@@ -7,14 +7,14 @@ import java.util.Stack;
  */
 public class Inventory {
 
-    private Stack<Item> items;
+    private ArrayList<Item> items;
 
     public Inventory() {
-        items = new Stack<Item>();
+        items = new ArrayList<Item>();
     }
 
-    public Item getItem() {
-        return items.pop();
+    public Item getItemNumber(int itemNumber) {
+        return items.get(itemNumber);
     }
 
     public boolean checkIfEmpty() {
@@ -26,12 +26,12 @@ public class Inventory {
     }
 
     public void addItem(Item item) {
-        items.push(item);
+        items.add(item);
     }
 
-    public Item removeItem() {
-        return items.pop();
+    public Item removeItemNumber(int itemNumber) {
+        return items.remove(itemNumber);
     }
 
-    public Stack<Item> getItems() { return items;}
+    public ArrayList<Item> getItems() { return items;}
 }

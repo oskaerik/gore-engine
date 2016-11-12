@@ -15,6 +15,7 @@ public class World {
     private String lastDirection;
     private Rectangle inventoryOutline;
     private Rectangle inventoryItemOutline;
+    private int inventorySelectedItemNumber;
 
     private Room currentRoom;
     private HashMap<String, Room> rooms;
@@ -30,7 +31,7 @@ public class World {
         player = new Player(16, 16, 0.2, 32);
         animation = player.getStandingPlayer("down");
         lastDirection = "down";
-        inventoryOutline = new Rectangle(Core.WIDTH/2 + 100, Core.HEIGHT/2 - 200, 200, 400);
+        inventoryOutline = new Rectangle(Core.WIDTH/2 + 100, Core.HEIGHT/2 - 200, 100, 160);
         inventoryItemOutline = new Rectangle(Core.WIDTH/2 + 100, Core.HEIGHT/2 - 200, 16, 16);
 
         // Create starting room and add all rooms to HashMap rooms
@@ -52,8 +53,6 @@ public class World {
     public void checkKeyPresses(GameContainer gameContainer, int delta) throws SlickException {
         // Movement of the player
         boolean isMoving = false;
-        //inventory position
-        int inventoryPosition = 0;
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
             if (!gameState.isInventoryOpen()) {
                 lastDirection = "up";
@@ -63,7 +62,9 @@ public class World {
         }
         if (gameContainer.getInput().isKeyPressed(Input.KEY_UP)) {
             if (gameState.isInventoryOpen()) {
-                inventoryItemOutline.setY(inventoryItemOutline.getY()-16);
+                if (inventorySelectedItemNumber != 0) {
+                    inventorySelectedItemNumber--;
+                }
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
@@ -75,7 +76,9 @@ public class World {
         }
         if (gameContainer.getInput().isKeyPressed(Input.KEY_DOWN)) {
             if (gameState.isInventoryOpen()) {
-                inventoryItemOutline.setY(inventoryItemOutline.getY()+16);
+                if (inventorySelectedItemNumber < player.getInventory().getNumberOfItems()-1) {
+                    inventorySelectedItemNumber++;
+                }
             }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
@@ -108,8 +111,12 @@ public class World {
 
         // Drops items from inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_A)) {
-            if (!player.getInventory().checkIfEmpty()) {
-                Item itemDrop = player.removeItemFromInventory();
+            if (!player.getInventory().checkIfEmpty() && gameState.isInventoryOpen()) {
+                Item itemDrop = player.removeItemFromInventory(player.getInventory()
+                        .getNumberOfItems()-inventorySelectedItemNumber-1);
+                if (inventorySelectedItemNumber != 0) {
+                    inventorySelectedItemNumber--;
+                }
                 itemDrop.getRect().setX(player.getRect().getX());
                 itemDrop.getRect().setY(player.getRect().getY());
                 currentRoom.addItem(itemDrop);
@@ -119,6 +126,7 @@ public class World {
         if (gameContainer.getInput().isKeyPressed(Input.KEY_I)) {
             inventoryItemOutline.setY(Core.HEIGHT/2 - 200);
             inventoryItemOutline.setX(Core.WIDTH/2 + 100);
+            inventorySelectedItemNumber = 0;
             gameState.toggleInventory();
         }
     }
@@ -192,6 +200,7 @@ public class World {
     public void drawInventory(Graphics graphics) {
         graphics.draw(inventoryOutline);
         graphics.draw(inventoryItemOutline);
+        inventoryItemOutline.setY(Core.HEIGHT/2-200 + inventorySelectedItemNumber*16);
         for (int i = 0; i < player.getInventory().getItems().size(); i ++) {
             Item itemDisplayed = player.getInventory().getItems().get(i);
             graphics.drawImage(itemDisplayed.getItemImage(), Core
