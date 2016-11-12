@@ -16,10 +16,9 @@ public class Exit {
         this.destination = destination;
         this.xSpawnPosition = xSpawnPosition;
         this.ySpawnPosition = ySpawnPosition;
-
     }
 
-    public Rectangle getRectangle() {
+    public Rectangle getRect() {
         return rectangle;
     }
 

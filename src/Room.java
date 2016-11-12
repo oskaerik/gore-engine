@@ -41,11 +41,11 @@ public class Room {
 
     /**
      * Renders the map
-     * @param playerXPosition Player's current x-position
-     * @param playerYPosition Player's current y-position
+     * @param worldX How much the world has moved in the x-direction
+     * @param worldY How much the world has moved in the y-direction
      */
-    public void render(double playerXPosition, double playerYPosition) {
-        map.render((int)playerXPosition-spawnX, (int)playerYPosition-spawnY);
+    public void render(double worldX, double worldY) {
+        map.render((int)worldX-spawnX, (int)worldY-spawnY);
     }
 
     /**
@@ -60,72 +60,53 @@ public class Room {
 
 
     public ArrayList<Item> getItems() {return items;}
-    /**
-     * @return Returns the TiledMap object
-     */
-    public TiledMap getMap() { return map; }
-
-    /**
-     * @return Returns the player's spawn x-position
-     */
-    public int getSpawnX() { return spawnX; }
-
-    /**
-     * @return Returns the player's spawn y-position
-     */
-    public int getSpawnY() { return spawnY; }
 
     public String getName() { return name;}
 
-    public void updateRectanglesX(double xChange) {
-        for (Rectangle block : blocks) {
-            block.setX(block.getX() + (float)xChange);
-        }
+    public void updateRectangles(double xMovement, double yMovement, ArrayList<Rectangle> newBlocks) {
+        // Update blocks
+        blocks = newBlocks;
+        // Update exits
         for (Exit exit : exits) {
-            exit.getRectangle().setX(exit.getRectangle().getX() + (float)xChange);
+            exit.getRect().setX(exit.getRect().getX() + (float)xMovement);
+            exit.getRect().setY(exit.getRect().getY() + (float)yMovement);
         }
+        // Update items
         for (Item item : items) {
-            item.getRectangle().setX(item.getRectangle().getX() + (float)xChange);
-        }
-    }
-
-    public void updateRectanglesY(double yChange) {
-        for (Rectangle block : blocks) {
-            block.setY(block.getY()+ (float)yChange);
-        }
-        for (Exit exit : exits) {
-            exit.getRectangle().setY(exit.getRectangle().getY() + (float)yChange);
-        }
-        for (Item item : items) {
-            item.getRectangle().setY(item.getRectangle().getY() + (float)yChange);
-        }
+            item.getRect().setX(item.getRect().getX() + (float)xMovement);
+            item.getRect().setY(item.getRect().getY() + (float)yMovement);        }
     }
 
     private void generateWorldObjects() throws SlickException {
+        // Loop through all tiles in the map file
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
                 int tileID = map.getTileId(i, j, 0);
+
+                // Check for blocked tiles
                 String value = map.getTileProperty(tileID, "Blocked", "false");
                 if (value.equals("true")) {
-                    blocks.add(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,
-                            (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
+                    blocks.add(new Rectangle((float)i * map.getTileWidth(),
+                            (float)j * map.getTileHeight(),
                             map.getTileWidth(), map.getTileHeight()));
                 }
 
+                // Check for exit tiles
                 String destination = map.getTileProperty(tileID, "Exit", "");
                 if (!destination.equals("")) {
                     int spawnXPosition = Integer.parseInt(map.getTileProperty(tileID, "SpawnX", ""));
                     int spawnYPosition = Integer.parseInt(map.getTileProperty(tileID, "SpawnY", ""));
-                    exits.add(new Exit(new Rectangle((float)i * map.getTileWidth()+Game.WIDTH/2-spawnX,
-                            (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
+                    exits.add(new Exit(new Rectangle((float)i * map.getTileWidth(),
+                            (float)j * map.getTileHeight(),
                             map.getTileWidth(), map.getTileHeight()), destination, spawnXPosition, spawnYPosition));
                 }
+
+                // Check for objects on object layer
                 tileID = map.getTileId(i, j, 1);
                 String itemDirectory = map.getTileProperty(tileID, "ItemDirectory", "");
                 String itemName = map.getTileProperty(tileID, "ItemName", "");
                 if (!itemDirectory.equals("")) {
-                    items.add(new Item(new Rectangle((float)i * map.getTileWidth()+Game
-                            .WIDTH/2-spawnX, (float)j * map.getTileHeight()+Game.HEIGHT/2-spawnY,
+                    items.add(new Item(new Rectangle((float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
                             map.getTileWidth(), map.getTileHeight()), new Image(itemDirectory),
                             itemDirectory, itemName));
                 }

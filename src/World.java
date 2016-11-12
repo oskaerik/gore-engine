@@ -1,6 +1,7 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,6 +19,9 @@ public class World {
     private Room currentRoom;
     private HashMap<String, Room> rooms;
 
+    private double worldX;
+    private double worldY;
+
     /**
      * Constructor for the World class
      * @throws SlickException Generic exception
@@ -29,9 +33,13 @@ public class World {
         lastDirection = "down";
         inventoryOutline = new Rectangle(0, Game.HEIGHT-100, 300, 100);
 
+        // World offset
+        worldX = 0;
+        worldY = 0;
+
         // Create starting room and add all rooms to HashMap rooms
-        currentRoom = new Room("res/maps/center.tmx", "center", 150, 100);
-        Room north = new Room("res/maps/north.tmx", "north", 232, 447);
+        currentRoom = new Room("res/maps/center.tmx", "center", 0, 0);
+        Room north = new Room("res/maps/north.tmx", "north", 0, 0);
         rooms = new HashMap<>();
         rooms.put(currentRoom.getName(), currentRoom);
         rooms.put(north.getName(), north);
@@ -92,47 +100,53 @@ public class World {
      * @param direction The direction the player should be moving
      */
     private void movement(String direction, int delta) {
+        double xMovement = 0;
+        double yMovement = 0;
         switch (direction) {
             case "up":
-                currentRoom.updateRectanglesY(player.movement("up", delta));
-                for (Rectangle block : currentRoom.getBlocks()) {
-                    if (player.getRect().intersects(block)) {
-                        currentRoom.updateRectanglesY(player.movement("down", delta));
-                    }
-                }
+                yMovement = player.getSpeed() * delta;
                 animation = player.getUpAnimation();
                 break;
             case "down":
-                currentRoom.updateRectanglesY(player.movement("down", delta));
-                for (Rectangle block : currentRoom.getBlocks()) {
-                    if (player.getRect().intersects(block)) {
-                        currentRoom.updateRectanglesY(player.movement("up", delta));
-                    }
-                }
+                yMovement = -player.getSpeed() * delta;
                 animation = player.getDownAnimation();
                 break;
             case "left":
-                currentRoom.updateRectanglesX(player.movement("left", delta));
-                for (Rectangle block : currentRoom.getBlocks()) {
-                    if (player.getRect().intersects(block)) {
-                        currentRoom.updateRectanglesX(player.movement("right", delta));
-                    }
-                }
+                xMovement = player.getSpeed() * delta;
                 animation = player.getLeftAnimation();
                 break;
             case "right":
-                currentRoom.updateRectanglesX(player.movement("right", delta));
-                for (Rectangle block : currentRoom.getBlocks()) {
-                    if (player.getRect().intersects(block)) {
-                        currentRoom.updateRectanglesX(player.movement("left", delta));
-                    }
-                }
+                xMovement = -player.getSpeed() * delta;
                 animation = player.getRightAnimation();
                 break;
             default:
                 break;
         }
+        // Check if the movement will create any interceptions with blocks
+        ArrayList<Rectangle> newBlocks = isBlocked(xMovement, yMovement);
+        if (newBlocks != null) {
+            worldX += xMovement;
+            worldY += yMovement;
+            currentRoom.updateRectangles(xMovement, yMovement, newBlocks);
+        }
+    }
 
+    private ArrayList<Rectangle> isBlocked(double xMovement, double yMovement) {
+        // Create a copy of the Blocks ArrayList
+        ArrayList<Rectangle> newBlocks = new ArrayList<>();
+        for (Rectangle block : currentRoom.getBlocks()) {
+            newBlocks.add(new Rectangle(block.getX(), block.getY(), block.getWidth(), block.getHeight()));
+        }
+
+        // Updates blocks in newBlocks and checks if it intersects with player
+        for (Rectangle block : newBlocks) {
+            block.setX(block.getX() + (float)xMovement);
+            block.setY(block.getY() + (float)yMovement);
+            if (player.getRect().intersects(block)) {
+                return null;
+            }
+        }
+        return newBlocks;
     }
 
     /**
@@ -142,8 +156,8 @@ public class World {
         Exit exit = player.getIntersectedExit(currentRoom.getExits());
         if (exit != null) {
             currentRoom = rooms.get(exit.getDestination());
-            player.setPlayerX(exit.getXSpawnPosition());
-            player.setPlayerY(exit.getYSpawnPosition());
+            worldX = exit.getXSpawnPosition();
+            worldY = exit.getYSpawnPosition();
         }
     }
 
@@ -164,7 +178,7 @@ public class World {
      */
     public void drawItems(Graphics graphics) {
         for (Item item : currentRoom.getItems()) {
-            graphics.drawImage(item.getItemImage(), item.getRectangle().getX(), item.getRectangle().getY());
+            graphics.drawImage(item.getItemImage(), item.getRect().getX(), item.getRect().getY());
         }
     }
 
@@ -174,7 +188,7 @@ public class World {
     public void drawItemHighlighting() {
         for (Item item : player.getIntersectedItems(currentRoom.getItems())) {
             item.getItemFont().drawString(
-                    item.getRectangle().getX(), item.getRectangle().getY(), item.getName(), Color.blue
+                    item.getRect().getX(), item.getRect().getY(), item.getName(), Color.blue
             );
         }
     }
@@ -196,8 +210,7 @@ public class World {
      */
     public void updateGraphics(Graphics graphics) {
         // Draw the world
-        // CHANGE SO THAT PLAYER.GETX() IS LIKE WORLD OFFSET OR SMTH
-        currentRoom.render(player.getX(), player.getY());
+        currentRoom.render(worldX, worldY);
 
         // Draw the player animation
         animation.draw(player.getRect().getX()-16, player.getRect().getY()-16);
@@ -206,4 +219,6 @@ public class World {
         drawItemHighlighting();
         drawInventory(graphics);
     }
+
+    public Room getCurrentRoom() { return currentRoom; }
 }

@@ -1,4 +1,3 @@
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
@@ -56,6 +55,11 @@ public class Player {
     public Rectangle getRect() { return rect; }
 
     /**
+     * @return Speed of the player
+     */
+    public double getSpeed() { return speed; }
+
+    /**
      * @return Returns the x-position of entity's center in relation to the map
      */
     public double getX() {
@@ -83,37 +87,6 @@ public class Player {
      */
     private void setY(double speed, int delta) { yPos += speed * delta; }
 
-    public void setPlayerX(double xPos) {
-        this.xPos  = xPos;
-    }
-
-    public void setPlayerY(double yPos) {
-        this.yPos = yPos;
-    }
-
-    /**
-     * Changes the players position according to input
-     * @param input A string saying which direction to go. "up", "down", "left", "right"
-     */
-    public double movement(String input, int delta) {
-        switch (input) {
-            case "up":
-                setY(speed, delta);
-                return speed * delta;
-            case "down":
-                setY(-speed, delta);
-                return -speed * delta;
-            case "left":
-                setX(speed, delta);
-                return speed * delta;
-            case "right":
-                setX(-speed, delta);
-                return -speed * delta;
-            default:
-                throw new IllegalArgumentException("Player class received invalid movement instructions");
-        }
-    }
-
     public Inventory getInventory() {
         return inventory;
     }
@@ -133,7 +106,7 @@ public class Player {
     public ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {
         ArrayList<Item> intersectedItems = new ArrayList<>();
         for (Item item : items) {
-            if (range.intersects(item.getRectangle())) {
+            if (range.intersects(item.getRect())) {
                 intersectedItems.add(item);
             }
         }
@@ -142,7 +115,7 @@ public class Player {
 
     public Exit getIntersectedExit(ArrayList<Exit> exits) {
         for (Exit exit : exits) {
-            if (getRect().intersects(exit.getRectangle())) {
+            if (getRect().intersects(exit.getRect())) {
                 return exit;
             }
         }

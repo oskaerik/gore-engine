@@ -10,8 +10,8 @@
   <tile id="82">
    <properties>
     <property name="Exit" value="north"/>
-    <property name="SpawnX" value="400"/>
-    <property name="SpawnY" value="300"/>
+    <property name="SpawnX" value="0"/>
+    <property name="SpawnY" value="0"/>
    </properties>
   </tile>
   <tile id="83">

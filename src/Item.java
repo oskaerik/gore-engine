@@ -26,7 +26,7 @@ public class Item {
         directory = itemDirectory;
     }
 
-    public Rectangle getRectangle() {
+    public Rectangle getRect() {
         return rectangle;
     }
 
