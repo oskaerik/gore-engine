@@ -18,10 +18,7 @@ public class Player {
     private Rectangle rect;
     private Circle range;
     private Inventory inventory;
-    private Animation upAnimation;
-    private Animation downAnimation;
-    private Animation rightAnimation;
-    private Animation leftAnimation;
+    private ArrayList<Animation> animationArray;
 
     /**
      * Constructor of the player class
@@ -36,10 +33,7 @@ public class Player {
         rect = new Rectangle(Core.WIDTH/2, Core.HEIGHT/2, (int) this.width, (int) this.height);
         range = new Circle(Core.WIDTH/2, Core.HEIGHT/2, (float)radius);
         inventory = new Inventory();
-        upAnimation = createUpAnimation();
-        downAnimation = createDownAnimation();
-        rightAnimation = createRightAnimation();
-        leftAnimation = createLeftAnimation();
+        animationArray = Character.createAnimation("player");
     }
 
     /**
@@ -64,10 +58,6 @@ public class Player {
         return inventory.removeItem();
     }
 
-    public Circle getRange() {
-        return range;
-    }
-
     public ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {
         ArrayList<Item> intersectedItems = new ArrayList<>();
         for (Item item : items) {
@@ -87,84 +77,32 @@ public class Player {
         return null;
     }
 
-    public Animation createUpAnimation() throws SlickException {
-        Image up1 = new Image("res/player/player-up-1.png");
-        Image up2 = new Image("res/player/player-up-2.png");
-        Image up3 = new Image("res/player/player-up-3.png");
-        Image up4 = new Image("res/player/player-up-4.png");
-        Animation upAnimation = new Animation();
-        upAnimation.addFrame(up1, 100);
-        upAnimation.addFrame(up2, 100);
-        upAnimation.addFrame(up3, 100);
-        upAnimation.addFrame(up4, 100);
-        return upAnimation;
-    }
-
-    public Animation createDownAnimation() throws SlickException {
-        Image down1 = new Image("res/player/player-down-1.png");
-        Image down2 = new Image("res/player/player-down-2.png");
-        Image down3 = new Image("res/player/player-down-3.png");
-        Image down4 = new Image("res/player/player-down-4.png");
-        Animation downAnimation = new Animation();
-        downAnimation.addFrame(down1, 100);
-        downAnimation.addFrame(down2, 100);
-        downAnimation.addFrame(down3, 100);
-        downAnimation.addFrame(down4, 100);
-        return downAnimation;
-    }
-
-    public Animation createRightAnimation() throws SlickException {
-        Image right1 = new Image("res/player/player-right-1.png");
-        Image right2 = new Image("res/player/player-right-2.png");
-        Image right3 = new Image("res/player/player-right-3.png");
-        Image right4 = new Image("res/player/player-right-4.png");
-        Animation rightAnimation = new Animation();
-        rightAnimation.addFrame(right1, 100);
-        rightAnimation.addFrame(right2, 100);
-        rightAnimation.addFrame(right3, 100);
-        rightAnimation.addFrame(right4, 100);
-        return rightAnimation;
-    }
-
-    public Animation createLeftAnimation() throws SlickException {
-        Image left1 = new Image("res/player/player-left-1.png");
-        Image left2 = new Image("res/player/player-left-2.png");
-        Image left3 = new Image("res/player/player-left-3.png");
-        Image left4 = new Image("res/player/player-left-4.png");
-        Animation leftAnimation = new Animation();
-        leftAnimation.addFrame(left1, 100);
-        leftAnimation.addFrame(left2, 100);
-        leftAnimation.addFrame(left3, 100);
-        leftAnimation.addFrame(left4, 100);
-        return leftAnimation;
-    }
-
     public Animation getStandingPlayer(String direction) throws SlickException {
-        String imagePath = "";
+        Image standingImage = null;
         switch (direction) {
-            case "down":
-                imagePath = "res/player/player-down-3.png";
-                break;
             case "up":
-                imagePath = "res/player/player-up-3.png";
+                standingImage = animationArray.get(0).getImage(2);
+                break;
+            case "down":
+                standingImage = animationArray.get(1).getImage(2);
                 break;
             case "left":
-                imagePath = "res/player/player-left-3.png";
+                standingImage = animationArray.get(2).getImage(2);
                 break;
             case "right":
-                imagePath = "res/player/player-right-3.png";
+                standingImage = animationArray.get(3).getImage(2);
                 break;
         }
         Animation standingAnimation = new Animation();
-        standingAnimation.addFrame(new Image(imagePath), 100);
+        standingAnimation.addFrame(standingImage, 100);
         return standingAnimation;
     }
 
-    public Animation getUpAnimation() { return upAnimation; }
+    public Animation getUpAnimation() { return animationArray.get(0); }
 
-    public Animation getDownAnimation() { return downAnimation; }
+    public Animation getDownAnimation() { return animationArray.get(1); }
 
-    public Animation getRightAnimation() { return rightAnimation; }
+    public Animation getLeftAnimation() { return animationArray.get(2); }
 
-    public Animation getLeftAnimation() { return leftAnimation; }
+    public Animation getRightAnimation() { return animationArray.get(3); }
 }
