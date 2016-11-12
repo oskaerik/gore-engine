@@ -22,8 +22,9 @@
   </tile>
   <tile id="90">
    <properties>
-    <property name="ItemDirectory" value="res/items/chest.png"/>
+    <property name="ItemDescription" value="An awesome chest"/>
     <property name="ItemName" value="Chest"/>
+    <property name="ItemPath" value="res/items/chest.png"/>
    </properties>
   </tile>
  </tileset>

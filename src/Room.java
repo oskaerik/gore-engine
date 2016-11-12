@@ -1,7 +1,6 @@
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
-import org.newdawn.slick.Image;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -103,12 +102,12 @@ public class Room {
 
                 // Check for objects on object layer
                 tileID = map.getTileId(i, j, 1);
-                String itemDirectory = map.getTileProperty(tileID, "ItemDirectory", "");
                 String itemName = map.getTileProperty(tileID, "ItemName", "");
-                if (!itemDirectory.equals("")) {
+                String itemPath = map.getTileProperty(tileID, "ItemPath", "");
+                String itemDescription = map.getTileProperty(tileID, "ItemDescription", "");
+                if (!itemPath.equals("")) {
                     items.add(new Item(new Rectangle((float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
-                            map.getTileWidth(), map.getTileHeight()), new Image(itemDirectory),
-                            itemDirectory, itemName));
+                            map.getTileWidth(), map.getTileHeight()), itemPath, itemName, itemDescription));
                 }
             }
         }

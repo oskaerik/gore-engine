@@ -9,29 +9,23 @@ import java.awt.Font;
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
-public class Item {
+public class Item extends Entity {
 
     private TrueTypeFont font;
-    private Rectangle  rectangle;
-    private String directory;
-    private String name;
+    private Rectangle rectangle;
+    private String path;
     private Image image;
 
-    public Item (Rectangle rectangle, Image image, String itemDirectory, String itemName) {
-        Font textFont = new Font("Arial", Font.BOLD, 10);
-        font = new TrueTypeFont(textFont, true);
+    public Item (Rectangle rectangle, String path, String name, String description) throws SlickException {
+        super(name, description);
+        font = new TrueTypeFont(new Font("Arial", Font.BOLD, 10), true);
         this.rectangle = rectangle;
-        name = itemName;
-        this.image = image;
-        directory = itemDirectory;
+        this.path = path;
+        image = new Image(path);
     }
 
     public Rectangle getRect() {
         return rectangle;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public TrueTypeFont getItemFont() {
@@ -39,6 +33,4 @@ public class Item {
     }
 
     public Image getItemImage() { return image; }
-
-    public String getItemDirectory() { return directory; }
 }
