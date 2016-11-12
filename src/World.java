@@ -1,7 +1,6 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,8 +18,7 @@ public class World {
     private Room currentRoom;
     private HashMap<String, Room> rooms;
 
-    private double worldX;
-    private double worldY;
+    private GameState gameState;
 
     /**
      * Constructor for the World class
@@ -31,11 +29,7 @@ public class World {
         player = new Player(16, 16, 0.2, 32);
         animation = player.getStandingPlayer("down");
         lastDirection = "down";
-        inventoryOutline = new Rectangle(0, Game.HEIGHT-100, 300, 100);
-
-        // World offset
-        worldX = 0;
-        worldY = 0;
+        inventoryOutline = new Rectangle(0, Core.HEIGHT-100, 300, 100);
 
         // Create starting room and add all rooms to HashMap rooms
         currentRoom = new Room("res/maps/center.tmx", "center", 0, 0);
@@ -43,6 +37,9 @@ public class World {
         rooms = new HashMap<>();
         rooms.put(currentRoom.getName(), currentRoom);
         rooms.put(north.getName(), north);
+
+        // Create GameState
+        gameState = new GameState();
     }
 
     /**
@@ -90,8 +87,15 @@ public class World {
         // Drops items from inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_A)) {
             if (!player.getInventory().checkIfEmpty()) {
-                currentRoom.addItem(player.removeItemFromInventory());
+                Item itemDrop = player.removeItemFromInventory();
+                itemDrop.getRect().setX(player.getRect().getX());
+                itemDrop.getRect().setY(player.getRect().getY());
+                currentRoom.addItem(itemDrop);
             }
+        }
+        //Opens/Closes inventory
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_I)) {
+            gameState.toggleInventory();
         }
     }
 
@@ -125,8 +129,6 @@ public class World {
         // Check if the movement will create any interceptions with blocks
         ArrayList<Rectangle> newBlocks = isBlocked(xMovement, yMovement);
         if (newBlocks != null) {
-            worldX += xMovement;
-            worldY += yMovement;
             currentRoom.updateRectangles(xMovement, yMovement, newBlocks);
         }
     }
@@ -156,8 +158,6 @@ public class World {
         Exit exit = player.getIntersectedExit(currentRoom.getExits());
         if (exit != null) {
             currentRoom = rooms.get(exit.getDestination());
-            worldX = exit.getXSpawnPosition();
-            worldY = exit.getYSpawnPosition();
         }
     }
 
@@ -217,7 +217,9 @@ public class World {
 
         drawItems(graphics);
         drawItemHighlighting();
-        drawInventory(graphics);
+        if (gameState.isInventoryOpen()) {
+            drawInventory(graphics);
+        }
     }
 
     public Room getCurrentRoom() { return currentRoom; }

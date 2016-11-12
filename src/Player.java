@@ -28,20 +28,18 @@ public class Player {
 
     /**
      * Constructor of the player class
-     * @param xPos center x position of the player in relation to the map
-     * @param yPos center y position of the player in relation to the map
      * @param width width of the player
      * @param height height of the player
      * @param speed speed of the player (pixels/frame)
      */
     public Player(double width, double height, double speed, double radius) throws SlickException {
-        this.xPos = Game.WIDTH/2;
-        this.yPos = Game.HEIGHT/2;
+        this.xPos = Core.WIDTH/2;
+        this.yPos = Core.HEIGHT/2;
         this.width = width;
         this.height = height;
         this.speed = speed;
-        rect = new Rectangle(Game.WIDTH/2, Game.HEIGHT/2, (int) this.width, (int) this.height);
-        range = new Circle(Game.WIDTH/2, Game.HEIGHT/2, (float)radius);
+        rect = new Rectangle(Core.WIDTH/2, Core.HEIGHT/2, (int) this.width, (int) this.height);
+        range = new Circle(Core.WIDTH/2, Core.HEIGHT/2, (float)radius);
         inventory = new Inventory();
         upAnimation = createUpAnimation();
         downAnimation = createDownAnimation();
@@ -58,34 +56,6 @@ public class Player {
      * @return Speed of the player
      */
     public double getSpeed() { return speed; }
-
-    /**
-     * @return Returns the x-position of entity's center in relation to the map
-     */
-    public double getX() {
-        return xPos;
-    }
-
-    /**
-     * @return Returns the y-position of entity's center in relation to the map
-     */
-    public double getY() {
-        return yPos;
-    }
-
-    /**
-     * Sets the x-position
-     * @param speed The speed to be moved
-     * @param delta Delay in ms
-     */
-    private void setX(double speed, int delta) { xPos += speed * delta; }
-
-    /**
-     * Sets the y-position
-     * @param speed The speed to be moved
-     * @param delta Delay in ms
-     */
-    private void setY(double speed, int delta) { yPos += speed * delta; }
 
     public Inventory getInventory() {
         return inventory;

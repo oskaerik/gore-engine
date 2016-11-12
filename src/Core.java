@@ -1,6 +1,5 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Rectangle;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,7 +9,7 @@ import java.util.logging.Logger;
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
-public class Game extends BasicGame {
+public class Core extends BasicGame {
     // Width and height of the game window
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
@@ -22,16 +21,16 @@ public class Game extends BasicGame {
      * Constructor for the game class
      * @param title Title of the game window
      */
-    public Game(String title) { super(title); }
+    public Core(String title) { super(title); }
 
     public static void main(String[] args) {
         try {
-            AppGameContainer appgc = new AppGameContainer(new Game("An Awesome Game"));
+            AppGameContainer appgc = new AppGameContainer(new Core("An Awesome Core"));
             appgc.setDisplayMode(WIDTH, HEIGHT, false);
             appgc.setTargetFrameRate(145);
             appgc.start();
         } catch (SlickException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
