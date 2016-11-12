@@ -14,6 +14,7 @@ public class World {
     private Animation animation;
     private String lastDirection;
     private Rectangle inventoryOutline;
+    private Rectangle inventoryItemOutline;
 
     private Room currentRoom;
     private HashMap<String, Room> rooms;
@@ -29,7 +30,8 @@ public class World {
         player = new Player(16, 16, 0.2, 32);
         animation = player.getStandingPlayer("down");
         lastDirection = "down";
-        inventoryOutline = new Rectangle(0, Core.HEIGHT-100, 300, 100);
+        inventoryOutline = new Rectangle(Core.WIDTH/2 + 100, Core.HEIGHT/2 - 200, 200, 400);
+        inventoryItemOutline = new Rectangle(Core.WIDTH/2 + 100, Core.HEIGHT/2 - 200, 16, 16);
 
         // Create starting room and add all rooms to HashMap rooms
         currentRoom = new Room("res/maps/center.tmx", "center", 0, 0);
@@ -50,25 +52,45 @@ public class World {
     public void checkKeyPresses(GameContainer gameContainer, int delta) throws SlickException {
         // Movement of the player
         boolean isMoving = false;
+        //inventory position
+        int inventoryPosition = 0;
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
-            lastDirection = "up";
-            movement(lastDirection, delta);
-            isMoving = true;
+            if (!gameState.isInventoryOpen()) {
+                lastDirection = "up";
+                movement(lastDirection, delta);
+                isMoving = true;
+            }
+        }
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_UP)) {
+            if (gameState.isInventoryOpen()) {
+                inventoryItemOutline.setY(inventoryItemOutline.getY()-16);
+            }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
-            lastDirection = "down";
-            movement(lastDirection, delta);
-            isMoving = true;
+            if (!gameState.isInventoryOpen()) {
+                lastDirection = "down";
+                movement(lastDirection, delta);
+                isMoving = true;
+            }
+        }
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_DOWN)) {
+            if (gameState.isInventoryOpen()) {
+                inventoryItemOutline.setY(inventoryItemOutline.getY()+16);
+            }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
-            lastDirection = "left";
-            movement(lastDirection, delta);
-            isMoving = true;
+            if (!gameState.isInventoryOpen()) {
+                lastDirection = "left";
+                movement(lastDirection, delta);
+                isMoving = true;
+            }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
-            lastDirection = "right";
-            movement(lastDirection, delta);
-            isMoving = true;
+            if (!gameState.isInventoryOpen()) {
+                lastDirection = "right";
+                movement(lastDirection, delta);
+                isMoving = true;
+            }
         }
         // If player is standing still, display the default player image
         if (!isMoving) {
@@ -95,6 +117,8 @@ public class World {
         }
         //Opens/Closes inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_I)) {
+            inventoryItemOutline.setY(Core.HEIGHT/2 - 200);
+            inventoryItemOutline.setX(Core.WIDTH/2 + 100);
             gameState.toggleInventory();
         }
     }
@@ -167,8 +191,14 @@ public class World {
      */
     public void drawInventory(Graphics graphics) {
         graphics.draw(inventoryOutline);
+        graphics.draw(inventoryItemOutline);
         for (int i = 0; i < player.getInventory().getItems().size(); i ++) {
-            graphics.drawImage(player.getInventory().getItems().get(i).getItemImage(), 16 * i, 500);
+            Item itemDisplayed = player.getInventory().getItems().get(i);
+            graphics.drawImage(itemDisplayed.getItemImage(), Core
+                    .WIDTH/2 + 100, Core.HEIGHT/2 - 200 + 16*i);
+            itemDisplayed.getItemFont().drawString(Core.WIDTH/2 + 100 + 16, Core
+                    .HEIGHT/2 - 200 + 16*i, itemDisplayed.getName(), Color
+                    .blue);
         }
     }
 
