@@ -18,6 +18,7 @@ public class Room {
     private ArrayList<Exit> exits;
     private ArrayList<Item> items;
     private ArrayList<Character> characters;
+    private ArrayList<Fireball> fireballs;
     private String name;
 
     /**
@@ -36,6 +37,7 @@ public class Room {
         exits = new ArrayList<>();
         items = new ArrayList<>();
         characters = new ArrayList<>();
+        fireballs = new ArrayList<>();
 
         generateWorldObjects();
     }
@@ -61,7 +63,10 @@ public class Room {
 
 
     public ArrayList<Item> getItems() {return items; }
+
     public ArrayList<Character> getCharacters() {return characters; }
+
+    public ArrayList<Fireball> getFireballs() {return fireballs; }
 
     public String getName() { return name;}
 
@@ -82,6 +87,11 @@ public class Room {
         for (Character character : characters) {
             character.getRect().setX(character.getRect().getX() + (float)xMovement);
             character.getRect().setY(character.getRect().getY() + (float)yMovement);
+        }
+        //Update fireballs
+        for (Fireball fireball : fireballs) {
+            fireball.getRect().setX(fireball.getRect().getX() + (float)xMovement);
+            fireball.getRect().setY(fireball.getRect().getY() + (float)yMovement);
         }
     }
 

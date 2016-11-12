@@ -4,6 +4,7 @@ import org.newdawn.slick.geom.Rectangle;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * The camera class handles the moving of objects
@@ -130,6 +131,24 @@ public class World {
             inventorySelectedItemNumber = 0;
             gameState.toggleInventory();
         }
+        //shoots fireball
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_M)) {
+            Fireball fireball = new Fireball(new Rectangle(player.getRect().getX(), player
+                    .getRect().getY(), 16, 16), "Fireball", "A fireball");
+            if (lastDirection.equals("up")) {
+                fireball.setDirection("up");
+            }
+            if (lastDirection.equals("down")) {
+                fireball.setDirection("down");
+            }
+            if (lastDirection.equals("left")) {
+                fireball.setDirection("left");
+            }
+            if (lastDirection.equals("right")) {
+                fireball.setDirection("right");
+            }
+            currentRoom.getFireballs().add(fireball);
+        }
     }
 
     /**
@@ -159,7 +178,7 @@ public class World {
             default:
                 break;
         }
-        // Check if the movement will create any interceptions with blocks
+        // Check if the movement will create any intersections with blocks
         ArrayList<Rectangle> newBlocks = isBlocked(xMovement, yMovement);
         if (newBlocks != null) {
             currentRoom.updateRectangles(xMovement, yMovement, newBlocks);
@@ -194,6 +213,16 @@ public class World {
         }
     }
 
+    public void checkIntersectedFireballs() {
+        Iterator<Fireball> iterator = currentRoom.getFireballs().listIterator();
+        while (iterator.hasNext()) {
+            Fireball fireball = iterator.next();
+            if (fireball.checkIfintersects(currentRoom.getBlocks())) {
+                iterator.remove();
+            }
+        }
+    }
+
     /**
      * Draws the inventory outline and the objects in the inventory on the screen
      * @param graphics Graphics component used to draw
@@ -222,6 +251,27 @@ public class World {
         }
     }
 
+    public void drawFireBalls(Graphics graphics) {
+        for (Fireball fireball : currentRoom.getFireballs()) {
+            if (fireball.getDirection().equals("up")) {
+                fireball.getRect().setY(fireball.getRect().getY()-2);
+                fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
+            }
+            if (fireball.getDirection().equals("down")) {
+                fireball.getRect().setY(fireball.getRect().getY()+2);
+                fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
+            }
+            if (fireball.getDirection().equals("right")) {
+                fireball.getRect().setX(fireball.getRect().getX()+2);
+                fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
+            }
+            if (fireball.getDirection().equals("left")) {
+                fireball.getRect().setX(fireball.getRect().getX()-2);
+                fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
+            }
+        }
+    }
+
     /**
      * Draws highlighting on items that intersects with player's range
      */
@@ -242,6 +292,7 @@ public class World {
     public void checkEvents(GameContainer gameContainer, int delta) throws SlickException {
         checkKeyPresses(gameContainer, delta);
         checkIntersectedExit();
+        checkIntersectedFireballs();
     }
 
     /**
@@ -261,6 +312,8 @@ public class World {
             enemy.getAnimation().draw(enemy.getRect().getX() - 16, enemy.getRect().getY() - 16);
         }
 
+        //Render fireballs, items, and such
+        drawFireBalls(graphics);
         drawItems(graphics);
         drawItemHighlighting();
         if (gameState.isInventoryOpen()) {
