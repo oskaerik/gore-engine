@@ -28,14 +28,19 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Tile Layer 1" width="30" height="30">
+ <layer name="ground" width="30" height="30">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA92WMRbAIAhDcS+n6/3v0qUdqxLyDDpkxE9AlGZmDdD9Con9dC0Wk+siLtNvxEOkFlX9VuRmerCj31O4rNlR+e3lX6nO0fyRvuzgtwI3+3cjsYwazZ7B3k0i3NX9dRFX5XfEzcwDws3ctUjc3949+046yFX09zSuQg9p5xehEA4AAA==
   </data>
  </layer>
- <layer name="Tile Layer 2" width="30" height="30">
+ <layer name="items" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3VMREAAAwCMXzWv4+6oB0SBb9wJPDXXAcAQInPgz67SxZs3M3dEA4AAA==
+   H4sIAAAAAAAAA2NgGAUjEUQPtANGAUEwlONoKLt9FIyCUUAeGM33o2AwgNF0OAoIgdE0ggkASHOp8hAOAAA=
+  </data>
+ </layer>
+ <layer name="characters" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQEAAACCIP+vbkhAAQAA8Gh7blyXEA4AAA==
   </data>
  </layer>
 </map>

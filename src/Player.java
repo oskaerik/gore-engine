@@ -12,9 +12,6 @@ import java.util.ArrayList;
  * @version 0.1
  */
 public class Player {
-
-    private double xPos;
-    private double yPos;
     private double width;
     private double height;
     private double speed;
@@ -33,8 +30,6 @@ public class Player {
      * @param speed speed of the player (pixels/frame)
      */
     public Player(double width, double height, double speed, double radius) throws SlickException {
-        this.xPos = Core.WIDTH/2;
-        this.yPos = Core.HEIGHT/2;
         this.width = width;
         this.height = height;
         this.speed = speed;

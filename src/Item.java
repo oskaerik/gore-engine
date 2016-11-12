@@ -10,27 +10,34 @@ import java.awt.Font;
  * @version 0.1
  */
 public class Item extends Entity {
-
     private TrueTypeFont font;
-    private Rectangle rectangle;
     private String path;
     private Image image;
 
+    /**
+     * Constructor for Item class
+     * @param rectangle The rectangle of the item
+     * @param path The path to the sprite of the item
+     * @param name The name of the item
+     * @param description The description of the item
+     * @throws SlickException Generic exception
+     */
     public Item (Rectangle rectangle, String path, String name, String description) throws SlickException {
-        super(name, description);
-        font = new TrueTypeFont(new Font("Arial", Font.BOLD, 10), true);
-        this.rectangle = rectangle;
+        super(rectangle, name, description);
         this.path = path;
         image = new Image(path);
     }
 
-    public Rectangle getRect() {
-        return rectangle;
-    }
-
+    /**
+     * @return The item text object
+     */
+    // Refactor to getFont() in World!
     public TrueTypeFont getItemFont() {
-        return font;
+        return getFont();
     }
 
+    /**
+     * @return The item image/sprite
+     */
     public Image getItemImage() { return image; }
 }
