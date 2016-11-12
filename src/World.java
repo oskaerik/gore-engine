@@ -210,7 +210,7 @@ public class World {
      */
     public void updateGraphics(Graphics graphics) {
         // Draw the world
-        currentRoom.render(worldX, worldY);
+        currentRoom.render(currentRoom.getBlocks().get(0).getX(), currentRoom.getBlocks().get(0).getY());
 
         // Draw the player animation
         animation.draw(player.getRect().getX()-16, player.getRect().getY()-16);
