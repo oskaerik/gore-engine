@@ -36,9 +36,9 @@ public class Player {
      * @param height height of the player
      * @param speed speed of the player (pixels/frame)
      */
-    public Player(double xPos, double yPos, double width, double height, double speed, double radius) throws SlickException {
-        this.xPos = xPos;
-        this.yPos = yPos;
+    public Player(double width, double height, double speed, double radius) throws SlickException {
+        this.xPos = Game.WIDTH/2;
+        this.yPos = Game.HEIGHT/2;
         this.width = width;
         this.height = height;
         this.speed = speed;
@@ -60,48 +60,36 @@ public class Player {
     /**
      * @return Returns the x-position of entity's center in relation to the map
      */
-    public double getXPosition() {
+    public double getX() {
         return xPos;
     }
 
     /**
      * @return Returns the y-position of entity's center in relation to the map
      */
-    public double getYPosition() {
+    public double getY() {
         return yPos;
     }
-
-    /**
-     * @return Returns the width of the entity's rectangle
-     */
-    public double getWidth() {
-        return width;
-    }
-
-    /**
-     * @return Returns the height of the entity's rectangle
-     */
-    public double getHeight() {return height;}
-
-    /**
-     * Sets the y-position
-     * @param speed The speed to be moved
-     * @param delta Delay in ms
-     */
-    private void setYPosition(double speed, int delta) { yPos += speed * delta; }
 
     /**
      * Sets the x-position
      * @param speed The speed to be moved
      * @param delta Delay in ms
      */
-    private void setXPosition(double speed, int delta) { xPos += speed * delta; }
+    private void setX(double speed, int delta) { xPos += speed * delta; }
 
-    public void setPlayerXPosition(double xPos) {
+    /**
+     * Sets the y-position
+     * @param speed The speed to be moved
+     * @param delta Delay in ms
+     */
+    private void setY(double speed, int delta) { yPos += speed * delta; }
+
+    public void setPlayerX(double xPos) {
         this.xPos  = xPos;
     }
 
-    public void setPlayYPosition(double yPos) {
+    public void setPlayerY(double yPos) {
         this.yPos = yPos;
     }
 
@@ -112,16 +100,16 @@ public class Player {
     public double movement(String input, int delta) {
         switch (input) {
             case "up":
-                setYPosition(speed, delta);
+                setY(speed, delta);
                 return speed * delta;
             case "down":
-                setYPosition(-speed, delta);
+                setY(-speed, delta);
                 return -speed * delta;
             case "left":
-                setXPosition(speed, delta);
+                setX(speed, delta);
                 return speed * delta;
             case "right":
-                setXPosition(-speed, delta);
+                setX(-speed, delta);
                 return -speed * delta;
             default:
                 throw new IllegalArgumentException("Player class received invalid movement instructions");
@@ -142,10 +130,6 @@ public class Player {
 
     public Circle getRange() {
         return range;
-    }
-
-    public void updateGraphics(Graphics graphics, ArrayList<Exit> exits) {
-        graphics.fill(getRect());
     }
 
     public ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {
