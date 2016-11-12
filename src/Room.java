@@ -17,6 +17,7 @@ public class Room {
     private ArrayList<Rectangle> blocks;
     private ArrayList<Exit> exits;
     private ArrayList<Item> items;
+    private ArrayList<Character> characters;
     private String name;
 
     /**
@@ -34,6 +35,7 @@ public class Room {
         blocks = new ArrayList<>();
         exits = new ArrayList<>();
         items = new ArrayList<>();
+        characters = new ArrayList<>();
 
         generateWorldObjects();
     }
@@ -58,7 +60,8 @@ public class Room {
     public ArrayList<Exit> getExits() { return exits; }
 
 
-    public ArrayList<Item> getItems() {return items;}
+    public ArrayList<Item> getItems() {return items; }
+    public ArrayList<Character> getCharacters() {return characters; }
 
     public String getName() { return name;}
 
@@ -73,7 +76,13 @@ public class Room {
         // Update items
         for (Item item : items) {
             item.getRect().setX(item.getRect().getX() + (float)xMovement);
-            item.getRect().setY(item.getRect().getY() + (float)yMovement);        }
+            item.getRect().setY(item.getRect().getY() + (float)yMovement);
+        }
+        // Update characters
+        for (Character character : characters) {
+            character.getRect().setX(character.getRect().getX() + (float)xMovement);
+            character.getRect().setY(character.getRect().getY() + (float)yMovement);
+        }
     }
 
     private void generateWorldObjects() throws SlickException {
@@ -108,6 +117,16 @@ public class Room {
                 if (!itemPath.equals("")) {
                     items.add(new Item(new Rectangle((float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
                             map.getTileWidth(), map.getTileHeight()), itemPath, itemName, itemDescription));
+                }
+
+                // Check for characters on characters layer
+                tileID = map.getTileId(i, j, 2);
+                String characterName = map.getTileProperty(tileID, "CharacterName", "");
+                String characterDescription = map.getTileProperty(tileID, "CharacterDescription", "");
+                if (!characterName.equals("")) {
+                    characters.add(new Character(
+                            new Rectangle((float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
+                            map.getTileWidth(), map.getTileHeight()), characterName, characterDescription));
                 }
             }
         }

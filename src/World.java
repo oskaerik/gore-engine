@@ -253,6 +253,10 @@ public class World {
 
         // Draw the player animation
         animation.draw(player.getRect().getX()-16, player.getRect().getY()-16);
+        if (currentRoom.getCharacters().size() > 0) {
+            Character enemy = currentRoom.getCharacters().get(0);
+            enemy.getAnimation().draw(enemy.getRect().getX() - 16, enemy.getRect().getY() - 16);
+        }
 
         drawItems(graphics);
         drawItemHighlighting();
