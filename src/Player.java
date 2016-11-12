@@ -26,7 +26,6 @@ public class Player {
     private Animation downAnimation;
     private Animation rightAnimation;
     private Animation leftAnimation;
-    private Animation defaultAnimation;
 
     /**
      * Constructor of the player class
@@ -49,7 +48,6 @@ public class Player {
         downAnimation = createDownAnimation();
         rightAnimation = createRightAnimation();
         leftAnimation = createLeftAnimation();
-        defaultAnimation = createDefaultAnimation();
     }
 
     /**
@@ -203,11 +201,25 @@ public class Player {
         return leftAnimation;
     }
 
-    public Animation createDefaultAnimation() throws SlickException {
-        Image default1 = new Image("res/player/player-down-3.png");
-        Animation defaultAnimation = new Animation();
-        defaultAnimation.addFrame(default1, 100);
-        return defaultAnimation;
+    public Animation getStandingPlayer(String direction) throws SlickException {
+        String imagePath = "";
+        switch (direction) {
+            case "down":
+                imagePath = "res/player/player-down-3.png";
+                break;
+            case "up":
+                imagePath = "res/player/player-up-3.png";
+                break;
+            case "left":
+                imagePath = "res/player/player-left-3.png";
+                break;
+            case "right":
+                imagePath = "res/player/player-right-3.png";
+                break;
+        }
+        Animation standingAnimation = new Animation();
+        standingAnimation.addFrame(new Image(imagePath), 100);
+        return standingAnimation;
     }
 
     public Animation getUpAnimation() { return upAnimation; }
@@ -217,6 +229,4 @@ public class Player {
     public Animation getRightAnimation() { return rightAnimation; }
 
     public Animation getLeftAnimation() { return leftAnimation; }
-
-    public Animation getDefaultAnimation() { return defaultAnimation; }
 }
