@@ -20,8 +20,6 @@ public class World {
 
     private GameState gameState;
 
-    private float fireBallSpeed;
-
     /**
      * Constructor for the World class
      * @throws SlickException Generic exception
@@ -41,10 +39,6 @@ public class World {
         rooms.put("center", new Room("res/maps/center.tmx", "center", 0, 0));
         rooms.put("north", new Room("res/maps/north.tmx", "north", 0, 0));
         currentRoom = rooms.get("center");
-
-        // Set fireball speed
-        fireBallSpeed = 6;
-
     }
 
     /**
