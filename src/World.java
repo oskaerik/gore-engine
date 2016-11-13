@@ -1,7 +1,6 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,15 +35,43 @@ public class World {
         inventoryOutline = new Rectangle(Core.WIDTH/2 + 100, Core.HEIGHT/2 - 200, 100, 160);
         inventoryItemOutline = new Rectangle(Core.WIDTH/2 + 100, Core.HEIGHT/2 - 200, 16, 16);
 
-        // Create starting room and add all rooms to HashMap rooms
-        currentRoom = new Room("res/maps/center.tmx", "center", 0, 0);
-        Room north = new Room("res/maps/north.tmx", "north", 0, 0);
-        rooms = new HashMap<>();
-        rooms.put(currentRoom.getName(), currentRoom);
-        rooms.put(north.getName(), north);
 
         // Create GameState
         gameState = new GameState();
+
+        // Add rooms to HashMap rooms
+        rooms = new HashMap<>();
+        rooms.put("center", new Room("res/maps/center.tmx", "center", 0, 0));
+        rooms.put("north", new Room("res/maps/north.tmx", "north", 0, 0));
+        currentRoom = rooms.get("center");
+
+    }
+
+    public void keyMovement(GameContainer gameContainer, int delta) throws SlickException {
+        if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
+            movement("up", delta);
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
+            movement("down", delta);
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
+            movement("left", delta);
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
+            movement("right", delta);
+        }
+    }
+
+
+    private void inventoryNavigation(GameContainer gameContainer, int delta) {
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_UP) && inventorySelectedItemNumber > 0) {
+            inventorySelectedItemNumber--;
+        }
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_DOWN)) {
+            if (inventorySelectedItemNumber < player.getInventory().getNumberOfItems()-1) {
+                inventorySelectedItemNumber++;
+            }
+        }
     }
 
     /**
@@ -53,78 +80,37 @@ public class World {
      * @param delta Amount of time that has passed since last updateGraphics (ms)
      */
     public void checkKeyPresses(GameContainer gameContainer, int delta) throws SlickException {
-        // Movement of the player
-        boolean isMoving = false;
-        if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
-            if (!gameState.isInventoryOpen()) {
-                lastDirection = "up";
-                movement(lastDirection, delta);
-                isMoving = true;
-            }
-        }
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_UP)) {
-            if (gameState.isInventoryOpen()) {
-                if (inventorySelectedItemNumber != 0) {
-                    inventorySelectedItemNumber--;
-                }
-            }
-        }
-        if (gameContainer.getInput().isKeyDown(Input.KEY_DOWN)) {
-            if (!gameState.isInventoryOpen()) {
-                lastDirection = "down";
-                movement(lastDirection, delta);
-                isMoving = true;
-            }
-        }
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_DOWN)) {
-            if (gameState.isInventoryOpen()) {
-                if (inventorySelectedItemNumber < player.getInventory().getNumberOfItems()-1) {
-                    inventorySelectedItemNumber++;
-                }
-            }
-        }
-        if (gameContainer.getInput().isKeyDown(Input.KEY_LEFT)) {
-            if (!gameState.isInventoryOpen()) {
-                lastDirection = "left";
-                movement(lastDirection, delta);
-                isMoving = true;
-            }
-        }
-        if (gameContainer.getInput().isKeyDown(Input.KEY_RIGHT)) {
-            if (!gameState.isInventoryOpen()) {
-                lastDirection = "right";
-                movement(lastDirection, delta);
-                isMoving = true;
-            }
-        }
-        // If player is standing still, display the default player image
-        if (!isMoving) {
-            animation = player.getStandingPlayer(lastDirection);
+        animation = player.getStandingPlayer(lastDirection);
+
+        // Depending on whether the inventory is open or not, move player or move the inventory marker
+        if (!gameState.isInventoryOpen()) {
+            keyMovement(gameContainer, delta);
+        } else {
+            inventoryNavigation(gameContainer, delta);
         }
 
-        // Adds items in range to inventory
+        // Adds items in range to inventory if player is carrying less than allowed amount of items
         if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
-            ArrayList<Item> intersectedItems = player.getIntersectedItems(currentRoom.getItems());
-            currentRoom.removeItems(intersectedItems);
-            for (Item item : intersectedItems) {
-                player.addItemToInventory(item);
+            for (Item item : player.getIntersectedItems(currentRoom.getItems())) {
+                if (player.addToInventory(item)) {
+                    currentRoom.removeItem(item);
+                }
             }
         }
 
         // Drops items from inventory
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_A)) {
-            if (!player.getInventory().checkIfEmpty() && gameState.isInventoryOpen()) {
-                Item itemDrop = player.removeItemFromInventory(player.getInventory()
-                        .getNumberOfItems()-inventorySelectedItemNumber-1);
-                if (inventorySelectedItemNumber != 0) {
-                    inventorySelectedItemNumber--;
-                }
-                itemDrop.getRect().setX(player.getRect().getX());
-                itemDrop.getRect().setY(player.getRect().getY());
-                currentRoom.addItem(itemDrop);
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_A) && gameState.isInventoryOpen()) {
+            Item drop = player.removeFromInventory(inventorySelectedItemNumber);
+            if (drop != null) {
+                drop.getRect().setX(player.getRect().getX());
+                drop.getRect().setY(player.getRect().getY());
+                currentRoom.addItem(drop);
+            }
+            if (inventorySelectedItemNumber > 0) {
+                inventorySelectedItemNumber--;
             }
         }
-        //Opens/Closes inventory
+        // Opens/closes inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_I)) {
             inventoryItemOutline.setY(Core.HEIGHT/2 - 200);
             inventoryItemOutline.setX(Core.WIDTH/2 + 100);
@@ -151,29 +137,30 @@ public class World {
         }
     }
 
+
     /**
      * Handles the player movement, or rather the movement of the world itself
      * @param direction The direction the player should be moving
      */
-    private void movement(String direction, int delta) {
+    private void movement(String direction, int delta) throws SlickException {
         double xMovement = 0;
         double yMovement = 0;
         switch (direction) {
             case "up":
                 yMovement = player.getSpeed() * delta;
-                animation = player.getAnimation("up");
+                lastDirection = "up";
                 break;
             case "down":
                 yMovement = -player.getSpeed() * delta;
-                animation = player.getAnimation("down");
+                lastDirection = "down";
                 break;
             case "left":
                 xMovement = player.getSpeed() * delta;
-                animation = player.getAnimation("left");
+                lastDirection = "left";
                 break;
             case "right":
                 xMovement = -player.getSpeed() * delta;
-                animation = player.getAnimation("right");
+                lastDirection = "right";
                 break;
             default:
                 break;
@@ -181,6 +168,7 @@ public class World {
         // Check if the movement will create any intersections with blocks
         ArrayList<Rectangle> newBlocks = isBlocked(xMovement, yMovement);
         if (newBlocks != null) {
+            animation = player.getAnimation(lastDirection);
             currentRoom.updateRectangles(xMovement, yMovement, newBlocks);
         }
     }

@@ -142,12 +142,13 @@ public class Room {
         }
     }
 
-    public void removeItems(ArrayList<Item> intersectedItems) {
+    public void removeItem(Item item) {
         Iterator<Item> it = items.iterator();
         while (it.hasNext()) {
             Item nextItem = it.next();
-            if (intersectedItems.contains(nextItem)) {
+            if (item.equals(nextItem)) {
                 it.remove();
+                return;
             }
         }
     }

@@ -27,6 +27,13 @@
     <property name="ItemPath" value="res/items/chest.png"/>
    </properties>
   </tile>
+  <tile id="93">
+   <properties>
+    <property name="ItemDescription" value="A lame bowl"/>
+    <property name="ItemName" value="Bowl"/>
+    <property name="ItemPath" value="res/items/bowl.png"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="ground" width="30" height="30">
   <data encoding="base64" compression="gzip">
@@ -35,7 +42,7 @@
  </layer>
  <layer name="items" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAUjEUQPtANGAUEwlONoKLt9FIyCUUAeGM33o2AwgNF0OAoIgdE0ggkASHOp8hAOAAA=
+   H4sIAAAAAAAAA2NgGJkgbqAdQENAjN+iae6KUYAOSA3zoRxHQ9ntQwFQO3yHenwNdfcPFzCS4mEk+XWogcEQN4PBDaSCoeBmarXdsfl1OPcLiAEAPOiQDxAOAAA=
   </data>
  </layer>
  <layer name="characters" width="30" height="30">

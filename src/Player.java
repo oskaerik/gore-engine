@@ -15,10 +15,13 @@ public class Player {
     private double width;
     private double height;
     private double speed;
+
     private Rectangle rect;
     private Circle range;
+
     private Inventory inventory;
     private ArrayList<Animation> animationArray;
+    private boolean moving;
 
     /**
      * Constructor of the player class
@@ -41,6 +44,7 @@ public class Player {
 
         inventory = new Inventory();
         animationArray = Tools.createAnimation("character", "player");
+        moving = false;
     }
 
     /**
@@ -64,12 +68,21 @@ public class Player {
         return inventory;
     }
 
-    public void addItemToInventory(Item item) {
-        inventory.addItem(item);
+    public boolean addToInventory(Item item) {
+        if (inventory.getItems().size() < 10) {
+            inventory.addItem(item);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public Item removeItemFromInventory(int ItemNumber) {
-        return inventory.removeItemNumber(ItemNumber);
+    public Item removeFromInventory(int ItemNumber) {
+        if (inventory.getItems().size() > 0) {
+            return inventory.removeItemNumber(ItemNumber);
+        } else {
+            return null;
+        }
     }
 
     public ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {
@@ -126,4 +139,5 @@ public class Player {
                 return animationArray.get(1);
         }
     }
+
 }
