@@ -65,9 +65,12 @@ public class Core extends BasicGame {
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         world.updateGraphics(graphics);
-        for (Character character : world.getCurrentRoom().getCharacters()) {
+        /**for (Character character : world.getCurrentRoom().getCharacters()) {
             graphics.fill(character.getRect());
         }
-        graphics.fill(world.getPlayer().getRect());
+        for (Fireball fireball : world.getCurrentRoom().getFireballs()) {
+            graphics.fill(fireball.getRect());
+        }
+        graphics.fill(world.getPlayer().getRect());*/
     }
 }

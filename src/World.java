@@ -47,6 +47,25 @@ public class World {
 
     }
 
+    /**
+     * Checks for key presses and executes commands accordingly
+     * @param gameContainer GameContainer object handling game loop etc
+     * @param delta Amount of time that has passed since last updateGraphics (ms)
+     */
+    public void checkKeyPresses(GameContainer gameContainer, int delta) throws SlickException {
+        animation = player.getStandingPlayer(lastDirection);
+
+        // Depending on whether the inventory is open or not, move player or move the inventory marker
+        if (!gameState.isInventoryOpen()) {
+            keyMovement(gameContainer, delta);
+        } else {
+            keyInventory(gameContainer, delta);
+        }
+
+        keyActions(gameContainer, delta);
+    }
+
+
     public void keyMovement(GameContainer gameContainer, int delta) throws SlickException {
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
             movement("up", delta);
@@ -62,8 +81,7 @@ public class World {
         }
     }
 
-
-    private void inventoryNavigation(GameContainer gameContainer, int delta) {
+    private void keyInventory(GameContainer gameContainer, int delta) {
         if (gameContainer.getInput().isKeyPressed(Input.KEY_UP) && inventorySelectedItemNumber > 0) {
             inventorySelectedItemNumber--;
         }
@@ -72,23 +90,22 @@ public class World {
                 inventorySelectedItemNumber++;
             }
         }
+        // Drops items from inventory
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_A)) {
+            Item drop = player.removeFromInventory(inventorySelectedItemNumber);
+            if (drop != null) {
+                drop.getRect().setX(player.getRect().getX());
+                drop.getRect().setY(player.getRect().getY());
+                currentRoom.addItem(drop);
+            }
+            // If the inventory contains no items, the marker should stay on the starting position
+            if (inventorySelectedItemNumber > 0) {
+                inventorySelectedItemNumber--;
+            }
+        }
     }
 
-    /**
-     * Checks for key presses and executes commands accordingly
-     * @param gameContainer GameContainer object handling game loop etc
-     * @param delta Amount of time that has passed since last updateGraphics (ms)
-     */
-    public void checkKeyPresses(GameContainer gameContainer, int delta) throws SlickException {
-        animation = player.getStandingPlayer(lastDirection);
-
-        // Depending on whether the inventory is open or not, move player or move the inventory marker
-        if (!gameState.isInventoryOpen()) {
-            keyMovement(gameContainer, delta);
-        } else {
-            inventoryNavigation(gameContainer, delta);
-        }
-
+    private void keyActions(GameContainer gameContainer, int delta) throws SlickException {
         // Adds items in range to inventory if player is carrying less than allowed amount of items
         if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
             for (Item item : player.getIntersectedItems(currentRoom.getItems())) {
@@ -98,41 +115,23 @@ public class World {
             }
         }
 
-        // Drops items from inventory
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_A) && gameState.isInventoryOpen()) {
-            Item drop = player.removeFromInventory(inventorySelectedItemNumber);
-            if (drop != null) {
-                drop.getRect().setX(player.getRect().getX());
-                drop.getRect().setY(player.getRect().getY());
-                currentRoom.addItem(drop);
-            }
-            if (inventorySelectedItemNumber > 0) {
-                inventorySelectedItemNumber--;
-            }
-        }
         // Opens/closes inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_I)) {
+            // Resets the inventory marker
             inventoryItemOutline.setY(Core.HEIGHT/2 - 200);
             inventoryItemOutline.setX(Core.WIDTH/2 + 100);
             inventorySelectedItemNumber = 0;
+
             gameState.toggleInventory();
         }
-        //shoots fireball
+
+        // Shoots fireball
         if (gameContainer.getInput().isKeyPressed(Input.KEY_M)) {
-            Fireball fireball = new Fireball(new Rectangle(player.getRect().getX(), player
-                    .getRect().getY(), 16, 16), "Fireball", "A fireball");
-            if (lastDirection.equals("up")) {
-                fireball.setDirection("up");
-            }
-            if (lastDirection.equals("down")) {
-                fireball.setDirection("down");
-            }
-            if (lastDirection.equals("left")) {
-                fireball.setDirection("left");
-            }
-            if (lastDirection.equals("right")) {
-                fireball.setDirection("right");
-            }
+            Rectangle fireballRectangle = new Rectangle(0, 0, 44, 42);
+            fireballRectangle.setCenterX(player.getRect().getCenterX());
+            fireballRectangle.setCenterY(player.getRect().getCenterY());
+            Fireball fireball = new Fireball(fireballRectangle, "Fireball", "A fireball");
+            fireball.setDirection(lastDirection);
             currentRoom.getFireballs().add(fireball);
         }
     }
@@ -291,7 +290,7 @@ public class World {
         // Draw the world
         currentRoom.render(currentRoom.getBlocks().get(0).getX(), currentRoom.getBlocks().get(0).getY());
 
-        // Draw the player animation
+        // Draw the player animation (NOT CORRECT WITH 16)
         animation.draw(player.getRect().getX()-16, player.getRect().getY()-16);
 
         // Render the enemy
