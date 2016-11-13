@@ -18,32 +18,19 @@ public class Projectile extends Entity {
     private int damage;
 
     /**
-     * Constructor of the entity class
-     *
-     * @param name        Name of the entity
-     * @param description Description of the entity
+     * Constructor for the Projectile class
+     * @param rectangle The rectangle of the projectile
+     * @param name The name of the projectile
+     * @param description The description of the projectile
+     * @throws SlickException
      */
     public Projectile(Rectangle rectangle, String name, String description) throws SlickException {
         super(rectangle, name, description);
         animation = Tools.createAnimation("projectile", name).get(0);
         shot = false;
         direction = null;
-        speed = 6;
+        speed = 0.35f;
         damage = 10;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public boolean checkIfIntersects(ArrayList<Rectangle> rectangles) {
-        boolean intersects = false;
-        for (Rectangle rectangle : rectangles) {
-            if (getRect().intersects(rectangle)) {
-                intersects = true;
-            }
-        }
-        return intersects;
     }
 
     public Animation getAnimation() {
@@ -75,28 +62,34 @@ public class Projectile extends Entity {
         return null;
     }
 
-    public Character moveProjectile(ArrayList<Rectangle> blocks, ArrayList<Character> characters) {
+    public Character moveProjectile(
+            ArrayList<Rectangle> blocks, ArrayList<Character> characters, int delta) {
         if (shot) {
             switch (direction) {
                 case "up":
-                    getRect().setY(getRect().getY() - speed);
+                    getRect().setY(getRect().getY() - speed*delta);
                     break;
                 case "down":
-                    getRect().setY(getRect().getY() + speed);
+                    getRect().setY(getRect().getY() + speed*delta);
                     break;
                 case "left":
-                    getRect().setX(getRect().getX() - speed);
+                    getRect().setX(getRect().getX() - speed*delta);
                     break;
                 case "right":
-                    getRect().setX(getRect().getX() + speed);
+                    getRect().setX(getRect().getX() + speed*delta);
                     break;
                 default:
                     break;
             }
-            getAnimation().draw(getRect().getX(), getRect().getY());
             return checkIntersection(blocks, characters);
         }
         return null;
+    }
+
+    public void render() {
+        if (shot) {
+            getAnimation().draw(getRect().getX(), getRect().getY());
+        }
     }
 
     public int getDamage() { return damage; }

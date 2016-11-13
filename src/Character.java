@@ -15,6 +15,7 @@ public class Character extends Entity {
     private ArrayList<String> movementArray;
 
     String lastDirection;
+    float speed;
     int health;
 
     private ArrayList<String> dialogueArray;
@@ -37,6 +38,7 @@ public class Character extends Entity {
         dialogueArray = Tools.readInstructions("dialogue", getName());
         dialogueIndex = 0;
         lastDirection = "down";
+        speed = 0.1f;
         health = 100;
     }
 
@@ -62,7 +64,7 @@ public class Character extends Entity {
     /**
      * Moves the character according to the movementArray
      */
-    public void updateLocation() {
+    public void updateLocation(int delta) {
         if (movementArray != null) {
             for (int i = 0; i < movementArray.size(); i++) {
                 String[] pixelsAndDirection = movementArray.get(i).split(" ");
@@ -70,19 +72,19 @@ public class Character extends Entity {
                 if (pixels > 0) {
                     switch (pixelsAndDirection[1]) {
                         case "D":
-                            getRect().setY(getRect().getY() + 1);
+                            getRect().setY(getRect().getY() + speed*delta);
                             lastDirection = "down";
                             break;
                         case "U":
-                            getRect().setY(getRect().getY() - 1);
+                            getRect().setY(getRect().getY() - speed*delta);
                             lastDirection = "up";
                             break;
                         case "L":
-                            getRect().setX(getRect().getX() - 1);
+                            getRect().setX(getRect().getX() - speed*delta);
                             lastDirection = "left";
                             break;
                         case "R":
-                            getRect().setX(getRect().getX() + 1);
+                            getRect().setX(getRect().getX() + speed*delta);
                             lastDirection = "right";
                             break;
                         default:

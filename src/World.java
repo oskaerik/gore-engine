@@ -216,20 +216,36 @@ public class World {
         checkIntersectedExit();
     }
 
+    public Room getCurrentRoom() { return currentRoom; }
+    public Player getPlayer() { return player; }
+
+    /**
+     * Updates the world, like entity positions
+     * @param gameContainer GameContainer object handling game loop etc
+     * @param delta Amount of time that has passed since last updateGraphics (ms)
+     * @throws SlickException Generic exception
+     */
+    public void updateWorld(GameContainer gameContainer, int delta) throws SlickException {
+        currentRoom.updateEntities(delta);
+    }
+
     /**
      * Updates the graphics of the game world
      * @param graphics Graphics component used to draw
      */
     public void updateGraphics(Graphics graphics) {
         // Draw the world
-        currentRoom.render(currentRoom.getBlocks().get(0).getX(), currentRoom.getBlocks().get(0).getY());
+        currentRoom.render(
+                currentRoom.getBlocks().get(0).getX(), currentRoom.getBlocks().get(0).getY());
+
+        // Render the entities (characters, items, projectiles) in room
+        currentRoom.renderEntities(graphics);
 
         // Draw the player animation
-        animation.draw(player.getRect().getX()+(player.getRect().getWidth()-animation.getCurrentFrame().getWidth())/2,
-                player.getRect().getY()+(player.getRect().getHeight()-animation.getCurrentFrame().getHeight())/2);
-
-        // Render the entitys (characters, items, projectiles) in room
-        currentRoom.renderEntitys(graphics);
+        animation.draw(player.getRect().getX()
+                        +(player.getRect().getWidth()-animation.getCurrentFrame().getWidth())/2,
+                player.getRect().getY()
+                        +(player.getRect().getHeight()-animation.getCurrentFrame().getHeight())/2);
 
         // Highlight items in player range
         currentRoom.highlightItems(player.getRange());
@@ -239,8 +255,4 @@ public class World {
             player.getInventory().drawInventory(graphics);
         }
     }
-
-    public Room getCurrentRoom() { return currentRoom; }
-
-    public Player getPlayer() { return player; }
 }

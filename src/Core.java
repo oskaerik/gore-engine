@@ -1,5 +1,6 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +18,8 @@ public class Core extends BasicGame {
     // World object that holds object classes and updates the graphics
     private World world;
 
+    private boolean debug;
+
     /**
      * Constructor for the game class
      * @param title Title of the game window
@@ -25,9 +28,9 @@ public class Core extends BasicGame {
 
     public static void main(String[] args) {
         try {
-            AppGameContainer appgc = new AppGameContainer(new Core("An Awesome Core"));
+            AppGameContainer appgc = new AppGameContainer(new Core("slick-game"));
             appgc.setDisplayMode(WIDTH, HEIGHT, false);
-            appgc.setTargetFrameRate(60);
+            appgc.setTargetFrameRate(145);
             appgc.start();
         } catch (SlickException ex) {
             Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
@@ -42,6 +45,7 @@ public class Core extends BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         world = new World();
+        debug = false;
     }
 
     /**
@@ -53,6 +57,9 @@ public class Core extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         world.checkEvents(gameContainer, delta);
+        world.updateWorld(gameContainer, delta);
+
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_P)) { debug = !debug; }
     }
 
     /**
@@ -64,13 +71,19 @@ public class Core extends BasicGame {
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         world.updateGraphics(graphics);
-        /**for (Character character : world.getCurrentRoom().getCharacters()) {
-            graphics.fill(character.getRect());
+
+        if (debug) {
+            for (Rectangle block : world.getCurrentRoom().getBlocks()) {
+                graphics.fill(block);
+            }
+            for (Character character : world.getCurrentRoom().getCharacters()) {
+                graphics.fill(character.getRect());
+            }
+            for (Projectile fireball : world.getCurrentRoom().getProjectiles()) {
+                graphics.fill(fireball.getRect());
+            }
+            graphics.fill(world.getPlayer().getRect());
+            graphics.fill(world.getCurrentRoom().getProjectiles().get(0).getRect());
         }
-        for (Projectile fireball : world.getCurrentRoom().getProjectiles()) {
-            graphics.fill(fireball.getRect());
-        }
-        graphics.fill(world.getPlayer().getRect());
-        graphics.fill(world.getCurrentRoom().getProjectiles().get(0).getRect());*/
     }
 }
