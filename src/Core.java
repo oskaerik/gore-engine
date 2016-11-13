@@ -57,7 +57,7 @@ public class Core extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         world.checkEvents(gameContainer, delta);
-        world.updateWorld(gameContainer, delta);
+        world.updateWorld(delta);
 
         if (gameContainer.getInput().isKeyPressed(Input.KEY_P)) { debug = !debug; }
     }

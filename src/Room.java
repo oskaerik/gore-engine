@@ -207,4 +207,13 @@ public class Room {
             item.hightlight(playerRange);
         }
     }
+
+    public void freezeEntities(boolean frozen) {
+        for (Character character : characters) {
+            character.setFrozen(frozen);
+        }
+        for (Projectile projectile : projectiles) {
+            projectile.setFrozen(frozen);
+        }
+    }
 }

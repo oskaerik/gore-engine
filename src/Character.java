@@ -46,18 +46,21 @@ public class Character extends Entity {
      * @return Returns the animation according to the direction the character is facing
      */
     public Animation getAnimation() {
-        switch (lastDirection) {
-            case "up":
-                return animationArray.get(0);
-            case "down":
-                return animationArray.get(1);
-            case "left":
-                return animationArray.get(2);
-            case "right":
-                return animationArray.get(3);
-            default:
-                return animationArray.get(1);
-
+        if (!isFrozen()) {
+            switch (lastDirection) {
+                case "up":
+                    return animationArray.get(0);
+                case "down":
+                    return animationArray.get(1);
+                case "left":
+                    return animationArray.get(2);
+                case "right":
+                    return animationArray.get(3);
+                default:
+                    return animationArray.get(1);
+            }
+        } else {
+            return Tools.getFreezeAnimation(animationArray, lastDirection);
         }
     }
 
@@ -131,6 +134,9 @@ public class Character extends Entity {
     public String getDialogue() {
         String toReturn = dialogueArray.get(dialogueIndex);
         dialogueIndex++;
+        if (dialogueIndex >= dialogueArray.size()) {
+            dialogueIndex = 0;
+        }
         return toReturn;
     }
 }

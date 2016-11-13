@@ -10,8 +10,7 @@ import java.util.ArrayList;
  * @version 0.1
  */
 public class Projectile extends Entity {
-
-    private Animation animation;
+    private ArrayList<Animation> animationArray;
     private boolean shot;
     private String direction;
     private float speed;
@@ -26,7 +25,7 @@ public class Projectile extends Entity {
      */
     public Projectile(Rectangle rectangle, String name, String description) throws SlickException {
         super(rectangle, name, description);
-        animation = Tools.createAnimation("projectile", name).get(0);
+        animationArray = Tools.createAnimation("projectile", name);
         shot = false;
         direction = null;
         speed = 0.35f;
@@ -34,7 +33,11 @@ public class Projectile extends Entity {
     }
 
     public Animation getAnimation() {
-        return animation;
+        if (!isFrozen()) {
+            return animationArray.get(0);
+        } else {
+            return Tools.getFreezeAnimation(animationArray, "");
+        }
     }
 
     public void shoot(float centerX, float centerY, String direction) {

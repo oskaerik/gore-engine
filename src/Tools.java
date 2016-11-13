@@ -95,4 +95,29 @@ public class Tools {
             return null;
         }
     }
+
+    public static Animation getFreezeAnimation(
+            ArrayList<Animation> animationArray,  String direction) {
+        Image freezeImage;
+        switch (direction) {
+            case "up":
+                freezeImage = animationArray.get(0).getImage(0);
+                break;
+            case "down":
+                freezeImage = animationArray.get(1).getImage(0);
+                break;
+            case "left":
+                freezeImage = animationArray.get(2).getImage(0);
+                break;
+            case "right":
+                freezeImage = animationArray.get(3).getImage(0);
+                break;
+            default:
+                freezeImage = animationArray.get(0).getImage(0);
+                break;
+        }
+        Animation freezeAnimation = new Animation();
+        freezeAnimation.addFrame(freezeImage, 100);
+        return freezeAnimation;
+    }
 }

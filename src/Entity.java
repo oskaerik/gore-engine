@@ -13,6 +13,7 @@ public class Entity {
     private String description;
     private Rectangle rectangle;
     private TrueTypeFont font;
+    private boolean frozen;
 
     /** Constructor of the entity class
      * @param name Name of the entity
@@ -24,6 +25,8 @@ public class Entity {
         this.rectangle = rectangle;
 
         font = new TrueTypeFont(new Font("Arial", Font.BOLD, 10), true);
+
+        frozen = false;
     }
 
     /**
@@ -48,4 +51,7 @@ public class Entity {
      * @return The font of the entity
      */
     protected TrueTypeFont getFont() { return font; }
+
+    protected boolean isFrozen() { return frozen; }
+    protected void setFrozen(boolean value) { frozen = value; }
 }

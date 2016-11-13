@@ -26,7 +26,7 @@ public class World {
     public World() throws SlickException {
         // The player object, takes parameters: width, height, speed, radius of range
         player = new Player(16, 16, 0.2, 32);
-        animation = player.getStandingPlayer("down");
+        animation = Tools.getFreezeAnimation(player.getAnimationArray(), "down");
         lastDirection = "down";
 
 
@@ -46,7 +46,7 @@ public class World {
      * @param delta Amount of time that has passed since last updateGraphics (ms)
      */
     public void checkKeyPresses(GameContainer gameContainer, int delta) throws SlickException {
-        animation = player.getStandingPlayer(lastDirection);
+        animation = Tools.getFreezeAnimation(player.getAnimationArray(), lastDirection);
 
         // Depending on whether the inventory is open or not, move player or move the inventory marker
         if (gameState.getCurrentState().equals("default")) {
@@ -122,9 +122,11 @@ public class World {
 
         // Shoots fireball
         if (gameContainer.getInput().isKeyPressed(Input.KEY_M)) {
-            if (!currentRoom.getProjectiles().get(0).isShot()) {
+            if (!currentRoom.getProjectiles().get(0).isShot()
+                    && gameState.getCurrentState().equals("default")) {
                 for (Projectile projectile : currentRoom.getProjectiles()) {
-                    projectile.shoot(player.getRect().getCenterX(), player.getRect().getCenterY(), lastDirection);
+                    projectile.shoot(player.getRect().getCenterX(), player.getRect().getCenterY(),
+                            lastDirection);
                 }
             }
         }
@@ -133,14 +135,15 @@ public class World {
         if (gameContainer.getInput().isKeyPressed(Input.KEY_D)) {
             ArrayList<Character> intersectedCharacters =
                     player.getIntersectedCharacters(currentRoom.getCharacters());
-            if (!gameState.getCurrentState().equals("inventory")
+            if (gameState.getCurrentState().equals("default")
                     && intersectedCharacters.size() > 0) {
-                gameState.toggleDialog();
+                gameState.toggleDialogue();
                 System.out.println(intersectedCharacters.get(0).getDialogue());
-                }
+            } else if (gameState.getCurrentState().equals("dialogue")) {
+                gameState.toggleDialogue();
             }
+        }
     }
-
 
     /**
      * Handles the player movement, or rather the movement of the world itself
@@ -221,12 +224,16 @@ public class World {
 
     /**
      * Updates the world, like entity positions
-     * @param gameContainer GameContainer object handling game loop etc
      * @param delta Amount of time that has passed since last updateGraphics (ms)
      * @throws SlickException Generic exception
      */
-    public void updateWorld(GameContainer gameContainer, int delta) throws SlickException {
-        currentRoom.updateEntities(delta);
+    public void updateWorld(int delta) throws SlickException {
+        if (gameState.getCurrentState().equals("default")) {
+            currentRoom.freezeEntities(false);
+            currentRoom.updateEntities(delta);
+        } else {
+            currentRoom.freezeEntities(true);
+        }
     }
 
     /**

@@ -19,11 +19,11 @@ public class GameState {
         }
     }
 
-    public void toggleDialog() {
+    public void toggleDialogue() {
         if (currentMode.equals("default")) {
-            currentMode = "dialog";
+            currentMode = "dialogue";
         }
-        else if (currentMode.equals("dialog")) {
+        else if (currentMode.equals("dialogue")) {
             currentMode = "default";
         }
     }

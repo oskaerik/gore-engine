@@ -121,27 +121,6 @@ public class Player {
         return null;
     }
 
-    public Animation getStandingPlayer(String direction) throws SlickException {
-        Image standingImage = null;
-        switch (direction) {
-            case "up":
-                standingImage = animationArray.get(0).getImage(2);
-                break;
-            case "down":
-                standingImage = animationArray.get(1).getImage(2);
-                break;
-            case "left":
-                standingImage = animationArray.get(2).getImage(2);
-                break;
-            case "right":
-                standingImage = animationArray.get(3).getImage(2);
-                break;
-        }
-        Animation standingAnimation = new Animation();
-        standingAnimation.addFrame(standingImage, 100);
-        return standingAnimation;
-    }
-
     public Animation getAnimation(String direction) {
         switch (direction) {
             case ("up"):
@@ -157,4 +136,5 @@ public class Player {
         }
     }
 
+    public ArrayList<Animation> getAnimationArray() { return animationArray; }
 }
