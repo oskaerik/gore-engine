@@ -66,7 +66,7 @@ public class Character extends Entity {
             if (!inDialogue) {
                 return Tools.getFreezeAnimation(animationArray, lastDirection);
             } else {
-                return Tools.getFreezeAnimation(animationArray, facePlayer(player, gameState));
+                return Tools.getFreezeAnimation(animationArray, facePlayer(player));
             }
         }
     }
@@ -154,8 +154,8 @@ public class Character extends Entity {
     /**
      * @return Returns the way to face so that it resembles facing the player the most
      */
-    public String facePlayer(Player player, GameState gameState) {
-        return "down";
+    public String facePlayer(Player player) {
+        return Tools.getFacing(player.getRect(), getRect()).get(1);
     }
 
     public void setInDialogue(boolean value) {

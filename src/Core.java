@@ -73,6 +73,10 @@ public class Core extends BasicGame {
         world.updateGraphics(graphics);
 
         if (debug) {
+            if (world.getPlayer().getInDialogue() != null) {
+                System.out.println(Tools.getFacing(
+                        world.getPlayer().getRect(), world.getPlayer().getInDialogue().getRect()));
+            }
             for (Rectangle block : world.getCurrentRoom().getBlocks()) {
                 graphics.fill(block);
             }

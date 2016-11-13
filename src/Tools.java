@@ -1,6 +1,9 @@
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Vector2f;
+import org.w3c.dom.css.Rect;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -119,5 +122,25 @@ public class Tools {
         Animation freezeAnimation = new Animation();
         freezeAnimation.addFrame(freezeImage, 100);
         return freezeAnimation;
+    }
+
+    public static ArrayList<String> getFacing(Rectangle first, Rectangle second) {
+        Vector2f vector = new Vector2f(first.getX()-second.getX(), first.getY()-second.getY());
+        double angle = vector.getTheta();
+        ArrayList<String> returnArray = new ArrayList<>();
+        if ((angle <= 45 && angle >= 0) || (angle <= 360 && angle > 315)) {
+            returnArray.add("left");
+            returnArray.add("right");
+        } else if (angle > 45 && angle <= 135) {
+            returnArray.add("up");
+            returnArray.add("down");
+        } else if (angle > 135 && angle <= 225) {
+        returnArray.add("right");
+        returnArray.add("left");
+        } else {
+            returnArray.add("down");
+            returnArray.add("up");
+        }
+        return returnArray;
     }
 }

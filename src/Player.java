@@ -38,11 +38,13 @@ public class Player {
         this.speed = speed;
 
         // Creates the player rectangle and places it in the middle of the screen
-        rect = new Rectangle((Core.WIDTH - (float) this.width) / 2, (Core.HEIGHT - (float) this.height) / 2,
+        rect = new Rectangle((Core.WIDTH - (float) this.width)/2,
+                (Core.HEIGHT - (float) this.height)/2,
                 (int) this.width, (int) this.height);
 
         // Creates the range circle and places it in the middle of the screen
-        range = new Circle((Core.WIDTH - (float) this.width) / 2, (Core.HEIGHT - (float) this.height) / 2, (float) radius);
+        range = new Circle((Core.WIDTH - (float) this.width)/2,
+                (Core.HEIGHT - (float) this.height)/2, (float)radius);
 
         inventory = new Inventory();
         animationArray = Tools.createAnimation("character", "player");
@@ -145,7 +147,12 @@ public class Player {
     }
 
     private Animation faceCharacter() {
-        return Tools.getFreezeAnimation(animationArray, "down");
+        if (inDialogue != null) {
+            return Tools.getFreezeAnimation(
+                    animationArray, Tools.getFacing(getRect(), inDialogue.getRect()).get(0));
+        } else {
+            return Tools.getFreezeAnimation(animationArray, "down");
+        }
     }
 
     public ArrayList<Animation> getAnimationArray() { return animationArray; }

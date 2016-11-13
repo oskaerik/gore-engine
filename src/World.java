@@ -25,7 +25,7 @@ public class World {
      */
     public World() throws SlickException {
         // The player object, takes parameters: width, height, speed, radius of range
-        player = new Player(16, 16, 0.2, 32);
+        player = new Player(16, 16, 0.2, 48);
         animation = Tools.getFreezeAnimation(player.getAnimationArray(), "down");
         lastDirection = "down";
 
@@ -138,8 +138,10 @@ public class World {
             if (gameState.getCurrentState().equals("default")
                     && intersectedCharacters.size() > 0) {
                 gameState.toggleDialogue();
-                intersectedCharacters.get(0).setInDialogue(true);
-                player.setInDialogue(intersectedCharacters.get(0));
+                Character inDialogueWith = intersectedCharacters.get(0);
+                inDialogueWith.setInDialogue(true);
+                System.out.println(inDialogueWith.getDialogue());
+                player.setInDialogue(inDialogueWith);
             } else if (gameState.getCurrentState().equals("dialogue")) {
                 gameState.toggleDialogue();
                 for (Character character : currentRoom.getCharacters()) {
