@@ -83,6 +83,12 @@ public class Character extends Entity {
         movementArray = Tools.generateMovement(getName());
     }
 
+    public void renderCharacter() {
+        getAnimation().draw(getRect().getX()+(getRect().getWidth() -
+                        getAnimation().getCurrentFrame().getWidth())/2, getRect().getY() +
+                (getRect().getHeight()  - getAnimation().getCurrentFrame().getHeight())/2);
+    }
+
     public void takeDamage(int damage) {
         health -= damage;
         System.out.println(getName() + ": " + health);
