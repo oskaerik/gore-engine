@@ -18,8 +18,9 @@ public class Room {
     private ArrayList<Exit> exits;
     private ArrayList<Item> items;
     private ArrayList<Character> characters;
-    private ArrayList<Fireball> fireballs;
+    private ArrayList<Projectile> projectiles;
     private String name;
+    private Projectile fireball;
 
     /**
      * Constructor for the Room class
@@ -37,7 +38,10 @@ public class Room {
         exits = new ArrayList<>();
         items = new ArrayList<>();
         characters = new ArrayList<>();
-        fireballs = new ArrayList<>();
+
+        projectiles = new ArrayList<>();
+        fireball = new Projectile(new Rectangle(0, 0, 44, 42), "fireball", "A fireball");
+        projectiles.add(fireball);
 
         generateWorldObjects();
     }
@@ -66,7 +70,7 @@ public class Room {
 
     public ArrayList<Character> getCharacters() {return characters; }
 
-    public ArrayList<Fireball> getFireballs() {return fireballs; }
+    public ArrayList<Projectile> getProjectiles() { return projectiles; }
 
     public String getName() { return name;}
 
@@ -88,10 +92,10 @@ public class Room {
             character.getRect().setX(character.getRect().getX() + (float)xMovement);
             character.getRect().setY(character.getRect().getY() + (float)yMovement);
         }
-        //Update fireballs
-        for (Fireball fireball : fireballs) {
-            fireball.getRect().setX(fireball.getRect().getX() + (float)xMovement);
-            fireball.getRect().setY(fireball.getRect().getY() + (float)yMovement);
+        //Update projectiles
+        for (Projectile projectile : projectiles) {
+            projectile.getRect().setX(projectile.getRect().getX() + (float)xMovement);
+            projectile.getRect().setY(projectile.getRect().getY() + (float)yMovement);
         }
     }
 

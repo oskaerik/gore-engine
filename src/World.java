@@ -132,12 +132,11 @@ public class World {
 
         // Shoots fireball
         if (gameContainer.getInput().isKeyPressed(Input.KEY_M)) {
-            Rectangle fireballRectangle = new Rectangle(0, 0, 44, 42);
-            fireballRectangle.setCenterX(player.getRect().getCenterX());
-            fireballRectangle.setCenterY(player.getRect().getCenterY());
-            Fireball fireball = new Fireball(fireballRectangle, "Fireball", "A fireball");
-            fireball.setDirection(lastDirection);
-            currentRoom.getFireballs().add(fireball);
+            if (!currentRoom.getProjectiles().get(0).isShot()) {
+                for (Projectile projectile : currentRoom.getProjectiles()) {
+                    projectile.shoot(player.getRect().getCenterX(), player.getRect().getCenterY(), lastDirection);
+                }
+            }
         }
     }
 
@@ -205,16 +204,6 @@ public class World {
         }
     }
 
-    public void checkIntersectedFireballs() {
-        Iterator<Fireball> iterator = currentRoom.getFireballs().listIterator();
-        while (iterator.hasNext()) {
-            Fireball fireball = iterator.next();
-            if (fireball.checkIfintersects(currentRoom.getBlocks())) {
-                iterator.remove();
-            }
-        }
-    }
-
     /**
      * Draws the inventory outline and the objects in the inventory on the screen
      * @param graphics Graphics component used to draw
@@ -243,27 +232,6 @@ public class World {
         }
     }
 
-    public void drawFireBalls(Graphics graphics) {
-        for (Fireball fireball : currentRoom.getFireballs()) {
-            if (fireball.getDirection().equals("up")) {
-                fireball.getRect().setY(fireball.getRect().getY()-fireBallSpeed);
-                fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
-            }
-            if (fireball.getDirection().equals("down")) {
-                fireball.getRect().setY(fireball.getRect().getY()+fireBallSpeed);
-                fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
-            }
-            if (fireball.getDirection().equals("right")) {
-                fireball.getRect().setX(fireball.getRect().getX()+fireBallSpeed);
-                fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
-            }
-            if (fireball.getDirection().equals("left")) {
-                fireball.getRect().setX(fireball.getRect().getX()-fireBallSpeed);
-                fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
-            }
-        }
-    }
-
     /**
      * Draws highlighting on items that intersects with player's range
      */
@@ -284,7 +252,6 @@ public class World {
     public void checkEvents(GameContainer gameContainer, int delta) throws SlickException {
         checkKeyPresses(gameContainer, delta);
         checkIntersectedExit();
-        checkIntersectedFireballs();
     }
 
     /**
@@ -308,12 +275,16 @@ public class World {
                             -enemy.getAnimation().getCurrentFrame().getHeight())/2);
         }
 
-        //Render fireballs, items, and such
-        drawFireBalls(graphics);
+        //Render items
         drawItems(graphics);
         drawItemHighlighting();
         if (gameState.isInventoryOpen()) {
             drawInventory(graphics);
+        }
+
+        // Update fireballs
+        for (Projectile projectile : currentRoom.getProjectiles()) {
+            projectile.moveProjectile(currentRoom.getBlocks());
         }
     }
 

@@ -68,9 +68,10 @@ public class Core extends BasicGame {
         /**for (Character character : world.getCurrentRoom().getCharacters()) {
             graphics.fill(character.getRect());
         }
-        for (Fireball fireball : world.getCurrentRoom().getFireballs()) {
+        for (Projectile fireball : world.getCurrentRoom().getProjectiles()) {
             graphics.fill(fireball.getRect());
         }
-        graphics.fill(world.getPlayer().getRect());*/
+        graphics.fill(world.getPlayer().getRect());
+        graphics.fill(world.getCurrentRoom().getProjectiles().get(0).getRect());*/
     }
 }
