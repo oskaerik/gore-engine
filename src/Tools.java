@@ -2,9 +2,11 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 /**
  * Contains static methods like generating animations and such
@@ -59,5 +61,36 @@ public class Tools {
             animationArray.add(animation);
         }
         return animationArray;
+    }
+
+    /**
+     * Reads a movement file and stores it in an ArrayList
+     * The character has a movement.txt-file in the res/characters/[characterName]-folder
+     * The movement.txt-file is built like this, starting from line 0
+     * Line number: Property [description, not in the actual file]
+     * 0: 2D [2 steps DOWN]
+     * 1: 3L [3 steps LEFT]
+     * @return Returns an ArrayList with the movement pattern
+     */
+    public static ArrayList<String> generateMovement(String name) {
+        try {
+            BufferedReader br = new BufferedReader(
+                    new FileReader("res/characters/" + name + "/movement.txt"));
+            String line = br.readLine();
+            while (line != null) {
+
+            }
+        } catch (FileNotFoundException fileEx) {
+            return null;
+        } catch (IOException IO)
+        /**
+        try (Stream<String> stream = Files.lines(
+                Paths.get("res/characters/" + name + "/movement.txt"))) {
+            stream.forEach(returnArray::add);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+         */
+        return returnArray;
     }
 }

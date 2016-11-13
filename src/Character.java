@@ -27,28 +27,9 @@ public class Character extends Entity {
     public Character(Rectangle rectangle, String name, String description) throws SlickException {
         super(rectangle, name, description);
         animationArray = Tools.createAnimation("character", getName());
-        movementArray = generateMovement();
+        movementArray = Tools.generateMovement(getName());
         lastDirection = "down";
         health = 100;
-    }
-
-    /**
-     * Reads movement of a character and stores it in an ArrayList
-     * The character has a movement.txt-file in the res/characters/[characterName]-folder
-     * The movement.txt-file is built like this, starting from line 0
-     * Line number: Property [description, not in the actual file]
-     * 0: 2D [2 steps DOWN]
-     * 1: 3L [3 steps LEFT]
-     * @return Returns an ArrayList with the movement pattern
-     */
-    private ArrayList<String> generateMovement() {
-        ArrayList<String> returnArray = new ArrayList<>();
-        try (Stream<String> stream = Files.lines(Paths.get("res/characters/" + getName() + "/movement.txt"))) {
-            stream.forEach(returnArray::add);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return returnArray;
     }
 
     public Animation getAnimation() {
@@ -99,7 +80,7 @@ public class Character extends Entity {
             }
         }
         // Didn't find any more movement to do, reset movement
-        movementArray = generateMovement();
+        movementArray = Tools.generateMovement(getName());
     }
 
     public void takeDamage(int damage) {
