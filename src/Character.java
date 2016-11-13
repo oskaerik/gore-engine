@@ -30,6 +30,9 @@ public class Character extends Entity {
         health = 100;
     }
 
+    /**
+     * @return Returns the animation according to the direction the character is facing
+     */
     public Animation getAnimation() {
         switch (lastDirection) {
             case "up":
@@ -46,6 +49,9 @@ public class Character extends Entity {
         }
     }
 
+    /**
+     * Moves the character according to the movementArray
+     */
     public void updateLocation() {
         if (movementArray != null) {
             for (int i = 0; i < movementArray.size(); i++) {
@@ -83,16 +89,26 @@ public class Character extends Entity {
         }
     }
 
+    /**
+     * Renders the character on the screen
+     */
     public void renderCharacter() {
         getAnimation().draw(getRect().getX()+(getRect().getWidth() -
                         getAnimation().getCurrentFrame().getWidth())/2, getRect().getY() +
                 (getRect().getHeight()  - getAnimation().getCurrentFrame().getHeight())/2);
     }
 
+    /**
+     * Decreases the characters health
+     * @param damage The amount of health points to take away
+     */
     public void takeDamage(int damage) {
         health -= damage;
         System.out.println(getName() + ": " + health);
     }
 
+    /**
+     * @return Current health of the character
+     */
     public int getHealth() { return health; }
 }

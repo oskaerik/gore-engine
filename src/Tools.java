@@ -2,11 +2,12 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 /**
  * Contains static methods like generating animations and such
@@ -84,9 +85,6 @@ public class Tools {
             while (line != null) {
                 returnArray.add(line);
                 line = br.readLine();
-            }
-            for (String arrayLine : returnArray) {
-                System.out.println("Line: " + arrayLine);
             }
             return returnArray;
 
