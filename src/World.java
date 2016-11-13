@@ -224,6 +224,7 @@ public class World {
         // Highlight items in player range
         currentRoom.highlightItems(player.getRange());
 
+        // Draw inventory depending of if inventory is open
         if (gameState.getCurrentMode().equals("inventory")) {
             player.getInventory().drawInventory(graphics);
         }

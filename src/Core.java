@@ -27,7 +27,7 @@ public class Core extends BasicGame {
         try {
             AppGameContainer appgc = new AppGameContainer(new Core("An Awesome Core"));
             appgc.setDisplayMode(WIDTH, HEIGHT, false);
-            appgc.setTargetFrameRate(145);
+            appgc.setTargetFrameRate(60);
             appgc.start();
         } catch (SlickException ex) {
             Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
