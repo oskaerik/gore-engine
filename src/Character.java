@@ -13,8 +13,12 @@ public class Character extends Entity {
     private ArrayList<Animation> animationArray;
     private ArrayList<String> movementPath;
     private ArrayList<String> movementArray;
+
     String lastDirection;
     int health;
+
+    private ArrayList<String> dialogueArray;
+    int dialogueIndex;
 
     /**
      * Constructor for the character class
@@ -24,8 +28,14 @@ public class Character extends Entity {
     public Character(Rectangle rectangle, String name, String description) throws SlickException {
         super(rectangle, name, description);
         animationArray = Tools.createAnimation("character", getName());
+
+        // The movementPath is the path of the character, does not change
         movementPath = Tools.readInstructions("movement", getName());
+        // The movementArray changes when the character moves, resets to movementPath when done
         movementArray = new ArrayList<>(movementPath);
+
+        dialogueArray = Tools.readInstructions("dialogue", getName());
+        dialogueIndex = 0;
         lastDirection = "down";
         health = 100;
     }
@@ -104,7 +114,11 @@ public class Character extends Entity {
      */
     public void takeDamage(int damage) {
         health -= damage;
-        System.out.println(getName() + ": " + health);
+        if (dialogueIndex > dialogueArray.size()-1) {
+            dialogueIndex = 0;
+        }
+        System.out.println(dialogueArray.get(dialogueIndex));
+        dialogueIndex++;
     }
 
     /**
