@@ -138,9 +138,14 @@ public class World {
             if (gameState.getCurrentState().equals("default")
                     && intersectedCharacters.size() > 0) {
                 gameState.toggleDialogue();
-                System.out.println(intersectedCharacters.get(0).getDialogue());
+                intersectedCharacters.get(0).setInDialogue(true);
+                player.setInDialogue(intersectedCharacters.get(0));
             } else if (gameState.getCurrentState().equals("dialogue")) {
                 gameState.toggleDialogue();
+                for (Character character : currentRoom.getCharacters()) {
+                    character.setInDialogue(false);
+                }
+                player.setInDialogue(null);
             }
         }
     }
@@ -246,9 +251,12 @@ public class World {
                 currentRoom.getBlocks().get(0).getX(), currentRoom.getBlocks().get(0).getY());
 
         // Render the entities (characters, items, projectiles) in room
-        currentRoom.renderEntities(graphics);
+        currentRoom.renderEntities(graphics, player, gameState);
 
         // Draw the player animation
+        if (player.getInDialogue() != null) {
+            animation = player.getAnimation(lastDirection);
+        }
         animation.draw(player.getRect().getX()
                         +(player.getRect().getWidth()-animation.getCurrentFrame().getWidth())/2,
                 player.getRect().getY()

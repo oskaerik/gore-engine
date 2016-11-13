@@ -101,9 +101,9 @@ public class Room {
         }
     }
 
-    public void renderEntities(Graphics graphics) {
-        for (Character enemy : characters) {
-            enemy.renderCharacter();
+    public void renderEntities(Graphics graphics, Player player, GameState gameState) {
+        for (Character character : characters) {
+            character.renderCharacter(player, gameState);
         }
         for (Item item : items) {
             graphics.drawImage(item.getItemImage(), item.getRect().getX(), item.getRect().getY());

@@ -2,7 +2,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Vector2f;
 
 import java.util.ArrayList;
 
@@ -22,6 +22,8 @@ public class Player {
     private Inventory inventory;
     private ArrayList<Animation> animationArray;
     private boolean moving;
+
+    private Character inDialogue;
 
     /**
      * Constructor of the player class
@@ -45,6 +47,8 @@ public class Player {
         inventory = new Inventory();
         animationArray = Tools.createAnimation("character", "player");
         moving = false;
+
+        inDialogue = null;
     }
 
     /**
@@ -122,19 +126,33 @@ public class Player {
     }
 
     public Animation getAnimation(String direction) {
-        switch (direction) {
-            case ("up"):
-                return animationArray.get(0);
-            case ("down"):
-                return animationArray.get(1);
-            case ("left"):
-                return animationArray.get(2);
-            case ("right"):
-                return animationArray.get(3);
-            default:
-                return animationArray.get(1);
+        if (inDialogue == null) {
+            switch (direction) {
+                case ("up"):
+                    return animationArray.get(0);
+                case ("down"):
+                    return animationArray.get(1);
+                case ("left"):
+                    return animationArray.get(2);
+                case ("right"):
+                    return animationArray.get(3);
+                default:
+                    return animationArray.get(1);
+            }
+        } else {
+            return faceCharacter();
         }
     }
 
+    private Animation faceCharacter() {
+        return Tools.getFreezeAnimation(animationArray, "down");
+    }
+
     public ArrayList<Animation> getAnimationArray() { return animationArray; }
+
+    public void setInDialogue(Character character) {
+        inDialogue = character;
+    }
+
+    public Character getInDialogue() { return inDialogue; }
 }

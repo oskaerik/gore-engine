@@ -1,4 +1,5 @@
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Game;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -20,6 +21,7 @@ public class Character extends Entity {
 
     private ArrayList<String> dialogueArray;
     int dialogueIndex;
+    boolean inDialogue;
 
     /**
      * Constructor for the character class
@@ -37,6 +39,7 @@ public class Character extends Entity {
 
         dialogueArray = Tools.readInstructions("dialogue", getName());
         dialogueIndex = 0;
+        inDialogue = false;
         lastDirection = "down";
         speed = 0.1f;
         health = 100;
@@ -45,7 +48,7 @@ public class Character extends Entity {
     /**
      * @return Returns the animation according to the direction the character is facing
      */
-    public Animation getAnimation() {
+    public Animation getAnimation(Player player, GameState gameState) {
         if (!isFrozen()) {
             switch (lastDirection) {
                 case "up":
@@ -60,7 +63,11 @@ public class Character extends Entity {
                     return animationArray.get(1);
             }
         } else {
-            return Tools.getFreezeAnimation(animationArray, lastDirection);
+            if (!inDialogue) {
+                return Tools.getFreezeAnimation(animationArray, lastDirection);
+            } else {
+                return Tools.getFreezeAnimation(animationArray, facePlayer(player, gameState));
+            }
         }
     }
 
@@ -107,10 +114,14 @@ public class Character extends Entity {
     /**
      * Renders the character on the screen
      */
-    public void renderCharacter() {
-        getAnimation().draw(getRect().getX()+(getRect().getWidth() -
-                        getAnimation().getCurrentFrame().getWidth())/2, getRect().getY() +
-                (getRect().getHeight()  - getAnimation().getCurrentFrame().getHeight())/2);
+    public void renderCharacter(Player player, GameState gameState) {
+        getAnimation(player, gameState).draw(
+                getRect().getX()
+                        +(getRect().getWidth()
+                        - getAnimation(player, gameState).getCurrentFrame().getWidth())/2,
+                getRect().getY()
+                        + (getRect().getHeight()
+                        - getAnimation(player, gameState).getCurrentFrame().getHeight())/2);
     }
 
     /**
@@ -138,5 +149,16 @@ public class Character extends Entity {
             dialogueIndex = 0;
         }
         return toReturn;
+    }
+
+    /**
+     * @return Returns the way to face so that it resembles facing the player the most
+     */
+    public String facePlayer(Player player, GameState gameState) {
+        return "down";
+    }
+
+    public void setInDialogue(boolean value) {
+        inDialogue = value;
     }
 }
