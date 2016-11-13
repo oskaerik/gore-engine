@@ -6,17 +6,27 @@
 
 public class GameState {
 
-    private boolean inventoryOpen;
+    private String currentMode;
 
-    public GameState() {
-        inventoryOpen = false;
-    }
+    public GameState() { currentMode = "default"; }
 
     public void toggleInventory() {
-        inventoryOpen = !inventoryOpen;
+        if (currentMode.equals("inventory")) {
+            currentMode = "default";
+        }
+        else if (currentMode.equals("default")) {
+            currentMode = "inventory";
+        }
     }
 
-    public boolean isInventoryOpen() {
-        return inventoryOpen;
+    public void toggleDialog() {
+        if (currentMode.equals("default")) {
+            currentMode = "dialog";
+        }
+        else if (currentMode.equals("dialog")) {
+            currentMode = "default";
+        }
     }
+
+    public String getCurrentMode() { return currentMode; }
 }

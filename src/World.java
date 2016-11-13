@@ -61,7 +61,7 @@ public class World {
         animation = player.getStandingPlayer(lastDirection);
 
         // Depending on whether the inventory is open or not, move player or move the inventory marker
-        if (!gameState.isInventoryOpen()) {
+        if (!gameState.getCurrentMode().equals("inventory")) {
             keyMovement(gameContainer, delta);
         } else {
             keyInventory(gameContainer, delta);
@@ -268,7 +268,7 @@ public class World {
         drawItems(graphics);
         currentRoom.highlightItems(player.getRange());
 
-        if (gameState.isInventoryOpen()) {
+        if (gameState.getCurrentMode().equals("inventory")) {
             drawInventory(graphics);
         }
 
