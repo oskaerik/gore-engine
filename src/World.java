@@ -23,6 +23,8 @@ public class World {
 
     private GameState gameState;
 
+    private float fireBallSpeed;
+
     /**
      * Constructor for the World class
      * @throws SlickException Generic exception
@@ -44,6 +46,9 @@ public class World {
         rooms.put("center", new Room("res/maps/center.tmx", "center", 0, 0));
         rooms.put("north", new Room("res/maps/north.tmx", "north", 0, 0));
         currentRoom = rooms.get("center");
+
+        // Set fireball speed
+        fireBallSpeed = 6;
 
     }
 
@@ -241,19 +246,19 @@ public class World {
     public void drawFireBalls(Graphics graphics) {
         for (Fireball fireball : currentRoom.getFireballs()) {
             if (fireball.getDirection().equals("up")) {
-                fireball.getRect().setY(fireball.getRect().getY()-2);
+                fireball.getRect().setY(fireball.getRect().getY()-fireBallSpeed);
                 fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
             }
             if (fireball.getDirection().equals("down")) {
-                fireball.getRect().setY(fireball.getRect().getY()+2);
+                fireball.getRect().setY(fireball.getRect().getY()+fireBallSpeed);
                 fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
             }
             if (fireball.getDirection().equals("right")) {
-                fireball.getRect().setX(fireball.getRect().getX()+2);
+                fireball.getRect().setX(fireball.getRect().getX()+fireBallSpeed);
                 fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
             }
             if (fireball.getDirection().equals("left")) {
-                fireball.getRect().setX(fireball.getRect().getX()-2);
+                fireball.getRect().setX(fireball.getRect().getX()-fireBallSpeed);
                 fireball.getAnimation().draw(fireball.getRect().getX(), fireball.getRect().getY());
             }
         }
@@ -291,12 +296,16 @@ public class World {
         currentRoom.render(currentRoom.getBlocks().get(0).getX(), currentRoom.getBlocks().get(0).getY());
 
         // Draw the player animation (NOT CORRECT WITH 16)
-        animation.draw(player.getRect().getX()-16, player.getRect().getY()-16);
+        animation.draw(player.getRect().getX()+(player.getRect().getWidth()-animation.getCurrentFrame().getWidth())/2,
+                player.getRect().getY()+(player.getRect().getHeight()-animation.getCurrentFrame().getHeight())/2);
 
         // Render the enemy
-        if (currentRoom.getCharacters().size() > 0) {
-            Character enemy = currentRoom.getCharacters().get(0);
-            enemy.getAnimation().draw(enemy.getRect().getX() - 16, enemy.getRect().getY() - 16);
+        for (Character enemy : currentRoom.getCharacters()) {
+            enemy.getAnimation().draw(
+                    enemy.getRect().getX()+(enemy.getRect().getWidth()
+                            -enemy.getAnimation().getCurrentFrame().getWidth())/2,
+                    enemy.getRect().getY()+(enemy.getRect().getHeight()
+                            -enemy.getAnimation().getCurrentFrame().getHeight())/2);
         }
 
         //Render fireballs, items, and such
