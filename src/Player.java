@@ -102,6 +102,16 @@ public class Player {
         return intersectedItems;
     }
 
+    public ArrayList<Character> getIntersectedCharacters(ArrayList<Character> characters) {
+        ArrayList<Character> intersectedCharacters = new ArrayList<>();
+        for (Character character : characters) {
+            if (range.intersects(character.getRect())) {
+                intersectedCharacters.add(character);
+            }
+        }
+        return intersectedCharacters;
+    }
+
     public Exit getIntersectedExit(ArrayList<Exit> exits) {
         for (Exit exit : exits) {
             if (getRect().intersects(exit.getRect())) {

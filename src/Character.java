@@ -125,4 +125,10 @@ public class Character extends Entity {
      * @return Current health of the character
      */
     public int getHealth() { return health; }
+
+    public String getDialogue() {
+        String toReturn = dialogueArray.get(dialogueIndex);
+        dialogueIndex++;
+        return toReturn;
+    }
 }

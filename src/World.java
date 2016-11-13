@@ -3,7 +3,6 @@ import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * The camera class handles the moving of objects
@@ -50,9 +49,9 @@ public class World {
         animation = player.getStandingPlayer(lastDirection);
 
         // Depending on whether the inventory is open or not, move player or move the inventory marker
-        if (!gameState.getCurrentMode().equals("inventory")) {
+        if (gameState.getCurrentState().equals("default")) {
             keyMovement(gameContainer, delta);
-        } else {
+        } else if (gameState.getCurrentState().equals("inventory")) {
             keyInventory(gameContainer, delta);
         }
 
@@ -129,6 +128,17 @@ public class World {
                 }
             }
         }
+
+        // Engage in dialogue
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_D)) {
+            ArrayList<Character> intersectedCharacters =
+                    player.getIntersectedCharacters(currentRoom.getCharacters());
+            if (!gameState.getCurrentState().equals("inventory")
+                    && intersectedCharacters.size() > 0) {
+                gameState.toggleDialog();
+                System.out.println(intersectedCharacters.get(0).getDialogue());
+                }
+            }
     }
 
 
@@ -225,7 +235,7 @@ public class World {
         currentRoom.highlightItems(player.getRange());
 
         // Draw inventory depending of if inventory is open
-        if (gameState.getCurrentMode().equals("inventory")) {
+        if (gameState.getCurrentState().equals("inventory")) {
             player.getInventory().drawInventory(graphics);
         }
     }

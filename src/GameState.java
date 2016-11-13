@@ -28,5 +28,5 @@ public class GameState {
         }
     }
 
-    public String getCurrentMode() { return currentMode; }
+    public String getCurrentState() { return currentMode; }
 }
