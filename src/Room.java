@@ -1,3 +1,5 @@
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
@@ -100,9 +102,24 @@ public class Room {
         }
     }
 
-    public void renderEntitys() {
+    public void renderEntitys(Graphics graphics) {
         for (Character enemy : characters) {
             enemy.renderCharacter();
+        }
+        for (Item item : items) {
+            graphics.drawImage(item.getItemImage(), item.getRect().getX(), item.getRect().getY());
+        }
+        for (Projectile projectile : projectiles) {
+            Character hitCharacter = projectile.moveProjectile(getBlocks(), getCharacters());
+            if (hitCharacter != null) {
+                hitCharacter.takeDamage(projectile.getDamage());
+                checkIfAlive();
+            }
+        }
+        if (characters.size() > 0) {
+            for (Character character : characters) {
+                character.updateLocation();
+            }
         }
     }
 

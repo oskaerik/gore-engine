@@ -14,9 +14,6 @@ public class World {
     private Player player;
     private Animation animation;
     private String lastDirection;
-    private Rectangle inventoryOutline;
-    private Rectangle inventoryItemOutline;
-    private int inventorySelectedItemNumber;
 
     private Room currentRoom;
     private HashMap<String, Room> rooms;
@@ -34,8 +31,6 @@ public class World {
         player = new Player(16, 16, 0.2, 32);
         animation = player.getStandingPlayer("down");
         lastDirection = "down";
-        inventoryOutline = new Rectangle(Core.WIDTH/2 + 100, Core.HEIGHT/2 - 200, 100, 160);
-        inventoryItemOutline = new Rectangle(Core.WIDTH/2 + 100, Core.HEIGHT/2 - 200, 16, 16);
 
 
         // Create GameState
@@ -87,25 +82,30 @@ public class World {
     }
 
     private void keyInventory(GameContainer gameContainer, int delta) {
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_UP) && inventorySelectedItemNumber > 0) {
-            inventorySelectedItemNumber--;
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_UP) &&
+                player.getInventory().getInventorySelectedItemNumber() > 0) {
+            player.getInventory().decreaseInventorySelectedItemNumber();
         }
         if (gameContainer.getInput().isKeyPressed(Input.KEY_DOWN)) {
-            if (inventorySelectedItemNumber < player.getInventory().getNumberOfItems()-1) {
-                inventorySelectedItemNumber++;
+            if (player.getInventory().getInventorySelectedItemNumber() < player.getInventory().getNumberOfItems()-1) {
+                player.getInventory().increaseInventorySelectedItemNumber();
             }
         }
         // Drops items from inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_A)) {
-            Item drop = player.removeFromInventory(inventorySelectedItemNumber);
+            Item drop = player.removeFromInventory(player.getInventory().getInventorySelectedItemNumber());
             if (drop != null) {
                 drop.getRect().setX(player.getRect().getX());
                 drop.getRect().setY(player.getRect().getY());
                 currentRoom.addItem(drop);
             }
-            // If the inventory contains no items, the marker should stay on the starting position
-            if (inventorySelectedItemNumber > 0) {
-                inventorySelectedItemNumber--;
+            // If the inventory contains items, the marker should change position
+            if (player.getInventory().getInventorySelectedItemNumber() == 0) {
+                player.getInventory().resetInventorySelectedItemNumber();
+            }
+            //If the inventory contains no items, marker should stay on first position
+            if (player.getInventory().getInventorySelectedItemNumber() > 0) {
+                player.getInventory().decreaseInventorySelectedItemNumber();
             }
         }
     }
@@ -122,10 +122,7 @@ public class World {
 
         // Opens/closes inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_I)) {
-            // Resets the inventory marker
-            inventoryItemOutline.setY(Core.HEIGHT/2 - 200);
-            inventoryItemOutline.setX(Core.WIDTH/2 + 100);
-            inventorySelectedItemNumber = 0;
+            player.getInventory().resetInventorySelectedItemNumber();
 
             gameState.toggleInventory();
         }
@@ -205,34 +202,6 @@ public class World {
     }
 
     /**
-     * Draws the inventory outline and the objects in the inventory on the screen
-     * @param graphics Graphics component used to draw
-     */
-    public void drawInventory(Graphics graphics) {
-        graphics.draw(inventoryOutline);
-        graphics.draw(inventoryItemOutline);
-        inventoryItemOutline.setY(Core.HEIGHT/2-200 + inventorySelectedItemNumber*16);
-        for (int i = 0; i < player.getInventory().getItems().size(); i ++) {
-            Item itemDisplayed = player.getInventory().getItems().get(i);
-            graphics.drawImage(itemDisplayed.getItemImage(), Core
-                    .WIDTH/2 + 100, Core.HEIGHT/2 - 200 + 16*i);
-            itemDisplayed.getFont().drawString(Core.WIDTH/2 + 100 + 16, Core
-                    .HEIGHT/2 - 200 + 16*i, itemDisplayed.getName(), Color
-                    .blue);
-        }
-    }
-
-    /**
-     * Draws the items on screen
-     * @param graphics Graphics component used to draw
-     */
-    public void drawItems(Graphics graphics) {
-        for (Item item : currentRoom.getItems()) {
-            graphics.drawImage(item.getItemImage(), item.getRect().getX(), item.getRect().getY());
-        }
-    }
-
-    /**
      * Checks for events, such as key presses and intersected exits
      * @param gameContainer
      * @param delta
@@ -251,40 +220,22 @@ public class World {
         // Draw the world
         currentRoom.render(currentRoom.getBlocks().get(0).getX(), currentRoom.getBlocks().get(0).getY());
 
-        // Draw the player animation (NOT CORRECT WITH 16)
+        // Draw the player animation
         animation.draw(player.getRect().getX()+(player.getRect().getWidth()-animation.getCurrentFrame().getWidth())/2,
                 player.getRect().getY()+(player.getRect().getHeight()-animation.getCurrentFrame().getHeight())/2);
 
-        // Render the enemy
-        currentRoom.renderEntitys();
+        // Render the entitys (characters, items, projectiles) in room
+        currentRoom.renderEntitys(graphics);
 
-        //Render items
-        drawItems(graphics);
+        // Highlight items in player range
         currentRoom.highlightItems(player.getRange());
 
         if (gameState.getCurrentMode().equals("inventory")) {
-            drawInventory(graphics);
-        }
-
-        // Update fireballs
-        for (Projectile projectile : currentRoom.getProjectiles()) {
-            Character hitCharacter = projectile.moveProjectile(currentRoom.getBlocks(), currentRoom.getCharacters());
-            if (hitCharacter != null) {
-                hitCharacter.takeDamage(projectile.getDamage());
-                currentRoom.checkIfAlive();
-            }
+            player.getInventory().drawInventory(graphics);
         }
     }
 
     public Room getCurrentRoom() { return currentRoom; }
-    public Player getPlayer() { return player; }
 
-    public void updateCharacters(GameContainer gameContainer, int delta) {
-        ArrayList<Character> characters = currentRoom.getCharacters();
-        if (characters.size() > 0) {
-            for (Character character : characters) {
-                character.updateLocation();
-            }
-        }
-    }
+    public Player getPlayer() { return player; }
 }
