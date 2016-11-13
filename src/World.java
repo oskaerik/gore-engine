@@ -161,19 +161,19 @@ public class World {
         switch (direction) {
             case "up":
                 yMovement = player.getSpeed() * delta;
-                animation = player.getUpAnimation();
+                animation = player.getAnimation("up");
                 break;
             case "down":
                 yMovement = -player.getSpeed() * delta;
-                animation = player.getDownAnimation();
+                animation = player.getAnimation("down");
                 break;
             case "left":
                 xMovement = player.getSpeed() * delta;
-                animation = player.getLeftAnimation();
+                animation = player.getAnimation("left");
                 break;
             case "right":
                 xMovement = -player.getSpeed() * delta;
-                animation = player.getRightAnimation();
+                animation = player.getAnimation("right");
                 break;
             default:
                 break;
@@ -322,6 +322,7 @@ public class World {
     }
 
     public Room getCurrentRoom() { return currentRoom; }
+    public Player getPlayer() { return player; }
 
     public void updateCharacters(GameContainer gameContainer, int delta) {
         ArrayList<Character> characters = currentRoom.getCharacters();

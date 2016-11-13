@@ -22,16 +22,23 @@ public class Player {
 
     /**
      * Constructor of the player class
-     * @param width width of the player
+     *
+     * @param width  width of the player
      * @param height height of the player
-     * @param speed speed of the player (pixels/frame)
+     * @param speed  speed of the player (pixels/frame)
      */
     public Player(double width, double height, double speed, double radius) throws SlickException {
         this.width = width;
         this.height = height;
         this.speed = speed;
-        rect = new Rectangle(Core.WIDTH/2, Core.HEIGHT/2, (int) this.width, (int) this.height);
-        range = new Circle(Core.WIDTH/2, Core.HEIGHT/2, (float)radius);
+
+        // Creates the player rectangle and places it in the middle of the screen
+        rect = new Rectangle((Core.WIDTH - (float) this.width) / 2, (Core.HEIGHT - (float) this.height) / 2,
+                (int) this.width, (int) this.height);
+
+        // Creates the range circle and places it in the middle of the screen
+        range = new Circle((Core.WIDTH - (float) this.width) / 2, (Core.HEIGHT - (float) this.height) / 2, (float) radius);
+
         inventory = new Inventory();
         animationArray = Character.createAnimation("player");
     }
@@ -39,13 +46,20 @@ public class Player {
     /**
      * @return The entity rectangle
      */
-    public Rectangle getRect() { return rect; }
+    public Rectangle getRect() {
+        return rect;
+    }
 
     /**
      * @return Speed of the player
      */
-    public double getSpeed() { return speed; }
+    public double getSpeed() {
+        return speed;
+    }
 
+    /**
+     * @return The player's inventory
+     */
     public Inventory getInventory() {
         return inventory;
     }
@@ -98,11 +112,18 @@ public class Player {
         return standingAnimation;
     }
 
-    public Animation getUpAnimation() { return animationArray.get(0); }
-
-    public Animation getDownAnimation() { return animationArray.get(1); }
-
-    public Animation getLeftAnimation() { return animationArray.get(2); }
-
-    public Animation getRightAnimation() { return animationArray.get(3); }
+    public Animation getAnimation(String direction) {
+        switch (direction) {
+            case ("up"):
+                return animationArray.get(0);
+            case ("down"):
+                return animationArray.get(1);
+            case ("left"):
+                return animationArray.get(2);
+            case ("right"):
+                return animationArray.get(3);
+            default:
+                return animationArray.get(1);
+        }
+    }
 }
