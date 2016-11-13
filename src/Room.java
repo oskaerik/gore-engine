@@ -1,4 +1,5 @@
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -159,5 +160,21 @@ public class Room {
 
     public void addItem(Item item) {
         items.add(item);
+    }
+
+    public void checkIfAlive() {
+        Iterator<Character> it = characters.iterator();
+        while (it.hasNext()) {
+            Character character = it.next();
+            if (character.getHealth() <= 0) {
+                it.remove();
+            }
+        }
+    }
+
+    public void highlightItems(Circle playerRange) {
+        for (Item item : items) {
+            item.hightlight(playerRange);
+        }
     }
 }

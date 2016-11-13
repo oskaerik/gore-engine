@@ -17,6 +17,7 @@ public class Character extends Entity {
     private ArrayList<Animation> animationArray;
     private ArrayList<String> movementArray;
     String lastDirection;
+    int health;
 
     /**
      * Constructor for the character class
@@ -28,6 +29,7 @@ public class Character extends Entity {
         animationArray = Tools.createAnimation("character", getName());
         movementArray = generateMovement();
         lastDirection = "down";
+        health = 100;
     }
 
     /**
@@ -99,4 +101,11 @@ public class Character extends Entity {
         // Didn't find any more movement to do, reset movement
         movementArray = generateMovement();
     }
+
+    public void takeDamage(int damage) {
+        health -= damage;
+        System.out.println(getName() + ": " + health);
+    }
+
+    public int getHealth() { return health; }
 }

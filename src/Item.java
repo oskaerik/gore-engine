@@ -1,6 +1,8 @@
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.Image;
+import org.w3c.dom.css.Rect;
 
 import java.awt.Font;
 
@@ -29,15 +31,16 @@ public class Item extends Entity {
     }
 
     /**
-     * @return The item text object
-     */
-    // Refactor to getFont() in World!
-    public TrueTypeFont getItemFont() {
-        return getFont();
-    }
-
-    /**
      * @return The item image/sprite
      */
     public Image getItemImage() { return image; }
+
+    /**
+     * Draws highlighting on items that intersects with player's range
+     */
+    public void hightlight(Circle playerRange) {
+        if (getRect().intersects(playerRange)) {
+            getFont().drawString(getRect().getX(), getRect().getY(), getName(), Color.blue);
+        }
+    }
 }

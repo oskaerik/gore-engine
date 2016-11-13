@@ -48,10 +48,17 @@ public class Player {
     }
 
     /**
-     * @return The entity rectangle
+     * @return The player rectangle
      */
     public Rectangle getRect() {
         return rect;
+    }
+
+    /**
+     * @return The player rectangle
+     */
+    public Circle getRange() {
+        return range;
     }
 
     /**

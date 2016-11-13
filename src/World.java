@@ -216,7 +216,7 @@ public class World {
             Item itemDisplayed = player.getInventory().getItems().get(i);
             graphics.drawImage(itemDisplayed.getItemImage(), Core
                     .WIDTH/2 + 100, Core.HEIGHT/2 - 200 + 16*i);
-            itemDisplayed.getItemFont().drawString(Core.WIDTH/2 + 100 + 16, Core
+            itemDisplayed.getFont().drawString(Core.WIDTH/2 + 100 + 16, Core
                     .HEIGHT/2 - 200 + 16*i, itemDisplayed.getName(), Color
                     .blue);
         }
@@ -229,17 +229,6 @@ public class World {
     public void drawItems(Graphics graphics) {
         for (Item item : currentRoom.getItems()) {
             graphics.drawImage(item.getItemImage(), item.getRect().getX(), item.getRect().getY());
-        }
-    }
-
-    /**
-     * Draws highlighting on items that intersects with player's range
-     */
-    public void drawItemHighlighting() {
-        for (Item item : player.getIntersectedItems(currentRoom.getItems())) {
-            item.getItemFont().drawString(
-                    item.getRect().getX(), item.getRect().getY(), item.getName(), Color.blue
-            );
         }
     }
 
@@ -277,14 +266,19 @@ public class World {
 
         //Render items
         drawItems(graphics);
-        drawItemHighlighting();
+        currentRoom.highlightItems(player.getRange());
+
         if (gameState.isInventoryOpen()) {
             drawInventory(graphics);
         }
 
         // Update fireballs
         for (Projectile projectile : currentRoom.getProjectiles()) {
-            projectile.moveProjectile(currentRoom.getBlocks());
+            Character hitCharacter = projectile.moveProjectile(currentRoom.getBlocks(), currentRoom.getCharacters());
+            if (hitCharacter != null) {
+                hitCharacter.takeDamage(projectile.getDamage());
+                currentRoom.checkIfAlive();
+            }
         }
     }
 

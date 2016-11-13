@@ -15,6 +15,7 @@ public class Projectile extends Entity {
     private boolean shot;
     private String direction;
     private float speed;
+    private int damage;
 
     /**
      * Constructor of the entity class
@@ -28,6 +29,7 @@ public class Projectile extends Entity {
         shot = false;
         direction = null;
         speed = 6;
+        damage = 10;
     }
 
     public String getDirection() {
@@ -57,16 +59,23 @@ public class Projectile extends Entity {
 
     public boolean isShot() { return shot; }
 
-    private void checkIntersection(ArrayList<Rectangle> blocks) {
+    private Character checkIntersection(ArrayList<Rectangle> blocks, ArrayList<Character> characters) {
         for (Rectangle rectangle : blocks) {
             if (getRect().intersects(rectangle)) {
                 shot = false;
+                return null;
             }
         }
+        for (Character character : characters) {
+            if (getRect().intersects(character.getRect())) {
+                shot = false;
+                return character;
+            }
+        }
+        return null;
     }
 
-    public void moveProjectile(ArrayList<Rectangle> blocks) {
-        checkIntersection(blocks);
+    public Character moveProjectile(ArrayList<Rectangle> blocks, ArrayList<Character> characters) {
         if (shot) {
             switch (direction) {
                 case "up":
@@ -85,6 +94,10 @@ public class Projectile extends Entity {
                     break;
             }
             getAnimation().draw(getRect().getX(), getRect().getY());
+            return checkIntersection(blocks, characters);
         }
+        return null;
     }
+
+    public int getDamage() { return damage; }
 }
