@@ -23,37 +23,9 @@ public class Fireball extends Entity {
      */
     public Fireball(Rectangle rectangle, String name, String description) throws SlickException {
         super(rectangle, name, description);
-        animation = createAnimation();
+        animation = Tools.createAnimation("projectile", "fireball").get(0);
         intersects = false;
         direction = null;
-    }
-
-    public Animation createAnimation() throws SlickException {
-        Image fireball1 = new Image("res/fireball/fireball-1.png");
-        Image fireball2 = new Image("res/fireball/fireball-2.png");
-        Image fireball3 = new Image("res/fireball/fireball-3.png");
-        Image fireball4 = new Image("res/fireball/fireball-4.png");
-        Image fireball5 = new Image("res/fireball/fireball-5.png");
-        Image fireball6 = new Image("res/fireball/fireball-6.png");
-        Image fireball7 = new Image("res/fireball/fireball-7.png");
-        Image fireball8 = new Image("res/fireball/fireball-8.png");
-        Image fireball9 = new Image("res/fireball/fireball-9.png");
-        Image fireball10 = new Image("res/fireball/fireball-10.png");
-
-        Animation returnAnimation = new Animation();
-
-        returnAnimation.addFrame(fireball1, 100);
-        returnAnimation.addFrame(fireball2, 100);
-        returnAnimation.addFrame(fireball3, 100);
-        returnAnimation.addFrame(fireball4, 100);
-        returnAnimation.addFrame(fireball5, 100);
-        returnAnimation.addFrame(fireball6, 100);
-        returnAnimation.addFrame(fireball7, 100);
-        returnAnimation.addFrame(fireball8, 100);
-        returnAnimation.addFrame(fireball9, 100);
-        returnAnimation.addFrame(fireball10, 100);
-
-        return returnAnimation;
     }
 
     public void setDirection(String direction) {

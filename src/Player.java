@@ -40,7 +40,7 @@ public class Player {
         range = new Circle((Core.WIDTH - (float) this.width) / 2, (Core.HEIGHT - (float) this.height) / 2, (float) radius);
 
         inventory = new Inventory();
-        animationArray = Character.createAnimation("player");
+        animationArray = Tools.createAnimation("character", "player");
     }
 
     /**

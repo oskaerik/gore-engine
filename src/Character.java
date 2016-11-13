@@ -1,5 +1,4 @@
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -26,7 +25,7 @@ public class Character extends Entity {
      */
     public Character(Rectangle rectangle, String name, String description) throws SlickException {
         super(rectangle, name, description);
-        animationArray = createAnimation(getName());
+        animationArray = Tools.createAnimation("character", getName());
         movementArray = generateMovement();
         lastDirection = "down";
     }
@@ -36,7 +35,8 @@ public class Character extends Entity {
      * The character has a movement.txt-file in the res/characters/[characterName]-folder
      * The movement.txt-file is built like this, starting from line 0
      * Line number: Property [description, not in the actual file]
-     * 0: 2D 3L 3R 2U [Movement, 2D is two steps down]
+     * 0: 2D [2 steps DOWN]
+     * 1: 3L [3 steps LEFT]
      * @return Returns an ArrayList with the movement pattern
      */
     private ArrayList<String> generateMovement() {
@@ -65,26 +65,6 @@ public class Character extends Entity {
         }
     }
 
-    /**
-     * Generates an animation for a character, is static because it's used by Player
-     * @param characterName
-     * @return An ArrayList of Animation objects with the indexes 0: "up", 1: "down", 2: "left", 3: "right"
-     * @throws SlickException
-     */
-    public static ArrayList<Animation> createAnimation(String characterName) throws SlickException {
-        ArrayList<Animation> animationArray = new ArrayList<>();
-        String[] directions = {"up", "down", "left", "right"};
-        for (String direction : directions) {
-            Animation directionAnimation = new Animation();
-            for (int i = 1; i < 5; i++) {
-                String pathToFrame = "res/characters/" + characterName + "/" + direction + "-" + i + ".png";
-                directionAnimation.addFrame(new Image(pathToFrame), 100);
-            }
-            animationArray.add(directionAnimation);
-        }
-        return animationArray;
-    }
-
     public void updateLocation() {
         for (int i = 0; i < movementArray.size(); i++) {
             String[] pixelsAndDirection = movementArray.get(i).split(" ");
@@ -111,7 +91,7 @@ public class Character extends Entity {
                         break;
                 }
 
-                pixels -= 1;
+                pixels--;
                 movementArray.set(i, Integer.toString(pixels) + " " + pixelsAndDirection[1]);
                 return;
             }
