@@ -2,11 +2,7 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 /**
  * The class for NPC characters
@@ -15,6 +11,7 @@ import java.util.stream.Stream;
  */
 public class Character extends Entity {
     private ArrayList<Animation> animationArray;
+    private ArrayList<String> movementPath;
     private ArrayList<String> movementArray;
     String lastDirection;
     int health;
@@ -27,7 +24,8 @@ public class Character extends Entity {
     public Character(Rectangle rectangle, String name, String description) throws SlickException {
         super(rectangle, name, description);
         animationArray = Tools.createAnimation("character", getName());
-        movementArray = Tools.generateMovement(getName());
+        movementPath = Tools.readInstructions("movement", getName());
+        movementArray = new ArrayList<>(movementPath);
         lastDirection = "down";
         health = 100;
     }
@@ -49,38 +47,40 @@ public class Character extends Entity {
     }
 
     public void updateLocation() {
-        for (int i = 0; i < movementArray.size(); i++) {
-            String[] pixelsAndDirection = movementArray.get(i).split(" ");
-            int pixels = Integer.parseInt(pixelsAndDirection[0]);
-            if (pixels > 0) {
-                switch (pixelsAndDirection[1]) {
-                    case "D":
-                        getRect().setY(getRect().getY()+1);
-                        lastDirection = "down";
-                        break;
-                    case "U":
-                        getRect().setY(getRect().getY()-1);
-                        lastDirection = "up";
-                        break;
-                    case "L":
-                        getRect().setX(getRect().getX()-1);
-                        lastDirection = "left";
-                        break;
-                    case "R":
-                        getRect().setX(getRect().getX()+1);
-                        lastDirection = "right";
-                        break;
-                    default:
-                        break;
-                }
+        if (movementArray != null) {
+            for (int i = 0; i < movementArray.size(); i++) {
+                String[] pixelsAndDirection = movementArray.get(i).split(" ");
+                int pixels = Integer.parseInt(pixelsAndDirection[0]);
+                if (pixels > 0) {
+                    switch (pixelsAndDirection[1]) {
+                        case "D":
+                            getRect().setY(getRect().getY() + 1);
+                            lastDirection = "down";
+                            break;
+                        case "U":
+                            getRect().setY(getRect().getY() - 1);
+                            lastDirection = "up";
+                            break;
+                        case "L":
+                            getRect().setX(getRect().getX() - 1);
+                            lastDirection = "left";
+                            break;
+                        case "R":
+                            getRect().setX(getRect().getX() + 1);
+                            lastDirection = "right";
+                            break;
+                        default:
+                            break;
+                    }
 
-                pixels--;
-                movementArray.set(i, Integer.toString(pixels) + " " + pixelsAndDirection[1]);
-                return;
+                    pixels--;
+                    movementArray.set(i, Integer.toString(pixels) + " " + pixelsAndDirection[1]);
+                    return;
+                }
             }
+            // Didn't find any more movement to do, reset movement
+            movementArray = new ArrayList<>(movementPath);
         }
-        // Didn't find any more movement to do, reset movement
-        movementArray = Tools.generateMovement(getName());
     }
 
     public void renderCharacter() {

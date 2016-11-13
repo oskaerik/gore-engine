@@ -70,27 +70,31 @@ public class Tools {
      * Line number: Property [description, not in the actual file]
      * 0: 2D [2 steps DOWN]
      * 1: 3L [3 steps LEFT]
-     * @return Returns an ArrayList with the movement pattern
+     * @return Returns an ArrayList with the movement pattern (or null if fail)
      */
-    public static ArrayList<String> generateMovement(String name) {
+    public static ArrayList<String> readInstructions(String type, String name) {
         try {
+            // Read the file according to character name
             BufferedReader br = new BufferedReader(
-                    new FileReader("res/characters/" + name + "/movement.txt"));
+                    new FileReader("res/characters/" + name + "/" + type + ".txt"));
+
+            // Read line and add to ArrayList
+            ArrayList<String> returnArray = new ArrayList<>();
             String line = br.readLine();
             while (line != null) {
-
+                returnArray.add(line);
+                line = br.readLine();
             }
-        } catch (FileNotFoundException fileEx) {
+            for (String arrayLine : returnArray) {
+                System.out.println("Line: " + arrayLine);
+            }
+            return returnArray;
+
+            // If there's no file to be found or there was an error reading the file, return null
+        } catch (FileNotFoundException FileNotFoundEx) {
             return null;
-        } catch (IOException IO)
-        /**
-        try (Stream<String> stream = Files.lines(
-                Paths.get("res/characters/" + name + "/movement.txt"))) {
-            stream.forEach(returnArray::add);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException IOEx) {
+            return null;
         }
-         */
-        return returnArray;
     }
 }
