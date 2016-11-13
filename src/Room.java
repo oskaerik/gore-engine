@@ -100,6 +100,12 @@ public class Room {
         }
     }
 
+    public void renderEntitys() {
+        for (Character enemy : characters) {
+            enemy.renderCharacter();
+        }
+    }
+
     private void generateWorldObjects() throws SlickException {
         // Loop through all tiles in the map file
         for (int i = 0; i < map.getWidth(); i++) {

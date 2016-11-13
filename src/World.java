@@ -256,13 +256,7 @@ public class World {
                 player.getRect().getY()+(player.getRect().getHeight()-animation.getCurrentFrame().getHeight())/2);
 
         // Render the enemy
-        for (Character enemy : currentRoom.getCharacters()) {
-            enemy.getAnimation().draw(
-                    enemy.getRect().getX()+(enemy.getRect().getWidth()
-                            -enemy.getAnimation().getCurrentFrame().getWidth())/2,
-                    enemy.getRect().getY()+(enemy.getRect().getHeight()
-                            -enemy.getAnimation().getCurrentFrame().getHeight())/2);
-        }
+        currentRoom.renderEntitys();
 
         //Render items
         drawItems(graphics);
