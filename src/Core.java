@@ -11,9 +11,11 @@ import java.util.logging.Logger;
  * @version 0.1
  */
 public class Core extends BasicGame {
-    // Width and height of the game window
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 600;
+    // Width and height of the game window, reads from settings file
+    public static final int WIDTH =
+            Integer.parseInt(Tools.readSettings("res/settings.txt", "WIDTH"));
+    public static final int HEIGHT =
+            Integer.parseInt(Tools.readSettings("res/settings.txt", "HEIGHT"));
 
     // World object that holds object classes and updates the graphics
     private World world;
