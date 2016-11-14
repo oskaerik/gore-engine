@@ -37,11 +37,12 @@ public class Character extends Entity {
         animationArray = Tools.createAnimation("character", getName());
 
         // The movementPath is the path of the character, does not change
-        movementPath = Tools.readFileToArray("movement", getName());
+        movementPath = Tools.readFileToArray("res/characters/" + getName() + "/movement.txt");
         // The movementArray changes when the character moves, resets to movementPath when done
         movementArray = new ArrayList<>(movementPath);
 
-        dialogueMap = generateDialogueFromArray(Tools.readFileToArray("dialogue", getName()));
+        dialogueMap = generateDialogueFromArray(
+                Tools.readFileToArray("res/characters/" + getName() + "/dialogue.txt"));
         currentDialogueArray = dialogueMap.get("null");
         dialogueIndex = 0;
         inDialogue = false;

@@ -76,11 +76,11 @@ public class Tools {
      * 1: 3L [3 steps LEFT]
      * @return Returns an ArrayList with the movement pattern (or null if fail)
      */
-    public static ArrayList<String> readFileToArray(String type, String name) {
+    public static ArrayList<String> readFileToArray(String filePath) {
         try {
             // Read the file according to character name
             BufferedReader br = new BufferedReader(
-                    new FileReader("res/characters/" + name + "/" + type + ".txt"));
+                    new FileReader(filePath));
 
             // Read line and add to ArrayList
             ArrayList<String> returnArray = new ArrayList<>();
@@ -142,5 +142,17 @@ public class Tools {
             returnArray.add("up");
         }
         return returnArray;
+    }
+
+    public static String readSettings(String filePath, String key) {
+        ArrayList<String> settingsArray = readFileToArray(filePath);
+        // Loop through the setting and look for the required key
+        for (String line : settingsArray) {
+            String[] splitLine = line.split("=");
+            if (splitLine[0].equals(key)) {
+                return splitLine[1];
+            }
+        }
+        return "";
     }
 }
