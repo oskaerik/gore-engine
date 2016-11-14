@@ -140,7 +140,6 @@ public class World {
                 gameState.toggleDialogue();
                 Character inDialogueWith = intersectedCharacters.get(0);
                 inDialogueWith.setInDialogue(true);
-                System.out.println(inDialogueWith.getDialogue());
                 player.setInDialogue(inDialogueWith);
             } else if (gameState.getCurrentState().equals("dialogue")) {
                 gameState.toggleDialogue();

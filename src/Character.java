@@ -1,5 +1,5 @@
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Game;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -122,6 +122,9 @@ public class Character extends Entity {
                 getRect().getY()
                         + (getRect().getHeight()
                         - getAnimation(player, gameState).getCurrentFrame().getHeight())/2);
+        if (inDialogue) {
+            displayDialogue();
+        }
     }
 
     /**
@@ -130,11 +133,6 @@ public class Character extends Entity {
      */
     public void takeDamage(int damage) {
         health -= damage;
-        if (dialogueIndex > dialogueArray.size()-1) {
-            dialogueIndex = 0;
-        }
-        System.out.println(dialogueArray.get(dialogueIndex));
-        dialogueIndex++;
     }
 
     /**
@@ -142,13 +140,15 @@ public class Character extends Entity {
      */
     public int getHealth() { return health; }
 
-    public String getDialogue() {
-        String toReturn = dialogueArray.get(dialogueIndex);
-        dialogueIndex++;
-        if (dialogueIndex >= dialogueArray.size()) {
-            dialogueIndex = 0;
-        }
-        return toReturn;
+    public void displayDialogue() {
+        // Can do something something getFont.getwidth to center
+        getFont().drawString(getRect().getX()
+                        +(getRect().getWidth()
+                        -Tools.getFreezeAnimation(animationArray, lastDirection).getWidth())/2,
+                getRect().getY()
+                        +(getRect().getHeight()
+                        -Tools.getFreezeAnimation(animationArray, lastDirection).getHeight())/2,
+                dialogueArray.get(dialogueIndex), Color.white);
     }
 
     /**
@@ -160,5 +160,9 @@ public class Character extends Entity {
 
     public void setInDialogue(boolean value) {
         inDialogue = value;
+        dialogueIndex++;
+        if (dialogueIndex >= dialogueArray.size()) {
+            dialogueIndex = 0;
+        }
     }
 }
