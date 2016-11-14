@@ -1,5 +1,6 @@
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -114,7 +115,7 @@ public class Character extends Entity {
     /**
      * Renders the character on the screen
      */
-    public void renderCharacter(Player player, GameState gameState) {
+    public void renderCharacter(Player player, GameState gameState, Graphics graphics) {
         getAnimation(player, gameState).draw(
                 getRect().getX()
                         +(getRect().getWidth()
@@ -123,7 +124,7 @@ public class Character extends Entity {
                         + (getRect().getHeight()
                         - getAnimation(player, gameState).getCurrentFrame().getHeight())/2);
         if (inDialogue) {
-            displayDialogue();
+            displayDialogue(graphics);
         }
     }
 
@@ -140,14 +141,16 @@ public class Character extends Entity {
      */
     public int getHealth() { return health; }
 
-    public void displayDialogue() {
+    public void displayDialogue(Graphics graphics) {
+        // Create dialogue rectangle
+        Rectangle dialogueRectangle = new Rectangle(getRect().getCenterX()
+                - getFont().getWidth(dialogueArray.get(dialogueIndex))/2,
+                getRect().getY() - getFont().getHeight(dialogueArray.get(dialogueIndex)) - 10,
+                getFont().getWidth(dialogueArray.get(dialogueIndex)), getFont().getHeight());
+        graphics.setColor(Color.black);
+        graphics.fill(dialogueRectangle);
         // Can do something something getFont.getwidth to center
-        getFont().drawString(getRect().getX()
-                        +(getRect().getWidth()
-                        -Tools.getFreezeAnimation(animationArray, lastDirection).getWidth())/2,
-                getRect().getY()
-                        +(getRect().getHeight()
-                        -Tools.getFreezeAnimation(animationArray, lastDirection).getHeight())/2,
+        getFont().drawString(dialogueRectangle.getX(), dialogueRectangle.getY(),
                 dialogueArray.get(dialogueIndex), Color.white);
     }
 

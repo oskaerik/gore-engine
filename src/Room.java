@@ -103,7 +103,7 @@ public class Room {
 
     public void renderEntities(Graphics graphics, Player player, GameState gameState) {
         for (Character character : characters) {
-            character.renderCharacter(player, gameState);
+            character.renderCharacter(player, gameState, graphics);
         }
         for (Item item : items) {
             graphics.drawImage(item.getItemImage(), item.getRect().getX(), item.getRect().getY());
