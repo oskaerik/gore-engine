@@ -16,6 +16,9 @@ public class Core extends BasicGame {
             Integer.parseInt(Tools.readSettings("res/settings.txt", "WIDTH"));
     public static final int HEIGHT =
             Integer.parseInt(Tools.readSettings("res/settings.txt", "HEIGHT"));
+    public static final int FPS_LIMIT =
+            Integer.parseInt(Tools.readSettings("res/settings.txt", "FPS_LIMIT"));
+
 
     // World object that holds object classes and updates the graphics
     private World world;
@@ -32,7 +35,7 @@ public class Core extends BasicGame {
         try {
             AppGameContainer appgc = new AppGameContainer(new Core("slick-game"));
             appgc.setDisplayMode(WIDTH, HEIGHT, false);
-            appgc.setTargetFrameRate(145);
+            appgc.setTargetFrameRate(FPS_LIMIT);
             appgc.start();
         } catch (SlickException ex) {
             Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
