@@ -211,6 +211,7 @@ public class World {
         Exit exit = player.getIntersectedExit(currentRoom.getExits());
         if (exit != null) {
             currentRoom = rooms.get(exit.getDestination());
+            currentRoom.updateSpawnOffset(exit.getSpawnX(), exit.getSpawnY());
         }
     }
 

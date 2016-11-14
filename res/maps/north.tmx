@@ -10,14 +10,20 @@
   <tile id="82">
    <properties>
     <property name="Exit" value="center"/>
-    <property name="SpawnX" value="0"/>
-    <property name="SpawnY" value="0"/>
+    <property name="SpawnX" value="160"/>
+    <property name="SpawnY" value="269"/>
    </properties>
   </tile>
   <tile id="90">
    <properties>
     <property name="CharacterDescription" value="An evil enemy"/>
     <property name="CharacterName" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="93">
+   <properties>
+    <property name="CharacterDescription" value="A nice friend!"/>
+    <property name="CharacterName" value="friend"/>
    </properties>
   </tile>
  </tileset>
@@ -33,7 +39,7 @@
  </layer>
  <layer name="characters" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3OMQ0AAAgDsPnEvw8E7CY8rYImAG2+AwAAnFvZJpn6EA4AAA==
+   H4sIAAAAAAAAA+3OMQkAAAgAMHsK9o9hAB8/EbYEiwCY8jqwUNcBAIDnGlY5f/MQDgAA
   </data>
  </layer>
 </map>

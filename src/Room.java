@@ -24,6 +24,9 @@ public class Room {
     private String name;
     private Projectile fireball;
 
+    private double xOffset;
+    private double yOffset;
+
     /**
      * Constructor for the Room class
      * @param mapDirectory Name of the map .tmx-file in the map-folder
@@ -46,7 +49,9 @@ public class Room {
         projectiles.add(fireball);
 
         generateWorldObjects();
-    }
+        xOffset = 0;
+        yOffset = 0;
+        }
 
     /**
      * Renders the map
@@ -99,6 +104,9 @@ public class Room {
             projectile.getRect().setX(projectile.getRect().getX() + (float)xMovement);
             projectile.getRect().setY(projectile.getRect().getY() + (float)yMovement);
         }
+
+        xOffset += (float)xMovement;
+        yOffset += (float)yMovement;
     }
 
     public void renderEntities(Graphics graphics, Player player, GameState gameState) {
@@ -215,5 +223,40 @@ public class Room {
         for (Projectile projectile : projectiles) {
             projectile.setFrozen(frozen);
         }
+    }
+
+    public void updateSpawnOffset(float spawnX, float spawnY) {
+        // Set block locations
+        for (Rectangle block : blocks) {
+            block.setX(block.getX() - (float)xOffset + spawnX);
+            block.setY(block.getY() - (float)yOffset + spawnY);
+        }
+        // Set exit locations
+        for (Exit exit : exits) {
+            exit.getRect().setX(exit.getRect().getX() - (float)xOffset + spawnX);
+            exit.getRect().setY(exit.getRect().getY() - (float)yOffset + spawnY);
+        }
+        // Set item locations
+        for (Item item : items) {
+            item.getRect().setX(item.getRect().getX() - (float)xOffset + spawnX);
+            item.getRect().setY(item.getRect().getY() - (float)yOffset + spawnY);
+        }
+        // Set character locations
+        for (Character character : characters) {
+            character.getRect().setX(character.getRect().getX() - (float)xOffset + spawnX);
+            character.getRect().setY(character.getRect().getY() - (float)yOffset + spawnY);
+        }
+        // Set projectile locations
+        for (Projectile projectile : projectiles) {
+            projectile.getRect().setX(projectile.getRect().getX() - (float)xOffset + spawnX);
+            projectile.getRect().setY(projectile.getRect().getY() - (float)yOffset + spawnY);
+        }
+        xOffset = spawnX;
+        yOffset = spawnY;
+    }
+
+    public double[] getOffset() {
+        double[] toReturn = {xOffset, yOffset};
+        return toReturn;
     }
 }
