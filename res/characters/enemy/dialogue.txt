@@ -1,4 +1,4 @@
-null,chest
+null,Chest
 null:
 Hi there! 
 My name is enemy, and I need your help! 

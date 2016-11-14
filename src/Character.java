@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * The class for NPC characters
@@ -148,19 +149,17 @@ public class Character extends Entity {
 
     public void displayDialogue(Graphics graphics, Player player) {
         // Look in player inventory to see if player is holding any relevant inventory
-        boolean itemFound = false;
-        for (Item item : player.getInventory().getItems()) {
-            if (dialogueMap.containsKey(item.getName())) {
-                itemFound = true;
-                currentDialogueArray = dialogueMap.get(item.getName());
-                Item itemRemoved = player.getInventory().removeItem(item);
-                inventory.addItem(itemRemoved);
-                dialogueMap.remove(item.getName());
+        Iterator<Item> inventoryIterator = player.getInventory().getItems().iterator();
+        while (inventoryIterator.hasNext()) {
+            Item currentItem = inventoryIterator.next();
+            if (dialogueMap.containsKey(currentItem.getName())) {
+                // Relevant Item found
+                currentDialogueArray = dialogueMap.get(currentItem.getName());
+                dialogueIndex = 0;
+                dialogueMap.remove(currentItem.getName());
+                inventory.addItem(currentItem);
+                inventoryIterator.remove();
             }
-        }
-        //No relevant item found
-        if (!itemFound) {
-            currentDialogueArray = dialogueMap.get("null");
         }
         // Create dialogue rectangle
         Rectangle dialogueRectangle = new Rectangle(getRect().getCenterX()
