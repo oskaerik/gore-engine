@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 null,Chest
 null:
 Hi there! 
@@ -7,15 +6,4 @@ I’ve lost my chest.
 Please bring it back to me! 
 chest:
 You found it! 
-Thank you for helping me! 
-=======
-null,chest
-null:
-Hi there!
-My name is enemy, and I need your help!
-I’ve lost my chest.
-Please bring it back to me!
-chest:
-You found it!
 Thank you for helping me!
->>>>>>> f868ad973b12e26fe9588aa556aad4abe74888c2
