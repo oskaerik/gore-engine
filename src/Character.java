@@ -16,16 +16,16 @@ public class Character extends Entity {
     private ArrayList<Animation> animationArray;
     private ArrayList<String> movementPath;
     private ArrayList<String> movementArray;
-    private Inventory items;
+    private Inventory inventory;
 
-    String lastDirection;
-    float speed;
-    int health;
+    private String lastDirection;
+    private float speed;
+    private int health;
 
-    private ArrayList<String> dialogueArray;
-    private HashMap<Item, ArrayList<String>> dialogueMap;
-    int dialogueIndex;
-    boolean inDialogue;
+    private ArrayList<String> currentDialogueArray;
+    private HashMap<String, ArrayList<String>> dialogueMap;
+    private int dialogueIndex;
+    private boolean inDialogue;
 
     /**
      * Constructor for the character class
@@ -37,19 +37,18 @@ public class Character extends Entity {
         animationArray = Tools.createAnimation("character", getName());
 
         // The movementPath is the path of the character, does not change
-        movementPath = Tools.readInstructions("movement", getName());
+        movementPath = Tools.readFileToArray("movement", getName());
         // The movementArray changes when the character moves, resets to movementPath when done
         movementArray = new ArrayList<>(movementPath);
 
-        dialogueArray = Tools.readInstructions("dialogue", getName());
-        dialogueMap = new HashMap<>();
-        dialogueMap.put(null, dialogueArray);
+        dialogueMap = generateDialogueFromArray(Tools.readFileToArray("dialogue", getName()));
+        currentDialogueArray = dialogueMap.get("null");
         dialogueIndex = 0;
         inDialogue = false;
         lastDirection = "down";
         speed = 0.1f;
         health = 100;
-        items = new Inventory();
+        inventory = new Inventory();
     }
 
     /**
@@ -148,31 +147,31 @@ public class Character extends Entity {
     public int getHealth() { return health; }
 
     public void displayDialogue(Graphics graphics, Player player) {
-        // Look in player inventory to see if player is holding any relevant items
+        // Look in player inventory to see if player is holding any relevant inventory
         boolean itemFound = false;
         for (Item item : player.getInventory().getItems()) {
-            if (dialogueMap.containsKey(item)) {
+            if (dialogueMap.containsKey(item.getName())) {
                 itemFound = true;
-                dialogueArray = dialogueMap.get(item);
+                currentDialogueArray = dialogueMap.get(item.getName());
                 Item itemRemoved = player.getInventory().removeItem(item);
-                items.addItem(itemRemoved);
-                dialogueMap.remove(item);
+                inventory.addItem(itemRemoved);
+                dialogueMap.remove(item.getName());
             }
         }
         //No relevant item found
         if (!itemFound) {
-            dialogueArray = dialogueMap.get(null);
+            currentDialogueArray = dialogueMap.get("null");
         }
         // Create dialogue rectangle
         Rectangle dialogueRectangle = new Rectangle(getRect().getCenterX()
-                - getFont().getWidth(dialogueArray.get(dialogueIndex))/2,
-                getRect().getY() - getFont().getHeight(dialogueArray.get(dialogueIndex)) - 10,
-                getFont().getWidth(dialogueArray.get(dialogueIndex)), getFont().getHeight());
+                - getFont().getWidth(currentDialogueArray.get(dialogueIndex))/2,
+                getRect().getY() - getFont().getHeight(currentDialogueArray.get(dialogueIndex)) - 10,
+                getFont().getWidth(currentDialogueArray.get(dialogueIndex)), getFont().getHeight());
         graphics.setColor(Color.black);
         graphics.fill(dialogueRectangle);
         // Can do something something getFont.getwidth to center
         getFont().drawString(dialogueRectangle.getX(), dialogueRectangle.getY(),
-                dialogueArray.get(dialogueIndex), Color.white);
+                currentDialogueArray.get(dialogueIndex), Color.white);
     }
 
     /**
@@ -184,9 +183,40 @@ public class Character extends Entity {
 
     public void setInDialogue(boolean value) {
         inDialogue = value;
+    }
+
+    public void increaseDialogIndex () {
         dialogueIndex++;
-        if (dialogueIndex >= dialogueArray.size()) {
+        if (dialogueIndex >= currentDialogueArray.size()) {
             dialogueIndex = 0;
         }
+    }
+
+    public boolean getInDialogue() {
+        return inDialogue;
+    }
+
+    public HashMap generateDialogueFromArray(ArrayList<String> dialogueFileLines) {
+        HashMap<String, ArrayList> returnHashMap = new HashMap<>();
+        if (!(dialogueFileLines.size() > 0)) {
+            return null;
+        }
+        String firstline = dialogueFileLines.get(0);
+        String[] listOfRelevantItems = firstline.split(",");
+        dialogueFileLines.remove(0);
+        for (String itemName : listOfRelevantItems) {
+            ArrayList<String> toAdd = new ArrayList<>();
+            dialogueFileLines.remove(0);
+            String toRead = dialogueFileLines.get(0);
+            while (!toRead.contains(":") && dialogueFileLines.size() > 0) {
+                toAdd.add(toRead);
+                dialogueFileLines.remove(0);
+                if (dialogueFileLines.size() > 0) {
+                    toRead = dialogueFileLines.get(0);
+                }
+            }
+            returnHashMap.put(itemName, toAdd);
+        }
+        return returnHashMap;
     }
 }

@@ -1,10 +1,9 @@
-Sup dude?
-Piss off!
-Wzup?
-Man stop that!
-Dude, I'm dying :(
-Noooooooo
-No more, plzzzz
-Oh my god you're killing me!
-NOOOOOOOOOOOOOOOOOOOOOO!!!
-UUUUHHHHHHHHHGGGGGGGGH *dead af*
+null,chest
+null:
+Hi there! 
+My name is enemy, and I need your help! 
+I’ve lost my chest. 
+Please bring it back to me! 
+chest:
+You found it! 
+Thank you for helping me! 

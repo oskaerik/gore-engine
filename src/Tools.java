@@ -76,7 +76,7 @@ public class Tools {
      * 1: 3L [3 steps LEFT]
      * @return Returns an ArrayList with the movement pattern (or null if fail)
      */
-    public static ArrayList<String> readInstructions(String type, String name) {
+    public static ArrayList<String> readFileToArray(String type, String name) {
         try {
             // Read the file according to character name
             BufferedReader br = new BufferedReader(

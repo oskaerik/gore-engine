@@ -144,7 +144,10 @@ public class World {
             } else if (gameState.getCurrentState().equals("dialogue")) {
                 gameState.toggleDialogue();
                 for (Character character : currentRoom.getCharacters()) {
-                    character.setInDialogue(false);
+                    if (character.getInDialogue()) {
+                        character.setInDialogue(false);
+                        character.increaseDialogIndex();
+                    }
                 }
                 player.setInDialogue(null);
             }
