@@ -227,6 +227,7 @@ public class World {
     }
 
     public Room getCurrentRoom() { return currentRoom; }
+
     public Player getPlayer() { return player; }
 
     /**

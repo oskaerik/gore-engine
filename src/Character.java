@@ -5,6 +5,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The class for NPC characters
@@ -15,12 +16,14 @@ public class Character extends Entity {
     private ArrayList<Animation> animationArray;
     private ArrayList<String> movementPath;
     private ArrayList<String> movementArray;
+    private Inventory items;
 
     String lastDirection;
     float speed;
     int health;
 
     private ArrayList<String> dialogueArray;
+    private HashMap<Item, ArrayList<String>> dialogueMap;
     int dialogueIndex;
     boolean inDialogue;
 
@@ -39,11 +42,14 @@ public class Character extends Entity {
         movementArray = new ArrayList<>(movementPath);
 
         dialogueArray = Tools.readInstructions("dialogue", getName());
+        dialogueMap = new HashMap<>();
+        dialogueMap.put(null, dialogueArray);
         dialogueIndex = 0;
         inDialogue = false;
         lastDirection = "down";
         speed = 0.1f;
         health = 100;
+        items = new Inventory();
     }
 
     /**
@@ -124,7 +130,7 @@ public class Character extends Entity {
                         + (getRect().getHeight()
                         - getAnimation(player, gameState).getCurrentFrame().getHeight())/2);
         if (inDialogue) {
-            displayDialogue(graphics);
+            displayDialogue(graphics, player);
         }
     }
 
@@ -141,7 +147,22 @@ public class Character extends Entity {
      */
     public int getHealth() { return health; }
 
-    public void displayDialogue(Graphics graphics) {
+    public void displayDialogue(Graphics graphics, Player player) {
+        // Look in player inventory to see if player is holding any relevant items
+        boolean itemFound = false;
+        for (Item item : player.getInventory().getItems()) {
+            if (dialogueMap.containsKey(item)) {
+                itemFound = true;
+                dialogueArray = dialogueMap.get(item);
+                Item itemRemoved = player.getInventory().removeItem(item);
+                items.addItem(itemRemoved);
+                dialogueMap.remove(item);
+            }
+        }
+        //No relevant item found
+        if (!itemFound) {
+            dialogueArray = dialogueMap.get(null);
+        }
         // Create dialogue rectangle
         Rectangle dialogueRectangle = new Rectangle(getRect().getCenterX()
                 - getFont().getWidth(dialogueArray.get(dialogueIndex))/2,

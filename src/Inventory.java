@@ -3,6 +3,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * The player class
@@ -43,6 +44,18 @@ public class Inventory {
         return items.remove(itemNumber);
     }
 
+    public Item removeItem(Item item) {
+        Iterator<Item> itemIterator = items.iterator();
+        while (itemIterator.hasNext()) {
+            Item itemRemove = itemIterator.next();
+            if (itemRemove == item) {
+                itemIterator.remove();
+                return itemRemove;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Item> getItems() { return items;}
 
     public void increaseInventorySelectedItemNumber() {
@@ -65,6 +78,7 @@ public class Inventory {
      * @param graphics Graphics component used to draw
      */
     public void drawInventory(Graphics graphics) {
+        graphics.setColor(Color.yellow);
         graphics.draw(inventoryOutline);
         graphics.draw(inventoryItemOutline);
         inventoryItemOutline.setY(Core.HEIGHT/2-200 + inventorySelectedItemNumber*16);
