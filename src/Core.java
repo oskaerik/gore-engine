@@ -73,6 +73,7 @@ public class Core extends BasicGame {
         world.updateGraphics(graphics);
 
         if (debug) {
+            graphics.setColor(Color.white);
             if (world.getPlayer().getInDialogue() != null) {
                 System.out.println(Tools.getFacing(
                         world.getPlayer().getRect(), world.getPlayer().getInDialogue().getRect()));
@@ -88,6 +89,9 @@ public class Core extends BasicGame {
             }
             graphics.fill(world.getPlayer().getRect());
             graphics.fill(world.getCurrentRoom().getProjectiles().get(0).getRect());
+
+            System.out.println("Top left corner position - x: " + world.getCurrentRoom().getOffset()[0]
+                    + " y: " + world.getCurrentRoom().getOffset()[1]);
         }
     }
 }

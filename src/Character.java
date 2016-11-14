@@ -169,7 +169,8 @@ public class Character extends Entity {
                 getFont().getWidth(currentDialogueArray.get(dialogueIndex)), getFont().getHeight());
         graphics.setColor(Color.black);
         graphics.fill(dialogueRectangle);
-        // Can do something something getFont.getwidth to center
+
+        // Draw dialogue text in the rectangle
         getFont().drawString(dialogueRectangle.getX(), dialogueRectangle.getY(),
                 currentDialogueArray.get(dialogueIndex), Color.white);
     }

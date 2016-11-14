@@ -8,14 +8,14 @@ import org.newdawn.slick.geom.Rectangle;
 public class Exit {
     private Rectangle rectangle;
     private String destination;
-    private int xSpawnPosition;
-    private int ySpawnPosition;
+    private int spawnX;
+    private int spawnY;
 
-    public Exit(Rectangle rectangle, String destination, int xSpawnPosition, int ySpawnPosition) {
+    public Exit(Rectangle rectangle, String destination, int spawnX, int spawnY) {
         this.rectangle = rectangle;
         this.destination = destination;
-        this.xSpawnPosition = xSpawnPosition;
-        this.ySpawnPosition = ySpawnPosition;
+        this.spawnX = spawnX;
+        this.spawnY = spawnY;
     }
 
     public Rectangle getRect() {
@@ -26,11 +26,9 @@ public class Exit {
         return destination;
     }
 
-    public int getXSpawnPosition() {
-        return xSpawnPosition;
-    }
+    public int getSpawnX() { return spawnX; }
 
-    public int getYSpawnPosition() {
-        return ySpawnPosition;
+    public int getSpawnY() {
+        return spawnY;
     }
 }
