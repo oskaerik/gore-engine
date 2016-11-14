@@ -144,15 +144,15 @@ public class Tools {
         return returnArray;
     }
 
-    public static String readSettings(String filePath, String key) {
+    public static int readSettings(String filePath, String key) {
         ArrayList<String> settingsArray = readFileToArray(filePath);
         // Loop through the setting and look for the required key
         for (String line : settingsArray) {
             String[] splitLine = line.split("=");
             if (splitLine[0].equals(key)) {
-                return splitLine[1];
+                return Integer.parseInt(splitLine[1]);
             }
         }
-        return "";
+        return 0;
     }
 }
