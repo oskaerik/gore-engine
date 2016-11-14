@@ -65,6 +65,7 @@ public class Inventory {
      * @param graphics Graphics component used to draw
      */
     public void drawInventory(Graphics graphics) {
+        graphics.setColor(Color.yellow);
         graphics.draw(inventoryOutline);
         graphics.draw(inventoryItemOutline);
         inventoryItemOutline.setY(Core.HEIGHT/2-200 + inventorySelectedItemNumber*16);
