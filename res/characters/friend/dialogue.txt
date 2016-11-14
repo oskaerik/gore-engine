@@ -1,9 +1,9 @@
-null,Chest
+null,Bowl
 null:
 Hi there! 
 My name is enemy, and I need your help! 
-I’ve lost my chest. 
+I’ve lost my bowl. 
 Please bring it back to me! 
-chest:
+bowl:
 You found it! 
 Thank you for helping me!
