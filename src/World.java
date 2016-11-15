@@ -136,6 +136,17 @@ public class World {
             }
         }
 
+        // Shoots enemy fireballs
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_N)) {
+            for (Projectile fireball : currentRoom.getProjectiles()) {
+                if (!fireball.isShot() && gameState.getCurrentState().equals("default")
+                        && !fireball.getBelongsTo().getName().equals("player")) {
+                    fireball.shoot(fireball.getBelongsTo().getRect().getCenterX(),
+                            fireball.getBelongsTo().getRect().getCenterY(), fireball.getBelongsTo().);
+                }
+            }
+        }
+
         // Engage in dialogue
         if (gameContainer.getInput().isKeyPressed(Input.KEY_D)) {
             ArrayList<Character> intersectedCharacters =

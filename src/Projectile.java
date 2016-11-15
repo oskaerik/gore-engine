@@ -15,6 +15,7 @@ public class Projectile extends Entity {
     private String direction;
     private float speed;
     private int damage;
+    private Character belongsTo;
 
     /**
      * Constructor for the Projectile class
@@ -23,13 +24,14 @@ public class Projectile extends Entity {
      * @param description The description of the projectile
      * @throws SlickException
      */
-    public Projectile(Rectangle rectangle, String name, String description) throws SlickException {
+    public Projectile(Rectangle rectangle, String name, String description, Character character) throws SlickException {
         super(rectangle, name, description, "projectile");
         animationArray = Tools.createAnimation("projectile", name);
         shot = false;
         direction = null;
         speed = 0.35f;
         damage = 10;
+        belongsTo = character;
     }
 
     public Animation getAnimation() {
@@ -96,4 +98,8 @@ public class Projectile extends Entity {
     }
 
     public int getDamage() { return damage; }
+
+    public Character getBelongsTo() {
+        return belongsTo;
+    }
 }

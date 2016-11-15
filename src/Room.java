@@ -45,8 +45,8 @@ public class Room {
         characters = new ArrayList<>();
 
         projectiles = new ArrayList<>();
-        fireball = new Projectile(new Rectangle(0, 0, 44, 42), "fireball", "A fireball");
-        projectiles.add(fireball);
+        //fireball = new Projectile(new Rectangle(0, 0, 44, 42), "fireball", "A fireball", );
+        //projectiles.add(fireball);
 
         generateWorldObjects();
         xOffset = 0;
@@ -184,8 +184,9 @@ public class Room {
                             (float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
                             map.getTileWidth(), map.getTileHeight());
                     // Add the character to the room's characters
-                    characters.add(new Character(
-                            characterRectangle, characterName, characterDescription, 0.1f));
+                    Character characterToBeAdded = new Character(characterRectangle, characterName, characterDescription, 0.1f);
+                    characters.add(characterToBeAdded);
+                    projectiles.add(new Projectile(new Rectangle(0, 0, 44, 42), "fireball", "A fireball", characterToBeAdded));
                 }
             }
         }
