@@ -29,4 +29,8 @@ public class GameState {
     }
 
     public String getCurrentState() { return currentMode; }
+
+    public void toggleGameOver() {
+        currentMode = "gameover";
+    }
 }

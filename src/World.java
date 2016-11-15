@@ -263,9 +263,12 @@ public class World {
         checkEvents(gameContainer, delta);
         if (gameState.getCurrentState().equals("default")) {
             currentRoom.freezeEntities(false);
-            currentRoom.updateEntities(delta);
+            currentRoom.updateEntities(delta, player, gameState);
         } else {
             currentRoom.freezeEntities(true);
+        }
+        if (gameState.getCurrentState().equals("gameover")) {
+            gameContainer.exit(); 
         }
     }
 
