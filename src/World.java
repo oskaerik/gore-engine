@@ -36,12 +36,18 @@ public class World {
         gameState = new GameState();
 
         // Add rooms to HashMap rooms and set the starting room to current room
-        rooms = new HashMap<>();
-        rooms.put("center", new Room("res/rooms/center.tmx", "center"));
-        rooms.put("north", new Room("res/rooms/north.tmx", "north"));
-        currentRoom = rooms.get("center");
-
+        rooms = generateRoomHashMap();
         debug = false;
+    }
+
+    private HashMap<String,Room> generateRoomHashMap() throws SlickException {
+        HashMap<String, Room> returnMap = new HashMap<>();
+        ArrayList<String> roomsFile = Tools.readFileToArray("res/rooms/rooms.txt");
+        for (String line : roomsFile) {
+            returnMap.put(line, new Room("res/rooms/" + line + ".tmx", line));
+        }
+        currentRoom = returnMap.get(roomsFile.get(0));
+        return returnMap;
     }
 
     /**
