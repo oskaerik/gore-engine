@@ -33,7 +33,8 @@ public class Character extends Entity {
      * @param name        The name of the character
      * @param description The description of the character
      */
-    public Character(Rectangle rectangle, String name, String description) throws SlickException {
+    public Character(Rectangle rectangle, String name, String description, float speed)
+            throws SlickException {
         super(rectangle, name, description, "character");
 
         // The movementPath is the path of the character, does not change
@@ -49,7 +50,7 @@ public class Character extends Entity {
         dialogueIndex = 0;
         inDialogue = false;
         lastDirection = "down";
-        speed = 0.1f;
+        this.speed = speed;
         health = 100;
         inventory = new Inventory();
     }
@@ -226,4 +227,10 @@ public class Character extends Entity {
         }
         return returnHashMap;
     }
+
+    public Animation getFreezeAnimation() {
+        return Tools.getFreezeAnimation(getAnimationArray(), lastDirection);
+    }
+
+    public float getSpeed() { return speed; }
 }

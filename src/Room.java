@@ -185,7 +185,7 @@ public class Room {
                             map.getTileWidth(), map.getTileHeight());
                     // Add the character to the room's characters
                     characters.add(new Character(
-                            characterRectangle, characterName, characterDescription));
+                            characterRectangle, characterName, characterDescription, 0.1f));
                 }
             }
         }

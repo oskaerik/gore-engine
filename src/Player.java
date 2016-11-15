@@ -11,8 +11,6 @@ import java.util.ArrayList;
  * @version 0.1
  */
 public class Player extends Character {
-    private double speed;
-
     private Circle range;
 
     private Inventory inventory;
@@ -25,9 +23,8 @@ public class Player extends Character {
      * Constructor of the player class
      * @param speed  speed of the player (pixels/frame)
      */
-    public Player(Rectangle rectangle, double speed, float radius) throws SlickException {
-        super(rectangle, "player", "The player");
-        this.speed = speed;
+    public Player(Rectangle rectangle, float speed, float radius) throws SlickException {
+        super(rectangle, "player", "The player", speed);
 
         // Creates the range circle and places it in the middle of the screen
         range = new Circle((Core.WIDTH - getRect().getWidth())/2,
@@ -45,13 +42,6 @@ public class Player extends Character {
      */
     public Circle getRange() {
         return range;
-    }
-
-    /**
-     * @return Speed of the player
-     */
-    public double getSpeed() {
-        return speed;
     }
 
     /**

@@ -28,7 +28,7 @@ public class World {
      */
     public World() throws SlickException {
         // The player object, takes parameters: width, height, speed, radius of range
-        player = new Player(new Rectangle(Core.WIDTH/2 - 8, Core.HEIGHT/2 - 8, 16, 16), 0.2, 48);
+        player = new Player(new Rectangle(Core.WIDTH/2 - 8, Core.HEIGHT/2 - 8, 16, 16), 0.2f, 48);
         animation = Tools.getFreezeAnimation(player.getAnimationArray(), "down");
         lastDirection = "down";
 
