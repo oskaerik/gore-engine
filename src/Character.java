@@ -159,12 +159,12 @@ public class Character extends Entity {
         Rectangle dialogueRectangle = new Rectangle(getRect().getCenterX()
                 - getFont().getWidth(currentDialogueArray.get(dialogueIndex)) / 2,
                 getRect().getY() - getFont().getHeight(currentDialogueArray.get(dialogueIndex)) - 10,
-                getFont().getWidth(currentDialogueArray.get(dialogueIndex)), getFont().getHeight());
+                getFont().getWidth(currentDialogueArray.get(dialogueIndex)) + 4, getFont().getHeight() + 2);
         graphics.setColor(Color.black);
         graphics.fill(dialogueRectangle);
 
         // Draw dialogue text in the rectangle
-        getFont().drawString(dialogueRectangle.getX(), dialogueRectangle.getY(),
+        getFont().drawString(dialogueRectangle.getX() + 2, dialogueRectangle.getY() + 1,
                 currentDialogueArray.get(dialogueIndex), Color.white);
     }
 
