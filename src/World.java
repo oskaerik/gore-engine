@@ -40,34 +40,79 @@ public class World {
         debug = false;
     }
 
+    /**
+     * Generates a HashMap of the rooms in the rooms.txt-file
+     * @return A HashMap of the rooms
+     * @throws SlickException Generic exception
+     */
     private HashMap<String,Room> generateRoomHashMap() throws SlickException {
         HashMap<String, Room> returnMap = new HashMap<>();
+
+        // Reads the rooms.txt-file and loops through the lines
         ArrayList<String> roomsFile = Tools.readFileToArray("res/rooms/rooms.txt");
         for (String line : roomsFile) {
+            // Adds the path to the room to the HashMap
             returnMap.put(line, new Room("res/rooms/" + line + ".tmx", line));
         }
+        // Take the first line and set it as the first room
         currentRoom = returnMap.get(roomsFile.get(0));
         return returnMap;
+    }
+
+    /**
+     * Updates the world, like entity positions
+     * @param delta Amount of time that has passed since last updateGraphics (ms)
+     * @throws SlickException Generic exception
+     */
+    public void updateWorld(GameContainer gameContainer, int delta) throws SlickException {
+        // Freeze the player in case the player isn't moving
+        player.setFrozen(true);
+
+        // Checks for key presses
+        checkKeyPresses(gameContainer, delta);
+
+        // Checks if the player has intersected any exits
+        checkIntersectedExit();
+
+        // Freeze or unfreeze the entities of the world depending on the game state
+        if (gameState.getCurrentState().equals("default")) {
+            currentRoom.freezeEntities(false);
+            currentRoom.updateEntities(delta, player, gameState);
+        } else {
+            currentRoom.freezeEntities(true);
+        }
+
+        // If the current GameState is gameover
+        if (gameState.getCurrentState().equals("gameover")) {
+            gameContainer.exit();
+        }
     }
 
     /**
      * Checks for key presses and executes commands accordingly
      * @param gameContainer GameContainer object handling game loop etc
      * @param delta Amount of time that has passed since last updateGraphics (ms)
+     * @throws SlickException Generic exception
      */
     public void checkKeyPresses(GameContainer gameContainer, int delta) throws SlickException {
-        // Depending on whether the inventory is open or not, move player or move the inventory marker
         if (gameState.getCurrentState().equals("default")) {
-            player.setFrozen(true);
+            // If the GameState is default, check for movement key presses
             keyMovement(gameContainer, delta);
         } else if (gameState.getCurrentState().equals("inventory")) {
+            // If the GameState is inventory, check for inventory navigation key presses
             keyInventory(gameContainer, delta);
         }
 
+        // Check action key presses
         keyActions(gameContainer, delta);
     }
 
-
+    /**
+     * Checks for movement key presses
+     * @param gameContainer GameContainer object handling game loop etc
+     * @param delta Amount of time that has passed since last updateGraphics (ms)
+     * @throws SlickException Generic exception
+     */
     public void keyMovement(GameContainer gameContainer, int delta) throws SlickException {
         if (gameContainer.getInput().isKeyDown(Input.KEY_UP)) {
             movement("up", delta);
@@ -83,16 +128,25 @@ public class World {
         }
     }
 
-    private void keyInventory(GameContainer gameContainer, int delta) {
+    /**
+     * Checks for key presses for navigation of the inventory
+     * @param gameContainer GameContainer object handling game loop etc
+     */
+    private void keyInventory(GameContainer gameContainer) {
+        // Move up if there is an item above to mark
         if (gameContainer.getInput().isKeyPressed(Input.KEY_UP) &&
                 player.getInventory().getInventorySelectedItemNumber() > 0) {
             player.getInventory().decreaseInventorySelectedItemNumber();
         }
+
+        // Move down if there is an item below to mark
         if (gameContainer.getInput().isKeyPressed(Input.KEY_DOWN)) {
-            if (player.getInventory().getInventorySelectedItemNumber() < player.getInventory().getNumberOfItems()-1) {
+            if (player.getInventory().getInventorySelectedItemNumber()
+                    < player.getInventory().getNumberOfItems()-1) {
                 player.getInventory().increaseInventorySelectedItemNumber();
             }
         }
+
         // Drops items from inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_A)) {
             Item drop = player.removeFromInventory(
@@ -102,10 +156,12 @@ public class World {
                 drop.getRect().setY(player.getRect().getY());
                 currentRoom.addItem(drop);
             }
+
             // If the inventory contains items, the marker should change position
             if (player.getInventory().getInventorySelectedItemNumber() == 0) {
                 player.getInventory().resetInventorySelectedItemNumber();
             }
+
             //If the inventory contains no items, marker should stay on first position
             if (player.getInventory().getInventorySelectedItemNumber() > 0) {
                 player.getInventory().decreaseInventorySelectedItemNumber();
@@ -156,15 +212,20 @@ public class World {
 
         // Engage in dialogue
         if (gameContainer.getInput().isKeyPressed(Input.KEY_D)) {
+            // Get character in range to engage in dialogue with
             Character intersectedCharacter =
                     player.getCharacterInRange(currentRoom.getCharacters());
+
+            // If there was a character in range and the GameState
             if (gameState.getCurrentState().equals("default")
                     && intersectedCharacter != null) {
+                // Toggle dialogue GameSate and put player in dialogue with the character
                 gameState.toggleDialogue();
                 Character inDialogueWith = intersectedCharacter;
                 inDialogueWith.setInDialogue(true);
                 player.setInDialogueWith(inDialogueWith);
             } else if (gameState.getCurrentState().equals("dialogue")) {
+                // If there is more dialogue, display the next thing the character says
                 for (Character character : currentRoom.getCharacters()) {
                     if (character.getInDialogue()) {
                         if (!character.increaseDialogIndex()) {
@@ -173,6 +234,7 @@ public class World {
                         }
                     }
                 }
+                // When done with dialogue, set in dialogue with to null
                 player.setInDialogueWith(null);
             }
             player.setFrozen(gameState.getCurrentState().equals("dialogue"));
@@ -216,6 +278,12 @@ public class World {
         }
     }
 
+    /**
+     * Returns a list of blocks with updated locations if they don't intersect with the player
+     * @param xMovement The amount of movement in x direction
+     * @param yMovement The amount of movement in y direction
+     * @return List of blocks
+     */
     private ArrayList<Rectangle> isBlocked(double xMovement, double yMovement) {
         // Create a copy of the Blocks ArrayList
         ArrayList<Rectangle> newBlocks = new ArrayList<>();
@@ -246,37 +314,9 @@ public class World {
     }
 
     /**
-     * Checks for events, such as key presses and intersected exits
-     * @param gameContainer
-     * @param delta
-     * @throws SlickException
+     * @return Return player object
      */
-    public void checkEvents(GameContainer gameContainer, int delta) throws SlickException {
-        checkKeyPresses(gameContainer, delta);
-        checkIntersectedExit();
-    }
-
-    public Room getCurrentRoom() { return currentRoom; }
-
     public Player getPlayer() { return player; }
-
-    /**
-     * Updates the world, like entity positions
-     * @param delta Amount of time that has passed since last updateGraphics (ms)
-     * @throws SlickException Generic exception
-     */
-    public void updateWorld(GameContainer gameContainer, int delta) throws SlickException {
-        checkEvents(gameContainer, delta);
-        if (gameState.getCurrentState().equals("default")) {
-            currentRoom.freezeEntities(false);
-            currentRoom.updateEntities(delta, player, gameState);
-        } else {
-            currentRoom.freezeEntities(true);
-        }
-        if (gameState.getCurrentState().equals("gameover")) {
-            gameContainer.exit(); 
-        }
-    }
 
     /**
      * Updates the graphics of the game world
