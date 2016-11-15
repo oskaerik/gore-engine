@@ -11,8 +11,6 @@ import java.util.HashMap;
  */
 public class World {
     private Player player;
-    private Animation animation;
-    private String lastDirection;
 
     private Room currentRoom;
     private HashMap<String, Room> rooms;
@@ -29,9 +27,6 @@ public class World {
     public World() throws SlickException {
         // The player object, takes parameters: width, height, speed, radius of range
         player = new Player(new Rectangle(Core.WIDTH/2 - 8, Core.HEIGHT/2 - 8, 16, 16), 0.2f, 48);
-        animation = Tools.getFreezeAnimation(player.getAnimationArray(), "down");
-        lastDirection = "down";
-
 
         // Create GameState
         gameState = new GameState();
@@ -51,10 +46,9 @@ public class World {
      * @param delta Amount of time that has passed since last updateGraphics (ms)
      */
     public void checkKeyPresses(GameContainer gameContainer, int delta) throws SlickException {
-        animation = Tools.getFreezeAnimation(player.getAnimationArray(), lastDirection);
-
         // Depending on whether the inventory is open or not, move player or move the inventory marker
         if (gameState.getCurrentState().equals("default")) {
+            player.setFrozen(true);
             keyMovement(gameContainer, delta);
         } else if (gameState.getCurrentState().equals("inventory")) {
             keyInventory(gameContainer, delta);
@@ -122,8 +116,8 @@ public class World {
         // Opens/closes inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_I)) {
             player.getInventory().resetInventorySelectedItemNumber();
-
             gameState.toggleInventory();
+            player.setFrozen(gameState.getCurrentState().equals("inventory"));
         }
 
         // Shoots fireball
@@ -132,7 +126,7 @@ public class World {
                     && gameState.getCurrentState().equals("default")) {
                 for (Projectile projectile : currentRoom.getProjectiles()) {
                     projectile.shoot(player.getRect().getCenterX(), player.getRect().getCenterY(),
-                            lastDirection);
+                            player.getLastDirection());
                 }
             }
         }
@@ -143,7 +137,7 @@ public class World {
                 if (!fireball.isShot() && gameState.getCurrentState().equals("default")
                         && !fireball.getBelongsTo().getName().equals("player")) {
                     fireball.shoot(fireball.getBelongsTo().getRect().getCenterX(),
-                            fireball.getBelongsTo().getRect().getCenterY(), fireball.getBelongsTo().);
+                            fireball.getBelongsTo().getRect().getCenterY(), fireball.getBelongsTo().getLastDirection());
                 }
             }
         }
@@ -169,6 +163,7 @@ public class World {
                 }
                 player.setInDialogueWith(null);
             }
+            player.setFrozen(gameState.getCurrentState().equals("dialogue"));
         }
 
         // Toggle debugging mode
@@ -187,27 +182,24 @@ public class World {
         switch (direction) {
             case "up":
                 yMovement = player.getSpeed() * delta;
-                lastDirection = "up";
                 break;
             case "down":
                 yMovement = -player.getSpeed() * delta;
-                lastDirection = "down";
                 break;
             case "left":
                 xMovement = player.getSpeed() * delta;
-                lastDirection = "left";
                 break;
             case "right":
                 xMovement = -player.getSpeed() * delta;
-                lastDirection = "right";
                 break;
             default:
                 break;
         }
+        player.setFrozen(false);
+        player.setLastDirection(direction);
         // Check if the movement will create any intersections with blocks
         ArrayList<Rectangle> newBlocks = isBlocked(xMovement, yMovement);
         if (newBlocks != null) {
-            animation = player.getAnimation(lastDirection);
             currentRoom.updateRectangles(xMovement, yMovement, newBlocks);
         }
     }
@@ -284,13 +276,10 @@ public class World {
         currentRoom.renderEntities(graphics, player, gameState);
 
         // Draw the player animation
-        if (player.getInDialogueWith() != null) {
-            animation = player.getAnimation(lastDirection);
-        }
-        animation.draw(player.getRect().getX()
-                        +(player.getRect().getWidth()-animation.getCurrentFrame().getWidth())/2,
+        player.getAnimation(player).draw(player.getRect().getX()
+                        +(player.getRect().getWidth()-player.getAnimation(player).getCurrentFrame().getWidth())/2,
                 player.getRect().getY()
-                        +(player.getRect().getHeight()-animation.getCurrentFrame().getHeight())/2);
+                        +(player.getRect().getHeight()-player.getAnimation(player).getCurrentFrame().getHeight())/2);
 
         // Highlight items in player range
         currentRoom.highlightItems(player.getRange());

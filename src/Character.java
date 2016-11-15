@@ -60,18 +60,7 @@ public class Character extends Entity {
      */
     public Animation getAnimation(Player player) {
         if (!isFrozen()) {
-            switch (lastDirection) {
-                case "up":
-                    return getAnimationArray().get(0);
-                case "down":
-                    return getAnimationArray().get(1);
-                case "left":
-                    return getAnimationArray().get(2);
-                case "right":
-                    return getAnimationArray().get(3);
-                default:
-                    return getAnimationArray().get(1);
-            }
+            return getRegularAnimation();
         } else {
             if (!inDialogue) {
                 return Tools.getFreezeAnimation(getAnimationArray(), lastDirection);
@@ -233,4 +222,21 @@ public class Character extends Entity {
     public Inventory getInventory() { return inventory; }
 
     public String getLastDirection() { return lastDirection; }
+
+    public Animation getRegularAnimation() {
+        switch (lastDirection) {
+            case ("up"):
+                return getAnimationArray().get(0);
+            case ("down"):
+                return getAnimationArray().get(1);
+            case ("left"):
+                return getAnimationArray().get(2);
+            case ("right"):
+                return getAnimationArray().get(3);
+            default:
+                return getAnimationArray().get(1);
+        }
+    }
+
+    public void setLastDirection(String direction) { lastDirection = direction; }
 }
