@@ -132,6 +132,7 @@ public class Character extends Entity {
      */
     public void takeDamage(int damage) {
         health -= damage;
+        displayHealth();
     }
 
     /**
@@ -245,5 +246,9 @@ public class Character extends Entity {
 
     public String getType() {
         return type;
+    }
+
+    private void displayHealth() {
+        getFont().drawString(getRect().getX(), getRect().getY(), Integer.toString(health), Color.blue);
     }
 }
