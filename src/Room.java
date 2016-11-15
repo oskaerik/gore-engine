@@ -15,8 +15,6 @@ import java.util.Iterator;
  */
 public class Room {
     private TiledMap map;
-    private final int spawnX;
-    private final int spawnY;
     private ArrayList<Rectangle> blocks;
     private ArrayList<Exit> exits;
     private ArrayList<Item> items;
@@ -31,13 +29,9 @@ public class Room {
     /**
      * Constructor for the Room class
      * @param mapDirectory Name of the map .tmx-file in the map-folder
-     * @param spawnX Player's spawn x-position
-     * @param spawnY Player's spawn y-position
      */
-    public Room(String mapDirectory, String mapName, int spawnX, int spawnY) throws SlickException {
+    public Room(String mapDirectory, String mapName) throws SlickException {
         map = new TiledMap(mapDirectory);
-        this.spawnX = spawnX;
-        this.spawnY = spawnY;
         name = mapName;
 
         blocks = new ArrayList<>();
@@ -60,7 +54,7 @@ public class Room {
      * @param worldY How much the world has moved in the y-direction
      */
     public void render(double worldX, double worldY) {
-        map.render((int)worldX-spawnX, (int)worldY-spawnY);
+        map.render((int)worldX, (int)worldY);
     }
 
     /**

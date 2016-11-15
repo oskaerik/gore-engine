@@ -10,11 +10,15 @@ import java.util.HashMap;
  * @version 0.1
  */
 public class World {
+    // The player object
     private Player player;
 
+    // Variables for rooms
     private Room currentRoom;
     private HashMap<String, Room> rooms;
 
+    // GameState object, holding information about the state of the game,
+    // if the inventory is open, if the player is in a dialogue etc
     private GameState gameState;
 
     // Debugging variable
@@ -31,10 +35,10 @@ public class World {
         // Create GameState
         gameState = new GameState();
 
-        // Add rooms to HashMap rooms
+        // Add rooms to HashMap rooms and set the starting room to current room
         rooms = new HashMap<>();
-        rooms.put("center", new Room("res/maps/center.tmx", "center", 0, 0));
-        rooms.put("north", new Room("res/maps/north.tmx", "north", 0, 0));
+        rooms.put("center", new Room("res/rooms/center.tmx", "center"));
+        rooms.put("north", new Room("res/rooms/north.tmx", "north"));
         currentRoom = rooms.get("center");
 
         debug = false;
@@ -197,11 +201,11 @@ public class World {
             default:
                 break;
         }
-        player.setFrozen(false);
         player.setLastDirection(direction);
         // Check if the movement will create any intersections with blocks
         ArrayList<Rectangle> newBlocks = isBlocked(xMovement, yMovement);
         if (newBlocks != null) {
+            player.setFrozen(false);
             currentRoom.updateRectangles(xMovement, yMovement, newBlocks);
         }
     }

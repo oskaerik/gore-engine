@@ -1,7 +1,6 @@
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.Animation;
 
 import java.util.ArrayList;
 
@@ -112,9 +111,16 @@ public class Player extends Character {
         return null;
     }
 
+    /**
+     * Sets the player in dialogue with a specific character
+     * @param character Character to be in dialogue with
+     */
     public void setInDialogueWith(Character character) {
         inDialogueWith = character;
     }
 
+    /**
+     * @return The character whom the player is in dialogue with
+     */
     public Character getInDialogueWith() { return inDialogueWith; }
 }
