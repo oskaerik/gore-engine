@@ -51,6 +51,10 @@ public class Projectile extends Entity {
 
     public boolean isShot() { return shot; }
 
+    public void setShot(boolean shot) {
+        this.shot = shot;
+    }
+
     private Character checkIntersection(ArrayList<Rectangle> blocks, ArrayList<Character> characters) {
         for (Rectangle rectangle : blocks) {
             if (getRect().intersects(rectangle)) {

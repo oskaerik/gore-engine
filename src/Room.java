@@ -117,7 +117,7 @@ public class Room {
         EnemyShootFireballs(gameState);
     }
 
-    public void updateEntities(int delta) {
+    public void updateEntities(int delta, Player player, GameState gamestate) {
         // Update character positions
         if (characters.size() > 0) {
             for (Character character : characters) {
@@ -130,6 +130,13 @@ public class Room {
             if (hitCharacter != null) {
                 hitCharacter.takeDamage(projectile.getDamage());
                 checkIfAlive();
+            }
+            if (!projectile.getBelongsTo().equals("player") && projectile.getRect().intersects(player.getRect())) {
+                projectile.setShot(false);
+                player.takeDamage(projectile.getDamage());
+                if (player.getHealth() <= 0) {
+                    gamestate.toggleGameOver();
+                }
             }
         }
     }

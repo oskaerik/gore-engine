@@ -221,6 +221,7 @@ public class Character extends Entity {
     }
 
     public float getSpeed() { return speed; }
+
     public Inventory getInventory() { return inventory; }
 
     public String getLastDirection() { return lastDirection; }
