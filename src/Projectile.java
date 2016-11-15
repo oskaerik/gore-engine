@@ -3,6 +3,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * The Projectile class
@@ -16,6 +17,8 @@ public class Projectile extends Entity {
     private float speed;
     private int damage;
     private String belongsTo;
+    private long lastShot;
+    private Date date;
 
     /**
      * Constructor for the Projectile class
@@ -32,6 +35,8 @@ public class Projectile extends Entity {
         speed = 0.35f;
         damage = 10;
         belongsTo = characterName;
+        date = new Date();
+        lastShot = date.getTime();
     }
 
     public Animation getAnimation() {
@@ -105,5 +110,13 @@ public class Projectile extends Entity {
 
     public String getBelongsTo() {
         return belongsTo;
+    }
+
+    public void toggleShotLastTime(long time) {
+        lastShot = time;
+    }
+
+    public long getLastShot() {
+        return lastShot;
     }
 }
