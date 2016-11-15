@@ -198,18 +198,6 @@ public class World {
             }
         }
 
-        // Shoots enemy fireballs
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_N)) {
-            for (Projectile fireball : currentRoom.getProjectiles()) {
-                if (!fireball.isShot() && gameState.getCurrentState().equals("default")
-                        && !fireball.getBelongsTo().equals("player")) {
-                    fireball.shoot(currentRoom.getCharacterByName(fireball.getBelongsTo()).getRect().getCenterX(),
-                            currentRoom.getCharacterByName(fireball.getBelongsTo()).getRect().getCenterY(),
-                            currentRoom.getCharacterByName(fireball.getBelongsTo()).getLastDirection());
-                }
-            }
-        }
-
         // Engage in dialogue
         if (gameContainer.getInput().isKeyPressed(Input.KEY_D)) {
             // Get character in range to engage in dialogue with

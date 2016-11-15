@@ -5,6 +5,9 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
 
+import java.util.Date;
+import java.util.Random;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -25,6 +28,8 @@ public class Room {
 
     private double xOffset;
     private double yOffset;
+    private Random randomizer;
+    private Date date;
 
     /**
      * Constructor for the Room class
@@ -46,6 +51,8 @@ public class Room {
         generateWorldObjects();
         xOffset = 0;
         yOffset = 0;
+        randomizer = new Random();
+        date = new Date();
         }
 
     /**
@@ -131,7 +138,8 @@ public class Room {
                 hitCharacter.takeDamage(projectile.getDamage());
                 checkIfAlive();
             }
-            if (!projectile.getBelongsTo().equals("player") && projectile.getRect().intersects(player.getRect())) {
+            if (!projectile.getBelongsTo().equals("player") && projectile.getRect().intersects(player.getRect())
+                    && projectile.isShot()) {
                 projectile.setShot(false);
                 player.takeDamage(projectile.getDamage());
                 if (player.getHealth() <= 0) {
@@ -285,9 +293,13 @@ public class Room {
             if (getCharacterByName(fireball.getBelongsTo()) != null) {
                 if (!fireball.isShot() && gameState.getCurrentState().equals("default")
                         && getCharacterByName(fireball.getBelongsTo()).getType().equals("enemy")) {
-                    fireball.shoot(getCharacterByName(fireball.getBelongsTo()).getRect().getCenterX(),
-                            getCharacterByName(fireball.getBelongsTo()).getRect().getCenterY(),
-                            getCharacterByName(fireball.getBelongsTo()).getLastDirection());
+                    date = new Date();
+                    if ((date.getTime() - fireball.getLastShot()) > 3000) {
+                        fireball.toggleShotLastTime(date.getTime());
+                        fireball.shoot(getCharacterByName(fireball.getBelongsTo()).getRect().getCenterX(),
+                                getCharacterByName(fireball.getBelongsTo()).getRect().getCenterY(),
+                                getCharacterByName(fireball.getBelongsTo()).getLastDirection());
+                    }
                 }
             }
         }
