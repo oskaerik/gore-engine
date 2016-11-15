@@ -100,7 +100,7 @@ public class World {
             keyMovement(gameContainer, delta);
         } else if (gameState.getCurrentState().equals("inventory")) {
             // If the GameState is inventory, check for inventory navigation key presses
-            keyInventory(gameContainer, delta);
+            keyInventory(gameContainer);
         }
 
         // Check action key presses
