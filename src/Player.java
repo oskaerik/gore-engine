@@ -6,69 +6,75 @@ import org.newdawn.slick.Animation;
 import java.util.ArrayList;
 
 /**
- * The player class
+ * The Player class, the Player object is a child of the Character object. It also has a range
+ * and holds information about who the player is in dialogue with.
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
 public class Player extends Character {
+    // The range of the player, how far the player can reach when picking up items
+    // and engaging in dialogue
     private Circle range;
 
-    private Inventory inventory;
-    private ArrayList<Animation> animationArray;
-    private boolean moving;
-
+    // The player can be in dialogue with a specific character, this is null if not in dialogue
     private Character inDialogueWith;
 
     /**
-     * Constructor of the player class
-     * @param speed  speed of the player (pixels/frame)
+     * Constructor of the Player class
+     * @param rectangle The player's rectangle
+     * @param speed The player's speed, how fast the world objects move
+     * @param radius The radius of the range of the player
+     * @throws SlickException Generic exception
      */
     public Player(Rectangle rectangle, float speed, float radius) throws SlickException {
         super(rectangle, "player", "The player", speed);
 
         // Creates the range circle and places it in the middle of the screen
         range = new Circle((Core.WIDTH - getRect().getWidth())/2,
-                (Core.HEIGHT - getRect().getHeight())/2, (float)radius);
-
-        inventory = new Inventory();
-        animationArray = Tools.createAnimation("character", "player");
-        moving = false;
-
+                (Core.HEIGHT - getRect().getHeight())/2, radius);
         inDialogueWith = null;
     }
 
     /**
-     * @return The player rectangle
+     * @return The player's range circle
      */
     public Circle getRange() {
         return range;
     }
 
     /**
-     * @return The player's inventory
+     * Tries to add an item to the players inventory, returns true of possible, returns false if not
+     * @param item The item that should be added
+     * @return A boolean indicating whether it was possible to add the item to the player's inventory
      */
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public boolean addToInventory(Item item) {
-        if (inventory.getItems().size() < 10) {
-            inventory.addItem(item);
+    public boolean tryAddToInventory(Item item) {
+        if (getInventory().getItems().size() < 10) {
+            getInventory().addItem(item);
             return true;
         } else {
             return false;
         }
     }
 
-    public Item removeFromInventory(int ItemNumber) {
-        if (inventory.getItems().size() > 0) {
-            return inventory.removeItemNumber(ItemNumber);
+    /**
+     * Removes an item from the player's inventory, based on the index, and returns it
+     * @param itemIndex The index of the item to be removed from the inventory
+     * @return The item that was removed from the inventory
+     */
+    public Item removeFromInventory(int itemIndex) {
+        if (getInventory().getItems().size() > 0 && getInventory().getItems().size() > itemIndex) {
+            return getInventory().getItems().remove(itemIndex);
         } else {
             return null;
         }
     }
 
-    public ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {
+    /**
+     * Returns an ArrayList of the items that the player's range intersects
+     * @param items An ArrayList containing the items to be checked
+     * @return An ArrayList with the intersected items
+     */
+    public ArrayList<Item> getItemsInRange(ArrayList<Item> items) {
         ArrayList<Item> intersectedItems = new ArrayList<>();
         for (Item item : items) {
             if (range.intersects(item.getRect())) {
@@ -78,14 +84,18 @@ public class Player extends Character {
         return intersectedItems;
     }
 
-    public ArrayList<Character> getIntersectedCharacters(ArrayList<Character> characters) {
-        ArrayList<Character> intersectedCharacters = new ArrayList<>();
+    /**
+     * Returns an ArrayList of the characters that the player's range intersects
+     * @param characters An ArrayList containing the characters to be checked
+     * @return The first character found
+     */
+    public Character getCharacterInRange(ArrayList<Character> characters) {
         for (Character character : characters) {
             if (range.intersects(character.getRect())) {
-                intersectedCharacters.add(character);
+                return character;
             }
         }
-        return intersectedCharacters;
+        return null;
     }
 
     public Exit getIntersectedExit(ArrayList<Exit> exits) {
@@ -101,15 +111,15 @@ public class Player extends Character {
         if (inDialogueWith == null) {
             switch (direction) {
                 case ("up"):
-                    return animationArray.get(0);
+                    return getAnimationArray().get(0);
                 case ("down"):
-                    return animationArray.get(1);
+                    return getAnimationArray().get(1);
                 case ("left"):
-                    return animationArray.get(2);
+                    return getAnimationArray().get(2);
                 case ("right"):
-                    return animationArray.get(3);
+                    return getAnimationArray().get(3);
                 default:
-                    return animationArray.get(1);
+                    return getAnimationArray().get(1);
             }
         } else {
             return faceCharacter();
@@ -118,14 +128,12 @@ public class Player extends Character {
 
     private Animation faceCharacter() {
         if (inDialogueWith != null) {
-            return Tools.getFreezeAnimation(
-                    animationArray, Tools.getFacing(getRect(), inDialogueWith.getRect()).get(0));
+            return Tools.getFreezeAnimation(getAnimationArray(),
+                    Tools.getFacing(getRect(), inDialogueWith.getRect()).get(0));
         } else {
-            return Tools.getFreezeAnimation(animationArray, "down");
+            return Tools.getFreezeAnimation(getAnimationArray(), "down");
         }
     }
-
-    public ArrayList<Animation> getAnimationArray() { return animationArray; }
 
     public void setInDialogueWith(Character character) {
         inDialogueWith = character;

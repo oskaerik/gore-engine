@@ -91,7 +91,8 @@ public class World {
         }
         // Drops items from inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_A)) {
-            Item drop = player.removeFromInventory(player.getInventory().getInventorySelectedItemNumber());
+            Item drop = player.removeFromInventory(
+                    player.getInventory().getInventorySelectedItemNumber());
             if (drop != null) {
                 drop.getRect().setX(player.getRect().getX());
                 drop.getRect().setY(player.getRect().getY());
@@ -111,8 +112,8 @@ public class World {
     private void keyActions(GameContainer gameContainer, int delta) throws SlickException {
         // Adds items in range to inventory if player is carrying less than allowed amount of items
         if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
-            for (Item item : player.getIntersectedItems(currentRoom.getItems())) {
-                if (player.addToInventory(item)) {
+            for (Item item : player.getItemsInRange(currentRoom.getItems())) {
+                if (player.tryAddToInventory(item)) {
                     currentRoom.removeItem(item);
                 }
             }
@@ -149,12 +150,12 @@ public class World {
 
         // Engage in dialogue
         if (gameContainer.getInput().isKeyPressed(Input.KEY_D)) {
-            ArrayList<Character> intersectedCharacters =
-                    player.getIntersectedCharacters(currentRoom.getCharacters());
+            Character intersectedCharacter =
+                    player.getCharacterInRange(currentRoom.getCharacters());
             if (gameState.getCurrentState().equals("default")
-                    && intersectedCharacters.size() > 0) {
+                    && intersectedCharacter != null) {
                 gameState.toggleDialogue();
-                Character inDialogueWith = intersectedCharacters.get(0);
+                Character inDialogueWith = intersectedCharacter;
                 inDialogueWith.setInDialogue(true);
                 player.setInDialogueWith(inDialogueWith);
             } else if (gameState.getCurrentState().equals("dialogue")) {

@@ -40,10 +40,6 @@ public class Inventory {
         items.add(item);
     }
 
-    public Item removeItemNumber(int itemNumber) {
-        return items.remove(itemNumber);
-    }
-
     public Item removeItem(Item item) {
         Iterator<Item> itemIterator = items.iterator();
         while (itemIterator.hasNext()) {
