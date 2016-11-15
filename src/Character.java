@@ -26,6 +26,7 @@ public class Character extends Entity {
     private HashMap<String, ArrayList<String>> dialogueMap;
     private int dialogueIndex;
     private boolean inDialogue;
+    private String type;
 
     /**
      * Constructor for the character class
@@ -33,7 +34,7 @@ public class Character extends Entity {
      * @param name        The name of the character
      * @param description The description of the character
      */
-    public Character(Rectangle rectangle, String name, String description, float speed)
+    public Character(Rectangle rectangle, String name, String description, String type, float speed)
             throws SlickException {
         super(rectangle, name, description, "character");
 
@@ -53,6 +54,7 @@ public class Character extends Entity {
         this.speed = speed;
         health = 100;
         inventory = new Inventory();
+        this.type = type;
     }
 
     /**
@@ -239,4 +241,8 @@ public class Character extends Entity {
     }
 
     public void setLastDirection(String direction) { lastDirection = direction; }
+
+    public String getType() {
+        return type;
+    }
 }
