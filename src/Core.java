@@ -7,7 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The Core class handles setting up the game window. Also updating and the rendering the game.
+ * The Core class handles handles the core structure of the game. It has a method to set up the
+ * game window, a method that updates the game world every frame, and a method that renders
+ * every frame.
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
@@ -20,9 +22,6 @@ public class Core extends BasicGame {
 
     // The World object handles the game world
     private World world;
-
-    // Debugging variable
-    private boolean debug;
 
     /**
      * Constructor for the Core class
@@ -54,7 +53,6 @@ public class Core extends BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         world = new World();
-        debug = false;
     }
 
     /**
@@ -68,11 +66,6 @@ public class Core extends BasicGame {
         // Updates the game world
         world.checkEvents(gameContainer, delta);
         world.updateWorld(delta);
-
-        // Toggle debugging mode
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_P) && DEBUG_ENABLED == 1) {
-            debug = !debug;
-        }
     }
 
     /**
@@ -85,43 +78,5 @@ public class Core extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         // Updates the graphics of the game world
         world.updateGraphics(graphics);
-
-        // If debug is set to true, run the debugging method
-        if (debug) {
-            runDebug(graphics);
-        }
-    }
-
-    /**
-     * Debugging method, fills rectangles so they're easier to see and prints information
-     * about the game world
-     * @param graphics Graphics component used to draw to the screen
-     */
-    private void runDebug(Graphics graphics) {
-        // Fills rectangles with white color so they are easier to see
-        graphics.setColor(Color.white);
-        for (Rectangle block : world.getCurrentRoom().getBlocks()) {
-            graphics.fill(block);
-        }
-        for (Character character : world.getCurrentRoom().getCharacters()) {
-            graphics.fill(character.getRect());
-        }
-        for (Projectile fireball : world.getCurrentRoom().getProjectiles()) {
-            graphics.fill(fireball.getRect());
-        }
-        graphics.fill(world.getPlayer().getRect());
-
-        // If player is in dialogue, it prints which way the player and the character that also is
-        // in dialogue is facing. If not in dialogue, prints the top left corner coordinates.
-        if (world.getPlayer().getInDialogue() != null) {
-            ArrayList<String> facing = Tools.getFacing(
-                    world.getPlayer().getRect(), world.getPlayer().getInDialogue().getRect());
-            System.out.println("Player facing: " + facing.get(0) + "   "
-                    + world.getPlayer().getInDialogue().getName() + " facing: " + facing.get(1));
-        } else {
-            System.out.println("Top left corner coordinates   x: "
-                    + world.getCurrentRoom().getOffset()[0]
-                    + " y: " + world.getCurrentRoom().getOffset()[1]);
-        }
     }
 }

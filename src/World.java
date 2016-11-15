@@ -19,6 +19,9 @@ public class World {
 
     private GameState gameState;
 
+    // Debugging variable
+    private boolean debug;
+
     /**
      * Constructor for the World class
      * @throws SlickException Generic exception
@@ -38,6 +41,8 @@ public class World {
         rooms.put("center", new Room("res/maps/center.tmx", "center", 0, 0));
         rooms.put("north", new Room("res/maps/north.tmx", "north", 0, 0));
         currentRoom = rooms.get("center");
+
+        debug = false;
     }
 
     /**
@@ -151,6 +156,11 @@ public class World {
                 }
                 player.setInDialogue(null);
             }
+        }
+
+        // Toggle debugging mode
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_P) && Core.DEBUG_ENABLED == 1) {
+            debug = !debug;
         }
     }
 
@@ -274,6 +284,46 @@ public class World {
         // Draw inventory depending of if inventory is open
         if (gameState.getCurrentState().equals("inventory")) {
             player.getInventory().drawInventory(graphics);
+        }
+
+        // If debug is set to true, run the debugging method
+        if (debug) {
+            runDebug(graphics);
+        }
+    }
+
+    /**
+     * Debugging method, fills rectangles so they're easier to see and prints information
+     * about the game world
+     * @param graphics Graphics component used to draw to the screen
+     */
+    private void runDebug(Graphics graphics) {
+        // Fills rectangles with white color so they are easier to see
+        graphics.setColor(Color.white);
+        for (Rectangle block : currentRoom.getBlocks()) {
+            graphics.fill(block);
+        }
+        for (Character character : currentRoom.getCharacters()) {
+            graphics.fill(character.getRect());
+        }
+        for (Projectile fireball : currentRoom.getProjectiles()) {
+            graphics.fill(fireball.getRect());
+        }
+        graphics.fill(getPlayer().getRect());
+
+        if (getPlayer().getInDialogue() != null) {
+            // If player is in dialogue, it prints which way the
+            // player and the character that also is in dialogue is facing.
+            ArrayList<String> facing = Tools.getFacing(
+                    getPlayer().getRect(), getPlayer().getInDialogue().getRect());
+            System.out.println("Player facing: " + facing.get(0) + "   "
+                    + getPlayer().getInDialogue().getName() + " facing: " + facing.get(1));
+        } else {
+            // If not in dialogue, prints the top left corner coordinates. This makes it easier
+            // to place world objects and exits in the right positions when creating worlds
+            System.out.println("Top left corner coordinates  | "
+                    + " x: " + currentRoom.getOffset()[0]
+                    + " y: " + currentRoom.getOffset()[1]);
         }
     }
 }
