@@ -114,7 +114,7 @@ public class Room {
             character.renderCharacter(player, gameState, graphics);
         }
         for (Item item : items) {
-            graphics.drawImage(item.getItemImage(), item.getRect().getX(), item.getRect().getY());
+            item.getAnimationArray().get(0).draw(item.getRect().getX(), item.getRect().getY());
         }
         for (Projectile projectile : projectiles) {
             projectile.render();
@@ -165,11 +165,13 @@ public class Room {
                 // Check for objects on object layer
                 tileID = map.getTileId(i, j, 1);
                 String itemName = map.getTileProperty(tileID, "ItemName", "");
-                String itemPath = map.getTileProperty(tileID, "ItemPath", "");
                 String itemDescription = map.getTileProperty(tileID, "ItemDescription", "");
-                if (!itemPath.equals("")) {
-                    items.add(new Item(new Rectangle((float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
-                            map.getTileWidth(), map.getTileHeight()), itemPath, itemName, itemDescription));
+                if (!itemName.equals("")) {
+                    // Create the character rectangle (SET SIZE ACCORDING TO PROPERTIES)
+                    Rectangle itemRectangle = new Rectangle(
+                            (float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
+                            map.getTileWidth(), map.getTileHeight());
+                    items.add(new Item(itemRectangle, itemName, itemDescription));
                 }
 
                 // Check for characters on characters layer
@@ -177,9 +179,13 @@ public class Room {
                 String characterName = map.getTileProperty(tileID, "CharacterName", "");
                 String characterDescription = map.getTileProperty(tileID, "CharacterDescription", "");
                 if (!characterName.equals("")) {
+                    // Create the character rectangle (SET SIZE ACCORDING TO PROPERTIES)
+                    Rectangle characterRectangle = new Rectangle(
+                            (float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
+                            map.getTileWidth(), map.getTileHeight());
+                    // Add the character to the room's characters
                     characters.add(new Character(
-                            new Rectangle((float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
-                            map.getTileWidth(), map.getTileHeight()), characterName, characterDescription));
+                            characterRectangle, characterName, characterDescription));
                 }
             }
         }

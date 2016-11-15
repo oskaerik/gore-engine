@@ -84,7 +84,7 @@ public class Inventory {
         inventoryItemOutline.setY(Core.HEIGHT/2-200 + inventorySelectedItemNumber*16);
         for (int i = 0; i < getItems().size(); i ++) {
             Item itemDisplayed = getItems().get(i);
-            graphics.drawImage(itemDisplayed.getItemImage(), Core
+            graphics.drawImage(itemDisplayed.getAnimationArray().get(0).getImage(0), Core
                     .WIDTH/2 + 100, Core.HEIGHT/2 - 200 + 16*i);
             itemDisplayed.getFont().drawString(Core.WIDTH/2 + 100 + 16, Core
                     .HEIGHT/2 - 200 + 16*i, itemDisplayed.getName(), Color

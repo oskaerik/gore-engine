@@ -30,7 +30,15 @@ public class Tools {
         ArrayList<String> keyWords = new ArrayList<>();
         String pathToFolder = "res/";
 
-        // If it's a character animation the keywords should be it's directions and the folder "res/characters/"
+        // If it's an item animation the keywords should be it's directions and the folder
+        // "res/items/"
+        if (type.equals("item")) {
+            keyWords.add(name);
+            pathToFolder += "items/";
+        }
+
+        // If it's a character animation the keywords should be it's directions and the folder
+        // "res/characters/"
         if (type.equals("character")) {
             String[] directions = {"up", "down", "left", "right"};
             for (String direction : directions) {
@@ -38,7 +46,8 @@ public class Tools {
             }
             pathToFolder += "characters/" + name + "/";
         }
-        // If it's a projectile animation the folder is "res/projectiles/[NAME]" and the keyword is it's name
+        // If it's a projectile animation the folder is "res/projectiles/[NAME]"
+        // and the keyword is it's name
         else if (type.equals("projectile")) {
             keyWords.add(name);
             pathToFolder += "projectiles/" + name + "/";

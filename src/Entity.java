@@ -1,7 +1,10 @@
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Entity is the parent class of things in the world like items and objects
@@ -12,21 +15,28 @@ public class Entity {
     private String name;
     private String description;
     private Rectangle rectangle;
-    private TrueTypeFont font;
+    private ArrayList<Animation> animationArray;
+    private String type;
     private boolean frozen;
+    private TrueTypeFont font;
 
     /** Constructor of the entity class
+     * @param rectangle The entity's rectangle
      * @param name Name of the entity
      * @param description Description of the entity
+     * @param type The type of the entity
+     * @throws SlickException Generic exception
      */
-    public Entity(Rectangle rectangle, String name, String description) {
+    public Entity(Rectangle rectangle, String name, String description, String type)
+            throws SlickException {
         this.name = name;
         this.description = description;
         this.rectangle = rectangle;
-
+        this.type = type;
         font = new TrueTypeFont(new Font("Arial", Font.BOLD, 10), true);
-
         frozen = false;
+
+        animationArray = Tools.createAnimation(this.type, this.name);
     }
 
     /**
@@ -54,4 +64,6 @@ public class Entity {
 
     protected boolean isFrozen() { return frozen; }
     protected void setFrozen(boolean value) { frozen = value; }
+
+    protected ArrayList<Animation> getAnimationArray() { return animationArray; }
 }

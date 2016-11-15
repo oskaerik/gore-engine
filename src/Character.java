@@ -14,7 +14,6 @@ import java.util.Iterator;
  * @version 0.1
  */
 public class Character extends Entity {
-    private ArrayList<Animation> animationArray;
     private ArrayList<String> movementPath;
     private ArrayList<String> movementArray;
     private Inventory inventory;
@@ -34,8 +33,7 @@ public class Character extends Entity {
      * @param description The description of the character
      */
     public Character(Rectangle rectangle, String name, String description) throws SlickException {
-        super(rectangle, name, description);
-        animationArray = Tools.createAnimation("character", getName());
+        super(rectangle, name, description, "character");
 
         // The movementPath is the path of the character, does not change
         movementPath = Tools.readFileToArray("res/characters/" + getName() + "/movement.txt");
@@ -60,21 +58,21 @@ public class Character extends Entity {
         if (!isFrozen()) {
             switch (lastDirection) {
                 case "up":
-                    return animationArray.get(0);
+                    return getAnimationArray().get(0);
                 case "down":
-                    return animationArray.get(1);
+                    return getAnimationArray().get(1);
                 case "left":
-                    return animationArray.get(2);
+                    return getAnimationArray().get(2);
                 case "right":
-                    return animationArray.get(3);
+                    return getAnimationArray().get(3);
                 default:
-                    return animationArray.get(1);
+                    return getAnimationArray().get(1);
             }
         } else {
             if (!inDialogue) {
-                return Tools.getFreezeAnimation(animationArray, lastDirection);
+                return Tools.getFreezeAnimation(getAnimationArray(), lastDirection);
             } else {
-                return Tools.getFreezeAnimation(animationArray, facePlayer(player));
+                return Tools.getFreezeAnimation(getAnimationArray(), facePlayer(player));
             }
         }
     }
