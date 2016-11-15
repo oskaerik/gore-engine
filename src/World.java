@@ -91,7 +91,8 @@ public class World {
         }
         // Drops items from inventory
         if (gameContainer.getInput().isKeyPressed(Input.KEY_A)) {
-            Item drop = player.removeFromInventory(player.getInventory().getInventorySelectedItemNumber());
+            Item drop = player.removeFromInventory(
+                    player.getInventory().getInventorySelectedItemNumber());
             if (drop != null) {
                 drop.getRect().setX(player.getRect().getX());
                 drop.getRect().setY(player.getRect().getY());
@@ -112,7 +113,7 @@ public class World {
         // Adds items in range to inventory if player is carrying less than allowed amount of items
         if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
             for (Item item : player.getIntersectedItems(currentRoom.getItems())) {
-                if (player.addToInventory(item)) {
+                if (player.tryAddToInventory(item)) {
                     currentRoom.removeItem(item);
                 }
             }

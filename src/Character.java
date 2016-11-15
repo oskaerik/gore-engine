@@ -58,7 +58,7 @@ public class Character extends Entity {
     /**
      * @return Returns the animation according to the direction the character is facing
      */
-    public Animation getAnimation(Player player, GameState gameState) {
+    public Animation getAnimation(Player player) {
         if (!isFrozen()) {
             switch (lastDirection) {
                 case "up":
@@ -125,13 +125,10 @@ public class Character extends Entity {
      * Renders the character on the screen
      */
     public void renderCharacter(Player player, GameState gameState, Graphics graphics) {
-        getAnimation(player, gameState).draw(
-                getRect().getX()
-                        + (getRect().getWidth()
-                        - getAnimation(player, gameState).getCurrentFrame().getWidth()) / 2,
-                getRect().getY()
-                        + (getRect().getHeight()
-                        - getAnimation(player, gameState).getCurrentFrame().getHeight()) / 2);
+        getAnimation(player).draw(getRect().getX() + (getRect().getWidth()
+                        - getAnimation(player).getCurrentFrame().getWidth()) / 2,
+                getRect().getY() + (getRect().getHeight()
+                        - getAnimation(player).getCurrentFrame().getHeight()) / 2);
         if (inDialogue) {
             displayDialogue(graphics, player);
         }
@@ -233,4 +230,5 @@ public class Character extends Entity {
     }
 
     public float getSpeed() { return speed; }
+    public Inventory getInventory() { return inventory; }
 }
