@@ -123,6 +123,9 @@ public class Character extends Entity {
         if (inDialogue) {
             displayDialogue(graphics, player);
         }
+        if (health < 100) {
+            getFont().drawString(getRect().getX(), getRect().getY() - 15, Integer.toString(health), Color.blue);
+        }
     }
 
     /**
@@ -249,6 +252,5 @@ public class Character extends Entity {
     }
 
     private void displayHealth() {
-        getFont().drawString(getRect().getX(), getRect().getY(), Integer.toString(health), Color.blue);
     }
 }
