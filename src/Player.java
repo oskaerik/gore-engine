@@ -85,7 +85,7 @@ public class Player extends Character {
     }
 
     /**
-     * Returns an ArrayList of the characters that the player's range intersects
+     * Returns the first character in an ArrayList that the player range intersects
      * @param characters An ArrayList containing the characters to be checked
      * @return The first character found
      */
@@ -98,6 +98,11 @@ public class Player extends Character {
         return null;
     }
 
+    /**
+     * Returns the first intersected exit in an ArrayList of exits that the player intersects
+     * @param exits An ArrayList containing the exits to be checked
+     * @return The first exit found
+     */
     public Exit getIntersectedExit(ArrayList<Exit> exits) {
         for (Exit exit : exits) {
             if (getRect().intersects(exit.getRect())) {
@@ -105,34 +110,6 @@ public class Player extends Character {
             }
         }
         return null;
-    }
-
-    public Animation getAnimation(String direction) {
-        if (inDialogueWith == null) {
-            switch (direction) {
-                case ("up"):
-                    return getAnimationArray().get(0);
-                case ("down"):
-                    return getAnimationArray().get(1);
-                case ("left"):
-                    return getAnimationArray().get(2);
-                case ("right"):
-                    return getAnimationArray().get(3);
-                default:
-                    return getAnimationArray().get(1);
-            }
-        } else {
-            return faceCharacter();
-        }
-    }
-
-    private Animation faceCharacter() {
-        if (inDialogueWith != null) {
-            return Tools.getFreezeAnimation(getAnimationArray(),
-                    Tools.getFacing(getRect(), inDialogueWith.getRect()).get(0));
-        } else {
-            return Tools.getFreezeAnimation(getAnimationArray(), "down");
-        }
     }
 
     public void setInDialogueWith(Character character) {

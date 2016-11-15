@@ -1,3 +1,4 @@
+import org.lwjgl.util.glu.Project;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -281,9 +282,11 @@ public class Room {
         for (Projectile fireball : projectiles) {
             if (!fireball.isShot() && gameState.getCurrentState().equals("default")
                     && !fireball.getBelongsTo().equals("player")) {
-                fireball.shoot(getCharacterByName(fireball.getBelongsTo()).getRect().getCenterX(),
-                        getCharacterByName(fireball.getBelongsTo()).getRect().getCenterY(),
-                        getCharacterByName(fireball.getBelongsTo()).getLastDirection());
+                if (getCharacterByName(fireball.getBelongsTo()) != null) {
+                    fireball.shoot(getCharacterByName(fireball.getBelongsTo()).getRect().getCenterX(),
+                            getCharacterByName(fireball.getBelongsTo()).getRect().getCenterY(),
+                            getCharacterByName(fireball.getBelongsTo()).getLastDirection());
+                }
             }
         }
     }
