@@ -57,18 +57,24 @@ public class Player extends Character {
     }
 
     /**
-     * @param itemNumber The index of the item to be removed from the inventory
-     * @return
+     * Removes an item from the player's inventory, based on the index, and returns it
+     * @param itemIndex The index of the item to be removed from the inventory
+     * @return The item that was removed from the inventory
      */
-    public Item removeFromInventory(int itemNumber) {
-        if (getInventory().getItems().size() > 0 && getInventory().getItems().size() > itemNumber) {
-            return getInventory().getItems().remove(itemNumber);
+    public Item removeFromInventory(int itemIndex) {
+        if (getInventory().getItems().size() > 0 && getInventory().getItems().size() > itemIndex) {
+            return getInventory().getItems().remove(itemIndex);
         } else {
             return null;
         }
     }
 
-    public ArrayList<Item> getIntersectedItems(ArrayList<Item> items) {
+    /**
+     * Returns an ArrayList of the items that the player's range intersects
+     * @param items An ArrayList containing the items to be checked
+     * @return An ArrayList with the intersected items
+     */
+    public ArrayList<Item> getItemsInRange(ArrayList<Item> items) {
         ArrayList<Item> intersectedItems = new ArrayList<>();
         for (Item item : items) {
             if (range.intersects(item.getRect())) {
@@ -78,14 +84,18 @@ public class Player extends Character {
         return intersectedItems;
     }
 
-    public ArrayList<Character> getIntersectedCharacters(ArrayList<Character> characters) {
-        ArrayList<Character> intersectedCharacters = new ArrayList<>();
+    /**
+     * Returns an ArrayList of the characters that the player's range intersects
+     * @param characters An ArrayList containing the characters to be checked
+     * @return The first character found
+     */
+    public Character getCharacterInRange(ArrayList<Character> characters) {
         for (Character character : characters) {
             if (range.intersects(character.getRect())) {
-                intersectedCharacters.add(character);
+                return character;
             }
         }
-        return intersectedCharacters;
+        return null;
     }
 
     public Exit getIntersectedExit(ArrayList<Exit> exits) {

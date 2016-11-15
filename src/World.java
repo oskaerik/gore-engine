@@ -112,7 +112,7 @@ public class World {
     private void keyActions(GameContainer gameContainer, int delta) throws SlickException {
         // Adds items in range to inventory if player is carrying less than allowed amount of items
         if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
-            for (Item item : player.getIntersectedItems(currentRoom.getItems())) {
+            for (Item item : player.getItemsInRange(currentRoom.getItems())) {
                 if (player.tryAddToInventory(item)) {
                     currentRoom.removeItem(item);
                 }
@@ -139,12 +139,12 @@ public class World {
 
         // Engage in dialogue
         if (gameContainer.getInput().isKeyPressed(Input.KEY_D)) {
-            ArrayList<Character> intersectedCharacters =
-                    player.getIntersectedCharacters(currentRoom.getCharacters());
+            Character intersectedCharacter =
+                    player.getCharacterInRange(currentRoom.getCharacters());
             if (gameState.getCurrentState().equals("default")
-                    && intersectedCharacters.size() > 0) {
+                    && intersectedCharacter != null) {
                 gameState.toggleDialogue();
-                Character inDialogueWith = intersectedCharacters.get(0);
+                Character inDialogueWith = intersectedCharacter;
                 inDialogueWith.setInDialogue(true);
                 player.setInDialogueWith(inDialogueWith);
             } else if (gameState.getCurrentState().equals("dialogue")) {
