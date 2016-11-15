@@ -128,22 +128,12 @@ public class World {
 
         // Shoots fireball
         if (gameContainer.getInput().isKeyPressed(Input.KEY_M)) {
-            if (!currentRoom.getProjectiles().get(0).isShot()
-                    && gameState.getCurrentState().equals("default")) {
-                for (Projectile projectile : currentRoom.getProjectiles()) {
+            for (Projectile projectile : currentRoom.getProjectiles()) {
+                if (!projectile.isShot()
+                        && gameState.getCurrentState().equals("default")
+                        && projectile.getBelongsTo().equals("player")) {
                     projectile.shoot(player.getRect().getCenterX(), player.getRect().getCenterY(),
                             lastDirection);
-                }
-            }
-        }
-
-        // Shoots enemy fireballs
-        if (gameContainer.getInput().isKeyPressed(Input.KEY_N)) {
-            for (Projectile fireball : currentRoom.getProjectiles()) {
-                if (!fireball.isShot() && gameState.getCurrentState().equals("default")
-                        && !fireball.getBelongsTo().getName().equals("player")) {
-                    fireball.shoot(fireball.getBelongsTo().getRect().getCenterX(),
-                            fireball.getBelongsTo().getRect().getCenterY(), fireball.getBelongsTo().);
                 }
             }
         }

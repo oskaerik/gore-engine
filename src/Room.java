@@ -45,8 +45,8 @@ public class Room {
         characters = new ArrayList<>();
 
         projectiles = new ArrayList<>();
-        //fireball = new Projectile(new Rectangle(0, 0, 44, 42), "fireball", "A fireball", );
-        //projectiles.add(fireball);
+        fireball = new Projectile(new Rectangle(0, 0, 44, 42), "fireball", "A fireball", "player");
+        projectiles.add(fireball);
 
         generateWorldObjects();
         xOffset = 0;
@@ -119,6 +119,7 @@ public class Room {
         for (Projectile projectile : projectiles) {
             projectile.render();
         }
+        EnemyShootFireballs(gameState);
     }
 
     public void updateEntities(int delta) {
@@ -186,7 +187,7 @@ public class Room {
                     // Add the character to the room's characters
                     Character characterToBeAdded = new Character(characterRectangle, characterName, characterDescription, 0.1f);
                     characters.add(characterToBeAdded);
-                    projectiles.add(new Projectile(new Rectangle(0, 0, 44, 42), "fireball", "A fireball", characterToBeAdded));
+                    projectiles.add(new Projectile(new Rectangle(0, 0, 44, 42), "fireball", "A fireball", characterName));
                 }
             }
         }
@@ -265,5 +266,25 @@ public class Room {
     public double[] getOffset() {
         double[] toReturn = {xOffset, yOffset};
         return toReturn;
+    }
+
+    public Character getCharacterByName(String searchName) {
+        for (Character character : characters) {
+            if (character.getName().equals(searchName)) {
+                return character;
+            }
+        }
+        return null;
+    }
+
+    private void EnemyShootFireballs(GameState gameState) {
+        for (Projectile fireball : projectiles) {
+            if (!fireball.isShot() && gameState.getCurrentState().equals("default")
+                    && !fireball.getBelongsTo().equals("player")) {
+                fireball.shoot(getCharacterByName(fireball.getBelongsTo()).getRect().getCenterX(),
+                        getCharacterByName(fireball.getBelongsTo()).getRect().getCenterY(),
+                        getCharacterByName(fireball.getBelongsTo()).getLastDirection());
+            }
+        }
     }
 }
