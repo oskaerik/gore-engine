@@ -191,7 +191,8 @@ public class World {
             for (Projectile projectile : currentRoom.getProjectiles()) {
                 if (!projectile.isShot()
                         && gameState.getCurrentState().equals("default")
-                        && projectile.getBelongsTo().equals("player")) {
+                        && projectile.getBelongsTo().equals("player")
+                        && player.getInventory().checkIfInventoryContains("Chest")) {
                     projectile.shoot(player.getRect().getCenterX(), player.getRect().getCenterY(),
                             player.getLastDirection());
                 }

@@ -93,4 +93,14 @@ public class Inventory {
                     .blue);
         }
     }
+
+    public boolean checkIfInventoryContains(String itemName) {
+        boolean contains = false;
+        for (Item item : items) {
+            if (item.getName().equals(itemName)) {
+                contains = true;
+            }
+        }
+        return contains;
+    }
 }
