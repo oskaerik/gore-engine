@@ -29,7 +29,8 @@ public class Character extends Entity {
 
     /**
      * Constructor for the character class
-     * @param name The name of the character
+     *
+     * @param name        The name of the character
      * @param description The description of the character
      */
     public Character(Rectangle rectangle, String name, String description) throws SlickException {
@@ -88,19 +89,19 @@ public class Character extends Entity {
                 if (pixels > 0) {
                     switch (pixelsAndDirection[1]) {
                         case "D":
-                            getRect().setY(getRect().getY() + speed*delta);
+                            getRect().setY(getRect().getY() + speed * delta);
                             lastDirection = "down";
                             break;
                         case "U":
-                            getRect().setY(getRect().getY() - speed*delta);
+                            getRect().setY(getRect().getY() - speed * delta);
                             lastDirection = "up";
                             break;
                         case "L":
-                            getRect().setX(getRect().getX() - speed*delta);
+                            getRect().setX(getRect().getX() - speed * delta);
                             lastDirection = "left";
                             break;
                         case "R":
-                            getRect().setX(getRect().getX() + speed*delta);
+                            getRect().setX(getRect().getX() + speed * delta);
                             lastDirection = "right";
                             break;
                         default:
@@ -123,11 +124,11 @@ public class Character extends Entity {
     public void renderCharacter(Player player, GameState gameState, Graphics graphics) {
         getAnimation(player, gameState).draw(
                 getRect().getX()
-                        +(getRect().getWidth()
-                        - getAnimation(player, gameState).getCurrentFrame().getWidth())/2,
+                        + (getRect().getWidth()
+                        - getAnimation(player, gameState).getCurrentFrame().getWidth()) / 2,
                 getRect().getY()
                         + (getRect().getHeight()
-                        - getAnimation(player, gameState).getCurrentFrame().getHeight())/2);
+                        - getAnimation(player, gameState).getCurrentFrame().getHeight()) / 2);
         if (inDialogue) {
             displayDialogue(graphics, player);
         }
@@ -135,6 +136,7 @@ public class Character extends Entity {
 
     /**
      * Decreases the characters health
+     *
      * @param damage The amount of health points to take away
      */
     public void takeDamage(int damage) {
@@ -144,7 +146,9 @@ public class Character extends Entity {
     /**
      * @return Current health of the character
      */
-    public int getHealth() { return health; }
+    public int getHealth() {
+        return health;
+    }
 
     public void displayDialogue(Graphics graphics, Player player) {
         // Look in player inventory to see if player is holding any relevant inventory
@@ -162,7 +166,7 @@ public class Character extends Entity {
         }
         // Create dialogue rectangle
         Rectangle dialogueRectangle = new Rectangle(getRect().getCenterX()
-                - getFont().getWidth(currentDialogueArray.get(dialogueIndex))/2,
+                - getFont().getWidth(currentDialogueArray.get(dialogueIndex)) / 2,
                 getRect().getY() - getFont().getHeight(currentDialogueArray.get(dialogueIndex)) - 10,
                 getFont().getWidth(currentDialogueArray.get(dialogueIndex)), getFont().getHeight());
         graphics.setColor(Color.black);
@@ -184,11 +188,13 @@ public class Character extends Entity {
         inDialogue = value;
     }
 
-    public void increaseDialogIndex () {
+    public boolean increaseDialogIndex() {
         dialogueIndex++;
         if (dialogueIndex >= currentDialogueArray.size()) {
             dialogueIndex = 0;
+            return false;
         }
+        return true;
     }
 
     public boolean getInDialogue() {

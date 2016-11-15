@@ -147,11 +147,12 @@ public class World {
                 inDialogueWith.setInDialogue(true);
                 player.setInDialogue(inDialogueWith);
             } else if (gameState.getCurrentState().equals("dialogue")) {
-                gameState.toggleDialogue();
                 for (Character character : currentRoom.getCharacters()) {
                     if (character.getInDialogue()) {
-                        character.setInDialogue(false);
-                        character.increaseDialogIndex();
+                        if (!character.increaseDialogIndex()) {
+                            gameState.toggleDialogue();
+                            character.setInDialogue(false);
+                        }
                     }
                 }
                 player.setInDialogue(null);
@@ -248,7 +249,8 @@ public class World {
      * @param delta Amount of time that has passed since last updateGraphics (ms)
      * @throws SlickException Generic exception
      */
-    public void updateWorld(int delta) throws SlickException {
+    public void updateWorld(GameContainer gameContainer, int delta) throws SlickException {
+        checkEvents(gameContainer, delta);
         if (gameState.getCurrentState().equals("default")) {
             currentRoom.freezeEntities(false);
             currentRoom.updateEntities(delta);

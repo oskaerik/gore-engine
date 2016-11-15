@@ -1,8 +1,6 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Rectangle;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -64,8 +62,7 @@ public class Core extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
         // Updates the game world
-        world.checkEvents(gameContainer, delta);
-        world.updateWorld(delta);
+        world.updateWorld(gameContainer, delta);
     }
 
     /**
