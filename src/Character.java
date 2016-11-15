@@ -39,11 +39,13 @@ public class Character extends Entity {
         // The movementPath is the path of the character, does not change
         movementPath = Tools.readFileToArray("res/characters/" + getName() + "/movement.txt");
         // The movementArray changes when the character moves, resets to movementPath when done
-        movementArray = new ArrayList<>(movementPath);
+        if (!name.equals("player")) {
+            movementArray = new ArrayList<>(movementPath);
+            dialogueMap = generateDialogueFromArray(
+                    Tools.readFileToArray("res/characters/" + getName() + "/dialogue.txt"));
+            currentDialogueArray = dialogueMap.get("null");
+        }
 
-        dialogueMap = generateDialogueFromArray(
-                Tools.readFileToArray("res/characters/" + getName() + "/dialogue.txt"));
-        currentDialogueArray = dialogueMap.get("null");
         dialogueIndex = 0;
         inDialogue = false;
         lastDirection = "down";

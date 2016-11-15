@@ -2,7 +2,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.geom.Vector2f;
 
 import java.util.ArrayList;
 
@@ -11,53 +10,34 @@ import java.util.ArrayList;
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
-public class Player {
-    private double width;
-    private double height;
+public class Player extends Character {
     private double speed;
 
-    private Rectangle rect;
     private Circle range;
 
     private Inventory inventory;
     private ArrayList<Animation> animationArray;
     private boolean moving;
 
-    private Character inDialogue;
+    private Character inDialogueWith;
 
     /**
      * Constructor of the player class
-     *
-     * @param width  width of the player
-     * @param height height of the player
      * @param speed  speed of the player (pixels/frame)
      */
-    public Player(double width, double height, double speed, double radius) throws SlickException {
-        this.width = width;
-        this.height = height;
+    public Player(Rectangle rectangle, double speed, float radius) throws SlickException {
+        super(rectangle, "player", "The player");
         this.speed = speed;
 
-        // Creates the player rectangle and places it in the middle of the screen
-        rect = new Rectangle((Core.WIDTH - (float) this.width)/2,
-                (Core.HEIGHT - (float) this.height)/2,
-                (int) this.width, (int) this.height);
-
         // Creates the range circle and places it in the middle of the screen
-        range = new Circle((Core.WIDTH - (float) this.width)/2,
-                (Core.HEIGHT - (float) this.height)/2, (float)radius);
+        range = new Circle((Core.WIDTH - getRect().getWidth())/2,
+                (Core.HEIGHT - getRect().getHeight())/2, (float)radius);
 
         inventory = new Inventory();
         animationArray = Tools.createAnimation("character", "player");
         moving = false;
 
-        inDialogue = null;
-    }
-
-    /**
-     * @return The player rectangle
-     */
-    public Rectangle getRect() {
-        return rect;
+        inDialogueWith = null;
     }
 
     /**
@@ -128,7 +108,7 @@ public class Player {
     }
 
     public Animation getAnimation(String direction) {
-        if (inDialogue == null) {
+        if (inDialogueWith == null) {
             switch (direction) {
                 case ("up"):
                     return animationArray.get(0);
@@ -147,9 +127,9 @@ public class Player {
     }
 
     private Animation faceCharacter() {
-        if (inDialogue != null) {
+        if (inDialogueWith != null) {
             return Tools.getFreezeAnimation(
-                    animationArray, Tools.getFacing(getRect(), inDialogue.getRect()).get(0));
+                    animationArray, Tools.getFacing(getRect(), inDialogueWith.getRect()).get(0));
         } else {
             return Tools.getFreezeAnimation(animationArray, "down");
         }
@@ -157,9 +137,9 @@ public class Player {
 
     public ArrayList<Animation> getAnimationArray() { return animationArray; }
 
-    public void setInDialogue(Character character) {
-        inDialogue = character;
+    public void setInDialogueWith(Character character) {
+        inDialogueWith = character;
     }
 
-    public Character getInDialogue() { return inDialogue; }
+    public Character getInDialogueWith() { return inDialogueWith; }
 }

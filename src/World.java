@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * The camera class handles the moving of objects
+ * The World class contains all the objects in the world, updates them and checks for key input
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
@@ -28,7 +28,7 @@ public class World {
      */
     public World() throws SlickException {
         // The player object, takes parameters: width, height, speed, radius of range
-        player = new Player(16, 16, 0.2, 48);
+        player = new Player(new Rectangle(Core.WIDTH/2 - 8, Core.HEIGHT/2 - 8, 16, 16), 0.2, 48);
         animation = Tools.getFreezeAnimation(player.getAnimationArray(), "down");
         lastDirection = "down";
 
@@ -145,7 +145,7 @@ public class World {
                 gameState.toggleDialogue();
                 Character inDialogueWith = intersectedCharacters.get(0);
                 inDialogueWith.setInDialogue(true);
-                player.setInDialogue(inDialogueWith);
+                player.setInDialogueWith(inDialogueWith);
             } else if (gameState.getCurrentState().equals("dialogue")) {
                 for (Character character : currentRoom.getCharacters()) {
                     if (character.getInDialogue()) {
@@ -155,7 +155,7 @@ public class World {
                         }
                     }
                 }
-                player.setInDialogue(null);
+                player.setInDialogueWith(null);
             }
         }
 
@@ -272,7 +272,7 @@ public class World {
         currentRoom.renderEntities(graphics, player, gameState);
 
         // Draw the player animation
-        if (player.getInDialogue() != null) {
+        if (player.getInDialogueWith() != null) {
             animation = player.getAnimation(lastDirection);
         }
         animation.draw(player.getRect().getX()
@@ -313,13 +313,13 @@ public class World {
         }
         graphics.fill(getPlayer().getRect());
 
-        if (getPlayer().getInDialogue() != null) {
+        if (getPlayer().getInDialogueWith() != null) {
             // If player is in dialogue, it prints which way the
             // player and the character that also is in dialogue is facing.
             ArrayList<String> facing = Tools.getFacing(
-                    getPlayer().getRect(), getPlayer().getInDialogue().getRect());
+                    getPlayer().getRect(), getPlayer().getInDialogueWith().getRect());
             System.out.println("Player facing: " + facing.get(0) + "   "
-                    + getPlayer().getInDialogue().getName() + " facing: " + facing.get(1));
+                    + getPlayer().getInDialogueWith().getName() + " facing: " + facing.get(1));
         } else {
             // If not in dialogue, prints the top left corner coordinates. This makes it easier
             // to place world objects and exits in the right positions when creating worlds
