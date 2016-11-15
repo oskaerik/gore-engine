@@ -78,13 +78,17 @@ public class Inventory {
      * @param graphics Graphics component used to draw
      */
     public void drawInventory(Graphics graphics) {
+        // Fill inventory color
         graphics.setColor(Color.lightGray);
         graphics.fill(inventoryOutline);
+        // Set itemOutline color and draw inventory outline and item outline
         graphics.setColor(Color.green);
         graphics.draw(inventoryOutline);
         graphics.draw(inventoryItemOutline);
+        // Move selection based on the selected item number
         inventoryItemOutline.setY(Core.HEIGHT/2-200 + inventorySelectedItemNumber*16);
         for (int i = 0; i < getItems().size(); i ++) {
+            // Draw all items in inventory, moving down 1 image per item 
             Item itemDisplayed = getItems().get(i);
             graphics.drawImage(itemDisplayed.getAnimationArray().get(0).getImage(0), Core
                     .WIDTH/2 + 100, Core.HEIGHT/2 - 200 + 16*i);
