@@ -174,13 +174,14 @@ public class Room {
                 tileID = map.getTileId(i, j, 2);
                 String characterName = map.getTileProperty(tileID, "CharacterName", "");
                 String characterDescription = map.getTileProperty(tileID, "CharacterDescription", "");
+                String characterType = map.getTileProperty(tileID, "CharacterType", "");
                 if (!characterName.equals("")) {
                     // Create the character rectangle (SET SIZE ACCORDING TO PROPERTIES)
                     Rectangle characterRectangle = new Rectangle(
                             (float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
                             map.getTileWidth(), map.getTileHeight());
                     // Add the character to the room's characters
-                    Character characterToBeAdded = new Character(characterRectangle, characterName, characterDescription, 0.1f);
+                    Character characterToBeAdded = new Character(characterRectangle, characterName, characterDescription, characterType, 0.1f);
                     characters.add(characterToBeAdded);
                     projectiles.add(new Projectile(new Rectangle(0, 0, 44, 42), "fireball", "A fireball", characterName));
                 }
@@ -274,9 +275,9 @@ public class Room {
 
     private void EnemyShootFireballs(GameState gameState) {
         for (Projectile fireball : projectiles) {
-            if (!fireball.isShot() && gameState.getCurrentState().equals("default")
-                    && !fireball.getBelongsTo().equals("player")) {
-                if (getCharacterByName(fireball.getBelongsTo()) != null) {
+            if (getCharacterByName(fireball.getBelongsTo()) != null) {
+                if (!fireball.isShot() && gameState.getCurrentState().equals("default")
+                        && getCharacterByName(fireball.getBelongsTo()).getType().equals("enemy")) {
                     fireball.shoot(getCharacterByName(fireball.getBelongsTo()).getRect().getCenterX(),
                             getCharacterByName(fireball.getBelongsTo()).getRect().getCenterY(),
                             getCharacterByName(fireball.getBelongsTo()).getLastDirection());

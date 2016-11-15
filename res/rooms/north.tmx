@@ -18,12 +18,14 @@
    <properties>
     <property name="CharacterDescription" value="An evil enemy"/>
     <property name="CharacterName" value="enemy"/>
+    <property name="CharacterType" value="enemy"/>
    </properties>
   </tile>
   <tile id="93">
    <properties>
     <property name="CharacterDescription" value="A nice friend!"/>
     <property name="CharacterName" value="friend"/>
+    <property name="CharacterType" value="friend"/>
    </properties>
   </tile>
  </tileset>
