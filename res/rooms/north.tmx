@@ -45,6 +45,12 @@
     <property name="CharacterType" value="enemy"/>
    </properties>
   </tile>
+  <tile id="2">
+   <properties>
+    <property name="CharacterName" value="friend"/>
+    <property name="CharacterType" value="friend"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="ground" width="30" height="30" visible="0">
   <data encoding="base64" compression="gzip">
@@ -63,7 +69,7 @@
  </layer>
  <layer name="characters" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3OMQ0AAAjAMPy7BQVcKIBwtf+SRcCPWvZ5cgEAAIwGwyuEnhAOAAA=
+   H4sIAAAAAAAAA+3OsQ0AMAjAMP7/tvAAPxTULvYeKRHwRg77s3IBwLb6PQDAtQb5P6vVEA4AAA==
   </data>
  </layer>
 </map>
