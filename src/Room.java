@@ -5,7 +5,6 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
 
 import java.util.Date;
-import java.util.Random;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -149,7 +148,7 @@ public class Room {
                 projectile.setShot(false);
                 player.takeDamage(projectile.getDamage());
                 if (player.getHealth() <= 0) {
-                    gamestate.toggleGameOver();
+                    gamestate.gameOver();
                 }
             }
         }

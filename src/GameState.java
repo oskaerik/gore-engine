@@ -11,7 +11,7 @@ public class GameState {
     private String currentMode;
     private long endTime;
 
-    public GameState() { currentMode = "default"; }
+    public GameState(String currentMode) { this.currentMode = currentMode; }
 
     public void toggleInventory() {
         if (currentMode.equals("inventory")) {
@@ -22,7 +22,7 @@ public class GameState {
         }
     }
 
-    public void toggleDialogue(boolean value) {
+    public void setDialogueMode(boolean value) {
         if (value) {
             currentMode = "dialogue";
         } else {
@@ -32,20 +32,17 @@ public class GameState {
 
     public String getCurrentState() { return currentMode; }
 
-    public void toggleGameOver() {
+    public void gameOver() {
         currentMode = "gameover";
         endTime = new Date().getTime();
-    }
-
-    public void toggleStartScreen() {
-        currentMode = "startscreen";
-    }
-
-    public void toggleStartGame() {
-        currentMode = "default";
     }
 
     public long getEndTime() {
         return endTime;
     }
+
+    public void startGame() {
+        currentMode = "default";
+    }
+
 }

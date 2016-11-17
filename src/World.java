@@ -211,7 +211,7 @@ public class World {
             if (gameState.getCurrentState().equals("default")
                     && intersectedCharacter != null) {
                 // Toggle dialogue GameSate and put player in dialogue with the character
-                gameState.toggleDialogue(true);
+                gameState.setDialogueMode(true);
                 Character inDialogueWith = intersectedCharacter;
                 inDialogueWith.setInDialogue(true);
                 player.setInDialogueWith(inDialogueWith);
@@ -220,7 +220,7 @@ public class World {
                 for (Character character : currentRoom.getCharacters()) {
                     if (character.getInDialogue()) {
                         if (!character.increaseDialogIndex()) {
-                            gameState.toggleDialogue(false);
+                            gameState.setDialogueMode(false);
                             character.setInDialogue(false);
 
                             // When done with dialogue, set in dialogue with to null
@@ -390,7 +390,7 @@ public class World {
     public void triggerCutscene() {
         if (!currentRoom.getCutsceneCharacter().equals("")) {
             // Toggle dialogue GameSate and put player in dialogue with the character
-            gameState.toggleDialogue(true);
+            gameState.setDialogueMode(true);
             // Put the Character that the cutscene refers to as in dialogue with the player
             Character inDialogueWith = currentRoom.getCharacterByName(
                     currentRoom.getCutsceneCharacter());

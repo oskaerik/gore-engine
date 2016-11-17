@@ -1,9 +1,7 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Rectangle;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,8 +26,7 @@ public class Core extends BasicGame {
     // if the inventory is open, if the player is in a dialogue etc
     private GameState gameState;
 
-    // Time handling
-    private Date date;
+    // Time handling for start game screen
     private long startTime;
 
     // Start and end screen image
@@ -66,14 +63,14 @@ public class Core extends BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         // Create GameState
-        gameState = new GameState();
-        gameState.toggleStartScreen();
+        gameState = new GameState("startscreen");
 
-        date = new Date();
-        startTime = date.getTime();
+        // Start and end screen
+        startTime = new Date().getTime();
         startScreen = new Image("res/startscreen/startscreen.png");
         endScreen = new Image("res/startscreen/endscreen.png");
 
+        // Set the world to null before the start screen is gone
         world = null;
     }
 
@@ -85,8 +82,8 @@ public class Core extends BasicGame {
      */
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
+        // Updates the game world (if not still on the start screen)
         if (world != null) {
-            // Updates the game world
             world.updateWorld(gameContainer, delta);
         }
     }
@@ -100,14 +97,18 @@ public class Core extends BasicGame {
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         if (gameState.getCurrentState().equals("startscreen")) {
-            startScreen.draw(0,0);
-            if ((new Date().getTime() - startTime) > 1500) {
+            // Render start screen until start screen time has elapsed
+            startScreen.draw();
+            if ((new Date().getTime() - startTime)
+                    > Tools.readSettings("res/settings.txt", "START_SCREEN_TIME")) {
                 world = new World(gameState);
-                gameState.toggleStartGame();
+                gameState.startGame();
             }
         } else if (gameState.getCurrentState().equals("gameover")) {
+            // If game over, draw the end screen, then quit game
             endScreen.draw();
-            if ((new Date().getTime() - world.getGameState().getEndTime()) > 5000) {
+            if ((new Date().getTime() - world.getGameState().getEndTime())
+                    > Tools.readSettings("res/settings.txt", "END_SCREEN_TIME")); {
                 gameContainer.exit();
             }
         } else {
