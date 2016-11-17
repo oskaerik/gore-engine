@@ -1,6 +1,9 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +23,14 @@ public class Core extends BasicGame {
 
     // The World object handles the game world
     private World world;
+
+    // Time handling
+    private Date date;
+    private long startTime;
+
+    // Start and end screen image
+    private Image startScreen;
+    private Image endScreen;
 
     /**
      * Constructor for the Core class
@@ -51,6 +62,10 @@ public class Core extends BasicGame {
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         world = new World();
+        date = new Date();
+        startTime = date.getTime();
+        startScreen = new Image("res/startscreen/startscreen.png");
+        endScreen = new Image("res/startscreen/endscreen.png");
     }
 
     /**
@@ -75,5 +90,17 @@ public class Core extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         // Updates the graphics of the game world
         world.updateGraphics(graphics);
+        if (world.getGameState().getCurrentState().equals("startscreen")) {
+            startScreen.draw(0,0);
+            if (new Date().getTime() - startTime > 3000) {
+                world.getGameState().toggleStartGame();
+            }
+        }
+        else if (world.getGameState().getCurrentState().equals("gameover")) {
+            endScreen.draw();
+            if (new Date().getTime() - world.getGameState().getEndTime() > 5000) {
+                gameContainer.exit();
+            }
+        }
     }
 }
