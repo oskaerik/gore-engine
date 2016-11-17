@@ -13,7 +13,6 @@ import java.util.ArrayList;
  */
 public class Entity {
     private String name;
-    private String description;
     private Rectangle rectangle;
     private ArrayList<Animation> animationArray;
     private String type;
@@ -27,10 +26,9 @@ public class Entity {
      * @param type The type of the entity
      * @throws SlickException Generic exception
      */
-    public Entity(Rectangle rectangle, String name, String description, String type)
+    public Entity(Rectangle rectangle, String name, String type)
             throws SlickException {
         this.name = name;
-        this.description = description;
         this.rectangle = rectangle;
         this.type = type;
         font = new TrueTypeFont(new Font("Arial", Font.BOLD, 10), true);
@@ -51,11 +49,6 @@ public class Entity {
      * @return Name of the entity
      */
     protected String getName() { return name; }
-
-    /**
-     * @return Description of the entity
-     */
-    protected String getDescription() { return description; }
 
     /**
      * @return The font of the entity

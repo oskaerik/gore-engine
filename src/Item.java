@@ -17,11 +17,10 @@ public class Item extends Entity {
      * Constructor for Item class
      * @param rectangle The rectangle of the item
      * @param name The name of the item
-     * @param description The description of the item
      * @throws SlickException Generic exception
      */
-    public Item (Rectangle rectangle, String name, String description) throws SlickException {
-        super(rectangle, name, description, "item");
+    public Item (Rectangle rectangle, String name) throws SlickException {
+        super(rectangle, name, "item");
     }
 
     /**

@@ -28,9 +28,9 @@ public class Projectile extends Entity {
      * @param description The description of the projectile
      * @throws SlickException
      */
-    public Projectile(Rectangle rectangle, String name, String description,
-                      String characterName, int damage, float speed) throws SlickException {
-        super(rectangle, name, description, "projectile");
+    public Projectile(Rectangle rectangle, String name, String characterName,
+                      int damage, float speed) throws SlickException {
+        super(rectangle, name, "projectile");
         animationArray = Tools.createAnimation("projectile", name);
         shot = false;
         direction = null;

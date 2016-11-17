@@ -1,42 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
- <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="120" columns="8">
-  <image source="tiles.png" width="128" height="240"/>
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="tiles.png" width="128" height="160"/>
   <tile id="0">
    <properties>
     <property name="Blocked" type="bool" value="true"/>
    </properties>
   </tile>
-  <tile id="82">
+ </tileset>
+ <tileset firstgid="81" name="exits" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="exits.png" width="128" height="160"/>
+  <tile id="0">
    <properties>
     <property name="Exit" value="north"/>
     <property name="SpawnX" value="160"/>
     <property name="SpawnY" value="-144"/>
    </properties>
   </tile>
-  <tile id="83">
+ </tileset>
+ <tileset firstgid="161" name="items" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="transparent.png" width="128" height="160"/>
+  <tile id="0">
    <properties>
-    <property name="ItemDirectory" value="res/items/item1.png"/>
     <property name="ItemName" value="Bowl"/>
    </properties>
   </tile>
-  <tile id="90">
+  <tile id="1">
    <properties>
-    <property name="ItemDescription" value="An awesome chest"/>
     <property name="ItemName" value="Chest"/>
-    <property name="ItemPath" value="res/items/chest.png"/>
    </properties>
   </tile>
-  <tile id="93">
+ </tileset>
+ <tileset firstgid="241" name="characters" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="transparent.png" width="128" height="160"/>
+  <tile id="0">
    <properties>
-    <property name="ItemDescription" value="A lame bowl"/>
-    <property name="ItemName" value="Bowl"/>
-    <property name="ItemPath" value="res/items/bowl.png"/>
-   </properties>
-  </tile>
-  <tile id="96">
-   <properties>
-    <property name="CharacterDescription" value="Just a nice old wizard"/>
     <property name="CharacterName" value="wizard"/>
     <property name="CharacterType" value="friend"/>
    </properties>
@@ -44,17 +42,22 @@
  </tileset>
  <layer name="ground" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA92WMRbAIAhDcS+n6/3v0qUdqxLyDDpkxE9AlGZmDdD9Con9dC0Wk+siLtNvxEOkFlX9VuRmerCj31O4rNlR+e3lX6nO0fyRvuzgtwI3+3cjsYwazZ7B3k0i3NX9dRFX5XfEzcwDws3ctUjc3949+046yFX09zSuQg9p5xehEA4AAA==
+   H4sIAAAAAAAAA+3DAQ0AAAzDoAqYf70XckhYNVVVVd89HUdyRRAOAAA=
+  </data>
+ </layer>
+ <layer name="blocks_exits" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3NsQ0AIAwDQWdE9l+GBhZIESjO0pfWVZJqtE6d7216XC6Xy+VyuVwul/ur+6INCY/n9BAOAAA=
   </data>
  </layer>
  <layer name="items" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGJkgbqAdQENAjN+iae6KUYAOSA3zoRxHQ9ntQwFQO3yHenwNdfcPFzCS4mEk+XWogcEQN4PBDaSCoeBmarXdsfl1OPcLiAEAPOiQDxAOAAA=
+   H4sIAAAAAAAAA+3UoREAAAgDse6/BZsyAwIOkehXFU3gVi33ANzx0XM2Az5pPnFTGxAOAAA=
   </data>
  </layer>
  <layer name="characters" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3OAQ0AAAgDoFe1fwljfDpIQAL3TDsAAAAPLAVeLAwQDgAA
+   H4sIAAAAAAAAA+3OAQ0AAAgDoPdvawNjfDpIQAI3TDsAAADPLL8DB8gQDgAA
   </data>
  </layer>
 </map>

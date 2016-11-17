@@ -47,7 +47,7 @@ public class Room {
         projectiles = new ArrayList<>();
         // The player's projectile
         projectiles.add(new Projectile(
-                new Rectangle(0, 0, 44, 42), "fireball", "A fireball", "player", 10, 0.35f));
+                new Rectangle(0, 0, 44, 42), "fireball", "player", 10, 0.35f));
 
         generateWorldObjects();
         xOffset = 0;
@@ -182,19 +182,17 @@ public class Room {
                 // Check for objects on item layer
                 tileID = map.getTileId(i, j, 2);
                 String itemName = map.getTileProperty(tileID, "ItemName", "");
-                String itemDescription = map.getTileProperty(tileID, "ItemDescription", "");
                 if (!itemName.equals("")) {
                     // Create the character rectangle (SET SIZE ACCORDING TO PROPERTIES)
                     Rectangle itemRectangle = new Rectangle(
                             (float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
                             map.getTileWidth(), map.getTileHeight());
-                    items.add(new Item(itemRectangle, itemName, itemDescription));
+                    items.add(new Item(itemRectangle, itemName));
                 }
 
                 // Check for characters on characters layer
                 tileID = map.getTileId(i, j, 3);
                 String characterName = map.getTileProperty(tileID, "CharacterName", "");
-                String characterDescription = map.getTileProperty(tileID, "CharacterDescription", "");
                 String characterType = map.getTileProperty(tileID, "CharacterType", "");
                 if (!characterName.equals("")) {
                     // Create the character rectangle (SET SIZE ACCORDING TO PROPERTIES)
@@ -202,10 +200,10 @@ public class Room {
                             (float)i * map.getTileWidth(), (float)j * map.getTileHeight(),
                             map.getTileWidth(), map.getTileHeight());
                     // Add the character to the room's characters
-                    Character characterToBeAdded = new Character(characterRectangle, characterName, characterDescription, characterType, 0.1f);
+                    Character characterToBeAdded = new Character(characterRectangle, characterName, characterType, 0.1f);
                     characters.add(characterToBeAdded);
                     projectiles.add(new Projectile(new Rectangle(0, 0, 44, 42),
-                            "fireball", "A fireball", characterName, 20, 0.5f));
+                            "fireball", characterName, 20, 0.5f));
                 }
             }
         }

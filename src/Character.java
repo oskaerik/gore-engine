@@ -33,11 +33,10 @@ public class Character extends Entity {
      * Constructor for the character class
      *
      * @param name        The name of the character
-     * @param description The description of the character
      */
-    public Character(Rectangle rectangle, String name, String description, String type, float speed)
+    public Character(Rectangle rectangle, String name, String type, float speed)
             throws SlickException {
-        super(rectangle, name, description, "character");
+        super(rectangle, name, "character");
 
         // The movementPath is the path of the character, does not change
         movementPath = Tools.readFileToArray("res/characters/" + getName() + "/movement.txt");
@@ -47,7 +46,8 @@ public class Character extends Entity {
                 movementArray = new ArrayList<>(movementPath);
             }
             dialogueMap = generateDialogueFromArray(
-                    Tools.readFileToArray("res/characters/" + getName() + "/dialogue.txt"));
+                    Tools.readFileToArray("res/characters/"
+                            + getName().replaceAll("\\d", "") + "/dialogue.txt"));
             currentDialogueArray = dialogueMap.get("null");
         }
 
@@ -222,6 +222,7 @@ public class Character extends Entity {
         if (dialogueFileLines.size() <= 0) {
             return null;
         }
+
         String firstline = dialogueFileLines.get(0);
         String[] listOfRelevantItems = firstline.split(",");
         dialogueFileLines.remove(0);

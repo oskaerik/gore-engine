@@ -41,6 +41,7 @@ public class Tools {
         // If it's a character animation the keywords should be it's directions and the folder
         // "res/characters/"
         if (type.equals("character")) {
+            name = name.replaceAll("\\d", "");
             String[] directions = {"up", "down", "left", "right"};
             for (String direction : directions) {
                 keyWords.add(direction);

@@ -26,7 +26,7 @@ public class Player extends Character {
      * @throws SlickException Generic exception
      */
     public Player(Rectangle rectangle, float speed, float radius) throws SlickException {
-        super(rectangle, "player", "The player", "player", speed);
+        super(rectangle, "player", "player", speed);
 
         // Creates the range circle and places it in the middle of the screen
         range = new Circle(0, 0, radius);
