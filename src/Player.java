@@ -16,22 +16,22 @@ public class Player extends Character {
     private Circle range;
 
     // The player can be in dialogue with a specific character, this is null if not in dialogue
-    private Character inDialogueWith;
 
     /**
      * Constructor of the Player class
+     *
      * @param rectangle The player's rectangle
-     * @param speed The player's speed, how fast the world objects move
-     * @param radius The radius of the range of the player
+     * @param speed     The player's speed, how fast the world objects move
+     * @param radius    The radius of the range of the player
      * @throws SlickException Generic exception
      */
     public Player(Rectangle rectangle, float speed, float radius) throws SlickException {
         super(rectangle, "player", "The player", "player", speed);
 
         // Creates the range circle and places it in the middle of the screen
-        range = new Circle((Core.WIDTH - getRect().getWidth())/2,
-                (Core.HEIGHT - getRect().getHeight())/2, radius);
-        inDialogueWith = null;
+        range = new Circle(0, 0, radius);
+        range.setCenterX(getRect().getCenterX());
+        range.setCenterY(getRect().getCenterY());
     }
 
     /**
@@ -43,6 +43,7 @@ public class Player extends Character {
 
     /**
      * Tries to add an item to the players inventory, returns true of possible, returns false if not
+     *
      * @param item The item that should be added
      * @return A boolean indicating whether it was possible to add the item to the player's inventory
      */
@@ -57,6 +58,7 @@ public class Player extends Character {
 
     /**
      * Removes an item from the player's inventory, based on the index, and returns it
+     *
      * @param itemIndex The index of the item to be removed from the inventory
      * @return The item that was removed from the inventory
      */
@@ -70,6 +72,7 @@ public class Player extends Character {
 
     /**
      * Returns an ArrayList of the items that the player's range intersects
+     *
      * @param items An ArrayList containing the items to be checked
      * @return An ArrayList with the intersected items
      */
@@ -85,6 +88,7 @@ public class Player extends Character {
 
     /**
      * Returns the first character in an ArrayList that the player range intersects
+     *
      * @param characters An ArrayList containing the characters to be checked
      * @return The first character found
      */
@@ -99,6 +103,7 @@ public class Player extends Character {
 
     /**
      * Returns the first intersected exit in an ArrayList of exits that the player intersects
+     *
      * @param exits An ArrayList containing the exits to be checked
      * @return The first exit found
      */
@@ -110,17 +115,4 @@ public class Player extends Character {
         }
         return null;
     }
-
-    /**
-     * Sets the player in dialogue with a specific character
-     * @param character Character to be in dialogue with
-     */
-    public void setInDialogueWith(Character character) {
-        inDialogueWith = character;
-    }
-
-    /**
-     * @return The character whom the player is in dialogue with
-     */
-    public Character getInDialogueWith() { return inDialogueWith; }
 }

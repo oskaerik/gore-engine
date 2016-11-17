@@ -26,6 +26,7 @@ public class Character extends Entity {
     private HashMap<String, ArrayList<String>> dialogueMap;
     private int dialogueIndex;
     private boolean inDialogue;
+    private Character inDialogueWith;
     private String type;
 
     /**
@@ -57,6 +58,7 @@ public class Character extends Entity {
         health = 100;
         inventory = new Inventory();
         this.type = type;
+        inDialogueWith = null;
     }
 
     /**
@@ -68,8 +70,10 @@ public class Character extends Entity {
         } else {
             if (!inDialogue) {
                 return Tools.getFreezeAnimation(getAnimationArray(), lastDirection);
+            } else if (!type.equals("player")) {
+                return Tools.getFreezeAnimation(getAnimationArray(), faceCharacter(player));
             } else {
-                return Tools.getFreezeAnimation(getAnimationArray(), facePlayer(player));
+                return Tools.getFreezeAnimation(getAnimationArray(), faceCharacter(player));
             }
         }
     }
@@ -179,11 +183,19 @@ public class Character extends Entity {
                 currentDialogueArray.get(dialogueIndex), Color.white);
     }
 
+
     /**
-     * @return Returns the way to face so that it resembles facing the player the most
+     * Returns the direction to face so that it resembles facing the player/character the most
+     * @param player The player object
+     * @param index Index 0 is the player and index 1 is the character
+     * @return Returns the way to face so that it resembles facing the player/character the most
      */
-    public String facePlayer(Player player) {
-        return Tools.getFacing(player.getRect(), getRect()).get(1);
+    public String faceCharacter(Player player) {
+        if (!type.equals("player")) {
+            return Tools.getFacing(player.getRect(), getRect()).get(1);
+        } else {
+            return Tools.getFacing(getRect(), inDialogueWith.getRect()).get(0);
+        }
     }
 
     public void setInDialogue(boolean value) {
@@ -203,13 +215,9 @@ public class Character extends Entity {
         return inDialogue;
     }
 
-    public HashMap generateDialogueFromArray(ArrayList<String> dialogueFileLines) {
-        HashMap<String, ArrayList> returnHashMap = new HashMap<>();
-
-        System.out.println("Begin new");
-        for (String line : dialogueFileLines) {
-            System.out.println(line);
-        }
+    public HashMap<String, ArrayList<String>> generateDialogueFromArray(
+            ArrayList<String> dialogueFileLines) {
+        HashMap<String, ArrayList<String>> returnHashMap = new HashMap<>();
 
         if (dialogueFileLines.size() <= 0) {
             return null;
@@ -269,4 +277,25 @@ public class Character extends Entity {
             getFont().drawString(getRect().getX(), getRect().getY() - 15, Integer.toString(health), Color.blue);
         }
     }
+
+    /**
+     * Sets the player in dialogue with a specific character
+     * @param character Character to be in dialogue with
+     */
+    public void setInDialogueWith(Character character) {
+        inDialogueWith = character;
+        if (character != null) {
+            setFrozen(true);
+            setInDialogue(true);
+        } else {
+            setFrozen(false);
+            setInDialogue(false);
+        }
+    }
+
+    /**
+     * @return The character whom the player is in dialogue with
+     */
+    public Character getInDialogueWith() { return inDialogueWith; }
 }
+

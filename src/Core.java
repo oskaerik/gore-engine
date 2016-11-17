@@ -76,8 +76,12 @@ public class Core extends BasicGame {
      */
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
-        // Updates the game world
-        world.updateWorld(gameContainer, delta);
+        System.out.println("Update: " + world.getGameState().getCurrentState());
+        if (!(world.getGameState().equals("startscreen")
+                || world.getGameState().equals("gameover"))) {
+            // Updates the game world
+            world.updateWorld(gameContainer, delta);
+        }
     }
 
     /**
@@ -88,19 +92,24 @@ public class Core extends BasicGame {
      */
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        // Updates the graphics of the game world
-        world.updateGraphics(graphics);
         if (world.getGameState().getCurrentState().equals("startscreen")) {
+            System.out.println(world.getGameState().getCurrentState());
             startScreen.draw(0,0);
-            if (new Date().getTime() - startTime > 3000) {
+            System.out.println(startTime);
+            System.out.println(new Date().getTime());
+            System.out.println(new Date().getTime() - startTime);
+            if ((new Date().getTime() - startTime) > 5000) {
+                System.out.println("This happens");
                 world.getGameState().toggleStartGame();
             }
-        }
-        else if (world.getGameState().getCurrentState().equals("gameover")) {
+        } else if (world.getGameState().getCurrentState().equals("gameover")) {
             endScreen.draw();
-            if (new Date().getTime() - world.getGameState().getEndTime() > 5000) {
+            if ((new Date().getTime() - world.getGameState().getEndTime()) > 5000) {
                 gameContainer.exit();
             }
+        } else {
+            // Updates the graphics of the game world
+            world.updateGraphics(graphics);
         }
     }
 }

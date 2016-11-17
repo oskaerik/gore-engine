@@ -32,12 +32,14 @@ public class World {
         // The player object, takes parameters: width, height, speed, radius of range
         player = new Player(new Rectangle(Core.WIDTH/2 - 8, Core.HEIGHT/2 - 8, 16, 16), 0.2f, 48);
 
+        // Add rooms to HashMap rooms and set the starting room to current room
+        rooms = generateRoomHashMap();
+
         // Create GameState
         gameState = new GameState();
         gameState.toggleStartScreen();
+        System.out.println(gameState.getCurrentState());
 
-        // Add rooms to HashMap rooms and set the starting room to current room
-        rooms = generateRoomHashMap();
         debug = false;
     }
 
@@ -213,7 +215,7 @@ public class World {
             if (gameState.getCurrentState().equals("default")
                     && intersectedCharacter != null) {
                 // Toggle dialogue GameSate and put player in dialogue with the character
-                gameState.toggleDialogue();
+                gameState.toggleDialogue(true);
                 Character inDialogueWith = intersectedCharacter;
                 inDialogueWith.setInDialogue(true);
                 player.setInDialogueWith(inDialogueWith);
@@ -222,13 +224,15 @@ public class World {
                 for (Character character : currentRoom.getCharacters()) {
                     if (character.getInDialogue()) {
                         if (!character.increaseDialogIndex()) {
-                            gameState.toggleDialogue();
+                            gameState.toggleDialogue(false);
                             character.setInDialogue(false);
+
+                            // When done with dialogue, set in dialogue with to null
+                            player.setInDialogueWith(null);
                         }
                     }
                 }
-                // When done with dialogue, set in dialogue with to null
-                player.setInDialogueWith(null);
+
             }
             player.setFrozen(gameState.getCurrentState().equals("dialogue"));
         }
@@ -356,6 +360,7 @@ public class World {
     private void runDebug(Graphics graphics) {
         // Fills rectangles with white color so they are easier to see
         graphics.setColor(Color.white);
+        graphics.fill(player.getRange());
         for (Rectangle block : currentRoom.getBlocks()) {
             graphics.fill(block);
         }
@@ -389,7 +394,7 @@ public class World {
     public void triggerCutscene() {
         if (!currentRoom.getCutsceneCharacter().equals("")) {
             // Toggle dialogue GameSate and put player in dialogue with the character
-            gameState.toggleDialogue();
+            gameState.toggleDialogue(true);
             // Put the Character that the cutscene refers to as in dialogue with the player
             Character inDialogueWith = currentRoom.getCharacterByName(
                     currentRoom.getCutsceneCharacter());
