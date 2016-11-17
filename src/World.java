@@ -17,28 +17,24 @@ public class World {
     private Room currentRoom;
     private HashMap<String, Room> rooms;
 
-    // GameState object, holding information about the state of the game,
-    // if the inventory is open, if the player is in a dialogue etc
-    private GameState gameState;
-
     // Debugging variable
     private boolean debug;
+
+    private GameState gameState;
 
     /**
      * Constructor for the World class
      * @throws SlickException Generic exception
      */
-    public World() throws SlickException {
+    public World(GameState gameState) throws SlickException {
+        // Get the GameState object
+        this.gameState = gameState;
+
         // The player object, takes parameters: width, height, speed, radius of range
         player = new Player(new Rectangle(Core.WIDTH/2 - 8, Core.HEIGHT/2 - 8, 16, 16), 0.2f, 48);
 
         // Add rooms to HashMap rooms and set the starting room to current room
         rooms = generateRoomHashMap();
-
-        // Create GameState
-        gameState = new GameState();
-        gameState.toggleStartScreen();
-        System.out.println(gameState.getCurrentState());
 
         debug = false;
     }

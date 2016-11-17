@@ -24,6 +24,10 @@ public class Core extends BasicGame {
     // The World object handles the game world
     private World world;
 
+    // GameState object, holding information about the state of the game,
+    // if the inventory is open, if the player is in a dialogue etc
+    private GameState gameState;
+
     // Time handling
     private Date date;
     private long startTime;
@@ -61,11 +65,17 @@ public class Core extends BasicGame {
      */
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
-        world = new World();
+        // Create GameState
+        gameState = new GameState();
+        gameState.toggleStartScreen();
+        System.out.println(gameState.getCurrentState());
+
         date = new Date();
         startTime = date.getTime();
         startScreen = new Image("res/startscreen/startscreen.png");
         endScreen = new Image("res/startscreen/endscreen.png");
+
+        world = null;
     }
 
     /**
@@ -76,9 +86,7 @@ public class Core extends BasicGame {
      */
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
-        System.out.println("Update: " + world.getGameState().getCurrentState());
-        if (!(world.getGameState().equals("startscreen")
-                || world.getGameState().equals("gameover"))) {
+        if (world != null) {
             // Updates the game world
             world.updateWorld(gameContainer, delta);
         }
@@ -92,24 +100,26 @@ public class Core extends BasicGame {
      */
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-        if (world.getGameState().getCurrentState().equals("startscreen")) {
-            System.out.println(world.getGameState().getCurrentState());
+        if (gameState.getCurrentState().equals("startscreen")) {
             startScreen.draw(0,0);
-            System.out.println(startTime);
             System.out.println(new Date().getTime());
+            System.out.println(startTime);
             System.out.println(new Date().getTime() - startTime);
             if ((new Date().getTime() - startTime) > 5000) {
-                System.out.println("This happens");
-                world.getGameState().toggleStartGame();
+                System.out.println("HERE");
+                world = new World(gameState);
+                gameState.toggleStartGame();
             }
-        } else if (world.getGameState().getCurrentState().equals("gameover")) {
+        } else if (gameState.getCurrentState().equals("gameover")) {
             endScreen.draw();
             if ((new Date().getTime() - world.getGameState().getEndTime()) > 5000) {
                 gameContainer.exit();
             }
         } else {
             // Updates the graphics of the game world
-            world.updateGraphics(graphics);
+            if (world != null) {
+                world.updateGraphics(graphics);
+            }
         }
     }
 }
