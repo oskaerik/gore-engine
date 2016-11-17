@@ -114,6 +114,7 @@ public class Room {
     public void renderEntities(Graphics graphics, Player player, GameState gameState) {
         for (Character character : characters) {
             character.renderCharacter(player, gameState, graphics);
+            character.drawHealth();
         }
         for (Item item : items) {
             item.getAnimationArray().get(0).draw(item.getRect().getX(), item.getRect().getY());
@@ -131,6 +132,8 @@ public class Room {
                 character.updateLocation(delta);
             }
         }
+
+        // Place this in projectiles
         // Update projectiles positions
         for (Projectile projectile : projectiles) {
             Character hitCharacter = projectile.moveProjectile(getBlocks(), getCharacters(), delta);

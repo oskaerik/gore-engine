@@ -42,7 +42,11 @@ public class Character extends Entity {
         movementPath = Tools.readFileToArray("res/characters/" + getName() + "/movement.txt");
         // The movementArray changes when the character moves, resets to movementPath when done
         if (!name.equals("player")) {
-            movementArray = new ArrayList<>(movementPath);
+            System.out.println("Generating " + "res/characters/" + getName() + "/movement.txt");
+            if (movementPath != null) {
+                movementArray = new ArrayList<>(movementPath);
+            }
+            System.out.println("Generating " + "res/characters/" + getName() + "/dialogue.txt");
             dialogueMap = generateDialogueFromArray(
                     Tools.readFileToArray("res/characters/" + getName() + "/dialogue.txt"));
             currentDialogueArray = dialogueMap.get("null");
@@ -83,20 +87,27 @@ public class Character extends Entity {
                 if (pixels > 0) {
                     switch (pixelsAndDirection[1]) {
                         case "D":
+                            setFrozen(false);
                             getRect().setY(getRect().getY() + speed * delta);
                             lastDirection = "down";
                             break;
                         case "U":
+                            setFrozen(false);
                             getRect().setY(getRect().getY() - speed * delta);
                             lastDirection = "up";
                             break;
                         case "L":
+                            setFrozen(false);
                             getRect().setX(getRect().getX() - speed * delta);
                             lastDirection = "left";
                             break;
                         case "R":
+                            setFrozen(false);
                             getRect().setX(getRect().getX() + speed * delta);
                             lastDirection = "right";
+                            break;
+                        case "S":
+                            setFrozen(true);
                             break;
                         default:
                             break;
@@ -123,9 +134,6 @@ public class Character extends Entity {
         if (inDialogue) {
             displayDialogue(graphics, player);
         }
-        if (health < 100) {
-            getFont().drawString(getRect().getX(), getRect().getY() - 15, Integer.toString(health), Color.blue);
-        }
     }
 
     /**
@@ -134,8 +142,9 @@ public class Character extends Entity {
      * @param damage The amount of health points to take away
      */
     public void takeDamage(int damage) {
-        health -= damage;
-        displayHealth();
+        if (!type.equals("friend")) {
+            health -= damage;
+        }
     }
 
     /**
@@ -251,6 +260,9 @@ public class Character extends Entity {
         return type;
     }
 
-    private void displayHealth() {
+    public void drawHealth() {
+        if (health < 100) {
+            getFont().drawString(getRect().getX(), getRect().getY() - 15, Integer.toString(health), Color.blue);
+        }
     }
 }

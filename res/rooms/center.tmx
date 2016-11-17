@@ -34,6 +34,13 @@
     <property name="ItemPath" value="res/items/bowl.png"/>
    </properties>
   </tile>
+  <tile id="96">
+   <properties>
+    <property name="CharacterDescription" value="Just a nice dude"/>
+    <property name="CharacterName" value="niceguy"/>
+    <property name="CharacterType" value="friend"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="ground" width="30" height="30">
   <data encoding="base64" compression="gzip">
@@ -47,7 +54,7 @@
  </layer>
  <layer name="characters" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3BAQEAAACCIP+vbkhAAQAA8Gh7blyXEA4AAA==
+   H4sIAAAAAAAAA+3OAQ0AAAgDoFe1fwljfDpIQAL3TDsAAAAPLAVeLAwQDgAA
   </data>
  </layer>
 </map>

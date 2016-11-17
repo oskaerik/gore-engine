@@ -324,6 +324,7 @@ public class World {
                         +(player.getRect().getWidth()-player.getAnimation(player).getCurrentFrame().getWidth())/2,
                 player.getRect().getY()
                         +(player.getRect().getHeight()-player.getAnimation(player).getCurrentFrame().getHeight())/2);
+        player.drawHealth();
 
         // Highlight items in player range
         currentRoom.highlightItems(player.getRange());
