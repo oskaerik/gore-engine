@@ -1,0 +1,2 @@
+center wizard
+north

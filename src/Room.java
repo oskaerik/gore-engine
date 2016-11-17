@@ -159,7 +159,7 @@ public class Room {
         // Loop through all tiles in the map file
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                int tileID = map.getTileId(i, j, 0);
+                int tileID = map.getTileId(i, j, 1);
 
                 // Check for blocked tiles
                 String value = map.getTileProperty(tileID, "Blocked", "false");
@@ -179,8 +179,8 @@ public class Room {
                             map.getTileWidth(), map.getTileHeight()), destination, spawnXPosition, spawnYPosition));
                 }
 
-                // Check for objects on object layer
-                tileID = map.getTileId(i, j, 1);
+                // Check for objects on item layer
+                tileID = map.getTileId(i, j, 2);
                 String itemName = map.getTileProperty(tileID, "ItemName", "");
                 String itemDescription = map.getTileProperty(tileID, "ItemDescription", "");
                 if (!itemName.equals("")) {
@@ -192,7 +192,7 @@ public class Room {
                 }
 
                 // Check for characters on characters layer
-                tileID = map.getTileId(i, j, 2);
+                tileID = map.getTileId(i, j, 3);
                 String characterName = map.getTileProperty(tileID, "CharacterName", "");
                 String characterDescription = map.getTileProperty(tileID, "CharacterDescription", "");
                 String characterType = map.getTileProperty(tileID, "CharacterType", "");

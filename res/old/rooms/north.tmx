@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="120" columns="8">
+  <image source="tiles.png" width="128" height="240"/>
+  <tile id="0">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="Exit" value="center"/>
+    <property name="SpawnX" value="160"/>
+    <property name="SpawnY" value="269"/>
+   </properties>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="CharacterDescription" value="An evil enemy"/>
+    <property name="CharacterName" value="enemy"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="93">
+   <properties>
+    <property name="CharacterDescription" value="A nice friend!"/>
+    <property name="CharacterName" value="friend"/>
+    <property name="CharacterType" value="friend"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="ground" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2VsQ7AIAhEYdev8///xcUuTSNwEmmpw8VF8rgTlYmIg1Q2y5Nbg7iefi0eLFlY/d73olkhXA7k8shuJ/dpzc5FaiXu7O5EzbPUh6X/N75Xmv6RN+0Lfg/3cC9JM67hev39mXPOzNWef3Xm/i3nFS6iNoTWdzcSMJkQDgAA
+  </data>
+ </layer>
+ <layer name="items" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQEAAACCIP+vbkhAAQAA8Gh7blyXEA4AAA==
+  </data>
+ </layer>
+ <layer name="characters" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3OMQkAAAgAMHsK9o9hAB8/EbYEiwCY8jqwUNcBAIDnGlY5f/MQDgAA
+  </data>
+ </layer>
+</map>
