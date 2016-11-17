@@ -30,6 +30,11 @@
     <property name="ItemName" value="Chest"/>
    </properties>
   </tile>
+  <tile id="2">
+   <properties>
+    <property name="ItemName" value="Fireball"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="241" name="characters" tilewidth="16" tileheight="16" tilecount="80" columns="8">
   <image source="transparent.png" width="128" height="160"/>
@@ -62,12 +67,12 @@
    H4sIAAAAAAAAA2NkYGBgHCBMbzBq78i19+MA2Usp+DRA9uIDo/aO2jtq76i9o/aO2jtq76i9o/bSxl5ycCAUk6sfAF9B3fwQDgAA
   </data>
  </layer>
- <layer name="items" width="30" height="30" visible="0">
+ <layer name="items" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGAWjgL5gIY3Vj4JRMApGwSigHxgto0kHo2E2fMGiQWbOKBgFxAAAlaLlchAOAAA=
+   H4sIAAAAAAAAA2NgGAW0AIsH2gGDGCyksfpRMApGwSgYBfQDo2U06WA0zIYvWDTIzBkFo4AYAAAbN9u+EA4AAA==
   </data>
  </layer>
- <layer name="characters" width="30" height="30">
+ <layer name="characters" width="30" height="30" visible="0">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAA+3OsQ0AMAjAMP7/tvAAPxTULvYeKRHwRg77s3IBwLb6PQDAtQb5P6vVEA4AAA==
   </data>

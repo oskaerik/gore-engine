@@ -20,10 +20,12 @@ public class World {
     // Debugging variable
     private boolean debug;
 
+    // GameState object handling the current game mode, like "inventory" or "dialogue"
     private GameState gameState;
 
     /**
      * Constructor for the World class
+     * @param gameState The GameState object
      * @throws SlickException Generic exception
      */
     public World(GameState gameState) throws SlickException {
@@ -36,6 +38,7 @@ public class World {
         // Add rooms to HashMap rooms and set the starting room to current room
         rooms = generateRoomHashMap();
 
+        // The debug variable
         debug = false;
     }
 
@@ -50,10 +53,14 @@ public class World {
         // Reads the rooms.txt-file and loops through the lines
         ArrayList<String> roomsFile = Tools.readFileToArray("res/rooms/rooms.txt");
         for (String line : roomsFile) {
+            // Split the string up by the space, dividing up name and who to be in cutscene with
             String[] nameAndCutscene = line.split(" ");
+
             // Adds the path to the room to the HashMap
             returnMap.put(nameAndCutscene[0], new Room(
                     "res/rooms/" + nameAndCutscene[0] + ".tmx", nameAndCutscene[0]));
+
+            // If there's someone to be in cutscene with, set that character to the room
             if (nameAndCutscene.length > 1) {
                 returnMap.get(nameAndCutscene[0]).setCutsceneCharacter(nameAndCutscene[1]);
             }
@@ -171,6 +178,12 @@ public class World {
         }
     }
 
+    /**
+     * Handles action keys, like picking up items and such
+     * @param gameContainer GameContainer object handling game loop etc
+     * @param delta Amount of time that has passed since last updateGraphics (ms)
+     * @throws SlickException Generic exception
+     */
     private void keyActions(GameContainer gameContainer, int delta) throws SlickException {
         // Adds items in range to inventory if player is carrying less than allowed amount of items
         if (gameContainer.getInput().isKeyPressed(Input.KEY_SPACE)) {
@@ -191,10 +204,9 @@ public class World {
         // Shoots fireball
         if (gameContainer.getInput().isKeyPressed(Input.KEY_M)) {
             for (Projectile projectile : currentRoom.getProjectiles()) {
-                if (!projectile.isShot()
-                        && gameState.getCurrentState().equals("default")
+                if (!projectile.isShot() && gameState.getCurrentState().equals("default")
                         && projectile.getBelongsTo().equals("player")
-                        && player.getInventory().checkIfInventoryContains("Chest")) {
+                        && player.getInventory().checkIfInventoryContains("Fireball")) {
                     projectile.shoot(player.getRect().getCenterX(), player.getRect().getCenterY(),
                             player.getLastDirection());
                 }
@@ -230,6 +242,7 @@ public class World {
                 }
 
             }
+            // Set player frozen depending on the game state
             player.setFrozen(gameState.getCurrentState().equals("dialogue"));
         }
 
@@ -311,16 +324,12 @@ public class World {
      */
     public Player getPlayer() { return player; }
 
-    public GameState getGameState() {
-        return gameState;
-    }
-
     /**
      * Updates the graphics of the game world
      * @param graphics Graphics component used to draw
      */
     public void updateGraphics(Graphics graphics) {
-        // Draw the world
+        // Draw the world, renders the world on the top left collision block
         currentRoom.render(
                 currentRoom.getBlocks().get(0).getX(), currentRoom.getBlocks().get(0).getY());
 
@@ -332,6 +341,7 @@ public class World {
                         +(player.getRect().getWidth()-player.getAnimation(player).getCurrentFrame().getWidth())/2,
                 player.getRect().getY()
                         +(player.getRect().getHeight()-player.getAnimation(player).getCurrentFrame().getHeight())/2);
+        // Draw the players health
         player.drawHealth();
 
         // Highlight items in player range

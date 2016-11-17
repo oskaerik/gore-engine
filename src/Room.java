@@ -15,28 +15,37 @@ import java.util.Iterator;
  * @version 0.1
  */
 public class Room {
+    // The map of the room
     private TiledMap map;
+
+    // The blocked tiles of the room, the exits, the items, the players and the projectiles
     private ArrayList<Rectangle> blocks;
     private ArrayList<Exit> exits;
     private ArrayList<Item> items;
     private ArrayList<Character> characters;
     private ArrayList<Projectile> projectiles;
-    private String name;
-    private Projectile fireball;
 
+    // Name of the room
+    private String name;
+
+    // The current offset of the room, how much it has moved (when the player moves"
     private double xOffset;
     private double yOffset;
+
+    // Date for time handling
     private Date date;
 
+    // The character with whom the cutscene dialogue should be with
     private String cutsceneCharacter;
 
     /**
-     * Constructor for the Room class
      * @param mapDirectory Name of the map .tmx-file in the map-folder
+     * @param name Name of the map
+     * @throws SlickException Generic exception
      */
-    public Room(String mapDirectory, String mapName) throws SlickException {
+    public Room(String mapDirectory, String name) throws SlickException {
         map = new TiledMap(mapDirectory);
-        name = mapName;
+        this.name = name;
 
         blocks = new ArrayList<>();
         exits = new ArrayList<>();
@@ -48,12 +57,13 @@ public class Room {
         projectiles.add(new Projectile(
                 new Rectangle(0, 0, 44, 42), "fireball", "player", 10, 0.35f));
 
-        generateWorldObjects();
         xOffset = 0;
         yOffset = 0;
         date = new Date();
-
         cutsceneCharacter = "";
+
+        // Generate the world objects
+        generateWorldObjects();
         }
 
     /**

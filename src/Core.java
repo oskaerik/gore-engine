@@ -107,7 +107,7 @@ public class Core extends BasicGame {
         } else if (gameState.getCurrentState().equals("gameover")) {
             // If game over, draw the end screen, then quit game
             endScreen.draw();
-            if ((new Date().getTime() - world.getGameState().getEndTime())
+            if ((new Date().getTime() - gameState.getEndTime())
                     > Tools.readSettings("res/settings.txt", "END_SCREEN_TIME")); {
                 gameContainer.exit();
             }
