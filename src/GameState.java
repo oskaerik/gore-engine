@@ -1,3 +1,5 @@
+import java.util.Date;
+
 /**
  * The GameState class, contains information about the current state of the game.
  * @author Oskar Eriksson and Gustave Rousselet
@@ -7,6 +9,7 @@
 public class GameState {
 
     private String currentMode;
+    private long endTime;
 
     public GameState() { currentMode = "default"; }
 
@@ -32,5 +35,18 @@ public class GameState {
 
     public void toggleGameOver() {
         currentMode = "gameover";
+        endTime = new Date().getTime();
+    }
+
+    public void toggleStartScreen() {
+        currentMode = "startscreen";
+    }
+
+    public void toggleStartGame() {
+        currentMode = "default";
+    }
+
+    public long getEndTime() {
+        return endTime;
     }
 }

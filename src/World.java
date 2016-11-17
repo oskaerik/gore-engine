@@ -34,6 +34,7 @@ public class World {
 
         // Create GameState
         gameState = new GameState();
+        gameState.toggleStartScreen();
 
         // Add rooms to HashMap rooms and set the starting room to current room
         rooms = generateRoomHashMap();
@@ -80,11 +81,6 @@ public class World {
             currentRoom.updateEntities(delta, player, gameState);
         } else {
             currentRoom.freezeEntities(true);
-        }
-
-        // If the current GameState is gameover
-        if (gameState.getCurrentState().equals("gameover")) {
-            gameContainer.exit();
         }
     }
 
@@ -306,6 +302,10 @@ public class World {
      * @return Return player object
      */
     public Player getPlayer() { return player; }
+
+    public GameState getGameState() {
+        return gameState;
+    }
 
     /**
      * Updates the graphics of the game world
