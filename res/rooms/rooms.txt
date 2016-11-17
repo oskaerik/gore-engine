@@ -1,2 +1,2 @@
-center
+center wizard
 north

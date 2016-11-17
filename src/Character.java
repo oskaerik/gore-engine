@@ -42,11 +42,9 @@ public class Character extends Entity {
         movementPath = Tools.readFileToArray("res/characters/" + getName() + "/movement.txt");
         // The movementArray changes when the character moves, resets to movementPath when done
         if (!name.equals("player")) {
-            System.out.println("Generating " + "res/characters/" + getName() + "/movement.txt");
             if (movementPath != null) {
                 movementArray = new ArrayList<>(movementPath);
             }
-            System.out.println("Generating " + "res/characters/" + getName() + "/dialogue.txt");
             dialogueMap = generateDialogueFromArray(
                     Tools.readFileToArray("res/characters/" + getName() + "/dialogue.txt"));
             currentDialogueArray = dialogueMap.get("null");
@@ -207,7 +205,13 @@ public class Character extends Entity {
 
     public HashMap generateDialogueFromArray(ArrayList<String> dialogueFileLines) {
         HashMap<String, ArrayList> returnHashMap = new HashMap<>();
-        if (!(dialogueFileLines.size() > 0)) {
+
+        System.out.println("Begin new");
+        for (String line : dialogueFileLines) {
+            System.out.println(line);
+        }
+
+        if (dialogueFileLines.size() <= 0) {
             return null;
         }
         String firstline = dialogueFileLines.get(0);

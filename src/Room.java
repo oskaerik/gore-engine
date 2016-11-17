@@ -1,4 +1,3 @@
-import org.lwjgl.util.glu.Project;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
@@ -28,8 +27,9 @@ public class Room {
 
     private double xOffset;
     private double yOffset;
-    private Random randomizer;
     private Date date;
+
+    private String cutsceneCharacter;
 
     /**
      * Constructor for the Room class
@@ -51,8 +51,9 @@ public class Room {
         generateWorldObjects();
         xOffset = 0;
         yOffset = 0;
-        randomizer = new Random();
         date = new Date();
+
+        cutsceneCharacter = "";
         }
 
     /**
@@ -112,12 +113,13 @@ public class Room {
     }
 
     public void renderEntities(Graphics graphics, Player player, GameState gameState) {
+        for (Item item : items) {
+            item.getAnimationArray().get(0).draw(item.getRect().getX(), item.getRect().getY());
+        }
+
         for (Character character : characters) {
             character.renderCharacter(player, gameState, graphics);
             character.drawHealth();
-        }
-        for (Item item : items) {
-            item.getAnimationArray().get(0).draw(item.getRect().getX(), item.getRect().getY());
         }
         for (Projectile projectile : projectiles) {
             projectile.render();
@@ -307,4 +309,10 @@ public class Room {
             }
         }
     }
+
+    public void setCutsceneCharacter(String characterName) {
+        cutsceneCharacter = characterName;
+    }
+
+    public String getCutsceneCharacter() { return cutsceneCharacter; }
 }

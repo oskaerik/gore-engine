@@ -51,11 +51,16 @@ public class World {
         // Reads the rooms.txt-file and loops through the lines
         ArrayList<String> roomsFile = Tools.readFileToArray("res/rooms/rooms.txt");
         for (String line : roomsFile) {
+            String[] nameAndCutscene = line.split(" ");
             // Adds the path to the room to the HashMap
-            returnMap.put(line, new Room("res/rooms/" + line + ".tmx", line));
+            returnMap.put(nameAndCutscene[0], new Room(
+                    "res/rooms/" + nameAndCutscene[0] + ".tmx", nameAndCutscene[0]));
+            if (nameAndCutscene.length > 1) {
+                returnMap.get(nameAndCutscene[0]).setCutsceneCharacter(nameAndCutscene[1]);
+            }
         }
         // Take the first line and set it as the first room
-        currentRoom = returnMap.get(roomsFile.get(0));
+        currentRoom = returnMap.get(roomsFile.get(0).split(" ")[0]);
         return returnMap;
     }
 
@@ -65,6 +70,9 @@ public class World {
      * @throws SlickException Generic exception
      */
     public void updateWorld(GameContainer gameContainer, int delta) throws SlickException {
+        // Check for cutscene
+        triggerCutscene();
+
         // Freeze the player in case the player isn't moving
         player.setFrozen(true);
 
@@ -374,4 +382,22 @@ public class World {
                     + " y: " + currentRoom.getOffset()[1]);
         }
     }
+
+    /**
+     * Triggers a cutscene in the given room if possible
+     */
+    public void triggerCutscene() {
+        if (!currentRoom.getCutsceneCharacter().equals("")) {
+            // Toggle dialogue GameSate and put player in dialogue with the character
+            gameState.toggleDialogue();
+            // Put the Character that the cutscene refers to as in dialogue with the player
+            Character inDialogueWith = currentRoom.getCharacterByName(
+                    currentRoom.getCutsceneCharacter());
+            inDialogueWith.setInDialogue(true);
+            player.setInDialogueWith(inDialogueWith);
+
+            // Resets cutscene character in the room, so the cutscene isn't retriggered
+            currentRoom.setCutsceneCharacter("");
+            }
+        }
 }

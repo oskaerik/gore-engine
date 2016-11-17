@@ -1,0 +1,6 @@
+null
+null:
+Weeeelcome! Press "D" while in dialogue,
+to display more dialogue! Good job!
+I'm the Grand Wizard!
+Now, go! GO!

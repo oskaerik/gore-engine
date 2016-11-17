@@ -36,8 +36,8 @@
   </tile>
   <tile id="96">
    <properties>
-    <property name="CharacterDescription" value="Just a nice dude"/>
-    <property name="CharacterName" value="niceguy"/>
+    <property name="CharacterDescription" value="Just a nice old wizard"/>
+    <property name="CharacterName" value="wizard"/>
     <property name="CharacterType" value="friend"/>
    </properties>
   </tile>
