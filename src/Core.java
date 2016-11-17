@@ -68,7 +68,6 @@ public class Core extends BasicGame {
         // Create GameState
         gameState = new GameState();
         gameState.toggleStartScreen();
-        System.out.println(gameState.getCurrentState());
 
         date = new Date();
         startTime = date.getTime();
@@ -102,11 +101,7 @@ public class Core extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         if (gameState.getCurrentState().equals("startscreen")) {
             startScreen.draw(0,0);
-            System.out.println(new Date().getTime());
-            System.out.println(startTime);
-            System.out.println(new Date().getTime() - startTime);
-            if ((new Date().getTime() - startTime) > 5000) {
-                System.out.println("HERE");
+            if ((new Date().getTime() - startTime) > 1500) {
                 world = new World(gameState);
                 gameState.toggleStartGame();
             }

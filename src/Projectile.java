@@ -19,6 +19,7 @@ public class Projectile extends Entity {
     private String belongsTo;
     private long lastShot;
     private Date date;
+    private int frameCounter;
 
     /**
      * Constructor for the Projectile class
@@ -27,13 +28,14 @@ public class Projectile extends Entity {
      * @param description The description of the projectile
      * @throws SlickException
      */
-    public Projectile(Rectangle rectangle, String name, String description, String characterName) throws SlickException {
+    public Projectile(Rectangle rectangle, String name, String description,
+                      String characterName, int damage, float speed) throws SlickException {
         super(rectangle, name, description, "projectile");
         animationArray = Tools.createAnimation("projectile", name);
         shot = false;
         direction = null;
-        speed = 0.35f;
-        damage = 10;
+        this.speed = speed;
+        this.damage = damage;
         belongsTo = characterName;
         date = new Date();
         lastShot = date.getTime();
@@ -63,13 +65,13 @@ public class Projectile extends Entity {
     private Character checkIntersection(ArrayList<Rectangle> blocks, ArrayList<Character> characters) {
         for (Rectangle rectangle : blocks) {
             if (getRect().intersects(rectangle)) {
-                shot = false;
+                hit();
                 return null;
             }
         }
         for (Character character : characters) {
             if (getRect().intersects(character.getRect()) && !character.getName().equals(belongsTo)) {
-                shot = false;
+                hit();
                 return character;
             }
         }
@@ -103,6 +105,8 @@ public class Projectile extends Entity {
     public void render() {
         if (shot) {
             getAnimation().draw(getRect().getX(), getRect().getY());
+        } else {
+            hit();
         }
     }
 
@@ -118,5 +122,19 @@ public class Projectile extends Entity {
 
     public long getLastShot() {
         return lastShot;
+    }
+
+    public void hit() {
+        // If it's a hit, set shot to false and start hit animation
+        if (shot) {
+            shot = false;
+            frameCounter = getAnimationArray().get(1).getFrameCount();
+        }
+
+        // Run hit animation for every frame of the animation
+        if (frameCounter >= 0) {
+            getAnimationArray().get(1).draw(getRect().getX(), getRect().getY());
+            frameCounter--;
+        }
     }
 }

@@ -273,8 +273,19 @@ public class Character extends Entity {
     }
 
     public void drawHealth() {
+        Color color = Color.white;
         if (health < 100) {
-            getFont().drawString(getRect().getX(), getRect().getY() - 15, Integer.toString(health), Color.blue);
+            if (health >= 75) {
+                color = Color.green;
+            } else if (health >= 50) {
+                color = Color.yellow;
+            } else {
+                color = Color.red;
+            }
+            getFont().drawString(getRect().getX() + 1, getRect().getY() - 14,
+                    Integer.toString(health) + "%", Color.black);
+            getFont().drawString(getRect().getX(), getRect().getY() - 15,
+                    Integer.toString(health) + "%", color);
         }
     }
 

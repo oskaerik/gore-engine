@@ -25,7 +25,8 @@ public class Tools {
      * @return An ArrayList of Animation objects with the indexes 0: "up", 1: "down", 2: "left", 3: "right"
      * @throws SlickException
      */
-    public static ArrayList<Animation> createAnimation(String type, String name) throws SlickException {
+    public static ArrayList<Animation> createAnimation(String type, String name)
+            throws SlickException {
         ArrayList<Animation> animationArray = new ArrayList<>();
         ArrayList<String> keyWords = new ArrayList<>();
         String pathToFolder = "res/";
@@ -50,6 +51,7 @@ public class Tools {
         // and the keyword is it's name
         else if (type.equals("projectile")) {
             keyWords.add(name);
+            keyWords.add("hit");
             pathToFolder += "projectiles/" + name + "/";
         }
 
