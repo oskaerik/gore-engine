@@ -206,7 +206,7 @@ public class World {
             for (Projectile projectile : currentRoom.getProjectiles()) {
                 if (!projectile.isShot() && gameState.getCurrentState().equals("default")
                         && projectile.getBelongsTo().equals("player")
-                        && player.getInventory().checkIfInventoryContains("Fireball")) {
+                        && player.getInventory().checkIfInventoryContains("Chest")) {
                     projectile.shoot(player.getRect().getCenterX(), player.getRect().getCenterY(),
                             player.getLastDirection());
                 }
@@ -231,7 +231,7 @@ public class World {
                 // If there is more dialogue, display the next thing the character says
                 for (Character character : currentRoom.getCharacters()) {
                     if (character.getInDialogue()) {
-                        if (!character.increaseDialogIndex()) {
+                        if (!character.increaseDialogueIndex()) {
                             gameState.setDialogueMode(false);
                             character.setInDialogue(false);
 

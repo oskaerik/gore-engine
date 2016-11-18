@@ -128,7 +128,7 @@ public class Room {
         }
 
         for (Character character : characters) {
-            character.renderCharacter(player, gameState, graphics);
+            character.renderCharacter(player, graphics);
             character.drawHealth();
         }
         for (Projectile projectile : projectiles) {
