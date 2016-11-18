@@ -10,6 +10,20 @@ Below are instructions on how to use the game engine.
 #### Settings
 In the settings.txt-file, specify the width and height of the game window, the max FPS allowed and if debug mode should be enabled etc. The names of the fields are pretty self explanatory.
 
+#### Start Screen and End Screen
+In the folder `res/startscreen`, place a file called `startscreen.png` and a file called `endscreen.png`, the start screen is displayed before the game begins and the end screen is displayed when the player dies.
+
+### Rooms
+#### Tiled
+The program Tiled is used to create the maps. The maps are then placed in the folder `res/rooms/`. The name of the room is placed in the file `rooms.txt` in this folder like so:
+
+#### Cutscene
+In the `rooms.txt` file, the rooms can be put as this: `center wizard`
+And so on. Where the word "wizard" is in the above example, you can put the name of a character in the room that a cutscene should be triggered with when the player enters the room. The cutscene is a dialogue with the character, and uses the `null` dialogue of the character.
+
+In the above example, a cutscene is triggered with the character `wizard`.
+
+
 ### Characters
 #### Animations
 In the `res/characters/` folder, create a folder for every character wanted in the game. The character `player` is obligatory.
@@ -85,6 +99,22 @@ Exits are placed on the layer 1 and have the fields:
 Blocked tiles are placed on layer 1 in tiled and should have a boolean field called "Blocked" which should be set to true (should be ticked in Tiled).
 
 It is important that the top left tile of every map is a blocked tiled, since the rendering of the map itself begins on that tile.
+
+### Projectiles
+#### Animation
+Projectiles are placed in the `res/projectiles` folder in a subfolder with the name of the projectile, e.g. `fireball`. Then the animation files are placed in this folder with the names:
+```
+fireball-1.png
+fireball-2.png
+fireball-3.png
+```
+And so on. Also place a hit animation like this:
+```
+hit-1.png
+hit-2.png
+hit-3.png
+```
+For when the projectile hits it's target.
 
 ## Credits
 * Slick2D: http://slick.ninjacave.com/
