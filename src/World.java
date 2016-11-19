@@ -207,7 +207,7 @@ public class World {
             for (Projectile projectile : currentRoom.getProjectiles()) {
                 if (!projectile.isShot() && gameState.getCurrentState().equals("default")
                         && projectile.getBelongsTo().equals("player")
-                        && player.getInventory().checkIfInventoryContains("Chest")) {
+                        && player.getInventory().checkIfInventoryContains("Fireball")) {
                     projectile.shoot(player.getRect().getCenterX(), player.getRect().getCenterY(),
                             player.getLastDirection());
                 }
@@ -334,14 +334,15 @@ public class World {
         currentRoom.render(
                 currentRoom.getBlocks().get(0).getX(), currentRoom.getBlocks().get(0).getY());
 
-        // Render the entities (characters, items, projectiles) in room
-        currentRoom.renderEntities(graphics, player, gameState);
-
         // Draw the player animation
         player.getAnimation(player).draw(player.getRect().getX()
                         +(player.getRect().getWidth()-player.getAnimation(player).getCurrentFrame().getWidth())/2,
                 player.getRect().getY()
                         +(player.getRect().getHeight()-player.getAnimation(player).getCurrentFrame().getHeight())/2);
+
+        // Render the entities (characters, items, projectiles) in room
+        currentRoom.renderEntities(graphics, player, gameState);
+
         // Draw the players health
         player.drawHealth();
 
