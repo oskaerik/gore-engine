@@ -31,6 +31,8 @@ public class Character extends Entity {
     private boolean inDialogue;
     private Character inDialogueWith;
 
+    private int shootingInterval;
+
     /**
      * Constructor for the Character class.
      *
@@ -69,6 +71,8 @@ public class Character extends Entity {
         inDialogue = false;
         inDialogueWith = null;
 
+        // How often the character should shoot a fireball
+        shootingInterval = 3000;
     }
 
     /**
@@ -397,5 +401,12 @@ public class Character extends Entity {
     public String getType() {
         return type;
     }
+
+    /**
+     * Method used to get the shooting interval of the character.
+     *
+     * @return The shooting interval of the character (in ms)
+     */
+    public int getShootingInterval() { return shootingInterval; }
 }
 

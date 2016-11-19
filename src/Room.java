@@ -81,19 +81,37 @@ public class Room {
     public ArrayList<Rectangle> getBlocks() { return blocks; }
 
     /**
-     * @return Returns an ArrayList of exits, objects that the player collides with
+     * @return Returns an ArrayList of exits in the room
      */
     public ArrayList<Exit> getExits() { return exits; }
 
-
+    /**
+     * @return Returns an ArrayList of items in the room
+     */
     public ArrayList<Item> getItems() {return items; }
 
+    /**
+     * @return Returns an ArrayList of characters in the room
+     */
     public ArrayList<Character> getCharacters() {return characters; }
 
+    /**
+     * @return Returns an ArrayList of projectiles in the room
+     */
     public ArrayList<Projectile> getProjectiles() { return projectiles; }
 
+    /**
+     * @return Returns the name of the room
+     */
     public String getName() { return name;}
 
+    /**
+     * Updates all the rectangles in the rooms, i.e. the blocks, the items
+     * the characters and so on
+     * @param xMovement How much the rectangles should move in the x-direction
+     * @param yMovement How much the rectangles should move in the y-direction
+     * @param newBlocks An ArrayList containing the new collision blocks
+     */
     public void updateRectangles(double xMovement, double yMovement, ArrayList<Rectangle> newBlocks) {
         // Update blocks
         blocks = newBlocks;
@@ -122,21 +140,38 @@ public class Room {
         yOffset += (float)yMovement;
     }
 
+    /**
+     * Renders the entities in the room,  characters and items and so on
+     * @param graphics Graphics component used for drawing
+     * @param player The Player object
+     * @param gameState The GameState object
+     */
     public void renderEntities(Graphics graphics, Player player, GameState gameState) {
+        // Loop through items and render
         for (Item item : items) {
             item.getAnimationArray().get(0).draw(item.getRect().getX(), item.getRect().getY());
         }
 
+        // Loop through characters and render, also health
         for (Character character : characters) {
             character.renderCharacter(player, graphics);
             character.drawHealth();
         }
+
+        // Loop through projectiles and render
         for (Projectile projectile : projectiles) {
             projectile.render();
         }
+
+        // Run method for enemies shooting fireballs
         EnemyShootFireballs(gameState);
     }
 
+    /** Updates the characters who are moving in the room
+     * @param delta Amount of time that has passed since last updateGraphics (ms).
+     * @param player Player object
+     * @param gamestate GameState object
+     */
     public void updateEntities(int delta, Player player, GameState gamestate) {
         // Update character positions
         if (characters.size() > 0) {
@@ -164,6 +199,10 @@ public class Room {
         }
     }
 
+    /**
+     * Generates all the objects in the world, looping through the tiles in the map from Tiled
+     * @throws SlickException Generic exception
+     */
     private void generateWorldObjects() throws SlickException {
         // Loop through all tiles in the map file
         for (int i = 0; i < map.getWidth(); i++) {
@@ -218,6 +257,10 @@ public class Room {
         }
     }
 
+    /**
+     * Removes an item from the room
+     * @param item The item to be removed
+     */
     public void removeItem(Item item) {
         Iterator<Item> it = items.iterator();
         while (it.hasNext()) {
@@ -229,10 +272,18 @@ public class Room {
         }
     }
 
+    /**
+     * Adds an item to the room
+     * @param item The item to be added
+     */
     public void addItem(Item item) {
         items.add(item);
     }
 
+    /**
+     * Checks if all characters are alive, if a characters health is zero or below,
+     * the character is removed from the room
+     */
     public void checkIfAlive() {
         Iterator<Character> it = characters.iterator();
         while (it.hasNext()) {
@@ -243,12 +294,20 @@ public class Room {
         }
     }
 
+    /**
+     * Highlight all the items in the player's range
+     * @param playerRange The player's range
+     */
     public void highlightItems(Circle playerRange) {
         for (Item item : items) {
             item.hightlight(playerRange);
         }
     }
 
+    /**
+     * Freeze or unfreeze entities in the room
+     * @param frozen Value stating whether the entities should be frozen
+     */
     public void freezeEntities(boolean frozen) {
         for (Character character : characters) {
             character.setFrozen(frozen);
@@ -258,6 +317,12 @@ public class Room {
         }
     }
 
+    /**
+     * Used when the player changes room, sets the new locations of the blocks and entities
+     * in the room to correct location according to the spawn location
+     * @param spawnX
+     * @param spawnY
+     */
     public void updateSpawnOffset(float spawnX, float spawnY) {
         // Set block locations
         for (Rectangle block : blocks) {
@@ -288,11 +353,19 @@ public class Room {
         yOffset = spawnY;
     }
 
+    /**
+     * @return The current offset, how much the player has moved inside the room
+     */
     public double[] getOffset() {
         double[] toReturn = {xOffset, yOffset};
         return toReturn;
     }
 
+    /**
+     * Returns a character by the name of the character
+     * @param searchName The name of the character to be returned
+     * @return The character with a matching name
+     */
     public Character getCharacterByName(String searchName) {
         for (Character character : characters) {
             if (character.getName().equals(searchName)) {
@@ -302,26 +375,44 @@ public class Room {
         return null;
     }
 
+    /**
+     * Makes enemies shoot fireballs
+     * @param gameState GameState object
+     */
     private void EnemyShootFireballs(GameState gameState) {
-        for (Projectile fireball : projectiles) {
-            if (getCharacterByName(fireball.getBelongsTo()) != null) {
-                if (!fireball.isShot() && gameState.getCurrentState().equals("default")
-                        && getCharacterByName(fireball.getBelongsTo()).getType().equals("enemy")) {
+        for (Projectile projectile : projectiles) {
+            if (getCharacterByName(projectile.getBelongsTo()) != null) {
+                // If the character's projectile isn't shot and the character is an enemy
+                // and the current state is the default sate
+                if (!projectile.isShot() && gameState.getCurrentState().equals("default")
+                        && getCharacterByName(projectile.getBelongsTo()).getType().equals("enemy")) {
                     date = new Date();
-                    if ((date.getTime() - fireball.getLastShot()) > 3000) {
-                        fireball.toggleShotLastTime(date.getTime());
-                        fireball.shoot(getCharacterByName(fireball.getBelongsTo()).getRect().getCenterX(),
-                                getCharacterByName(fireball.getBelongsTo()).getRect().getCenterY(),
-                                getCharacterByName(fireball.getBelongsTo()).getLastDirection());
+                    // Check if the time elapsed since the last projectile shot is more than
+                    // a given amount of time
+                    if ((date.getTime() - projectile.getLastShot())
+                            > getCharacterByName(projectile.getBelongsTo()).getShootingInterval()) {
+                        // Set the current time to "the last time shot" and shoot a new projectile
+                        projectile.toggleShotLastTime(date.getTime());
+                        projectile.shoot(
+                                getCharacterByName(projectile.getBelongsTo()).getRect().getCenterX(),
+                                getCharacterByName(projectile.getBelongsTo()).getRect().getCenterY(),
+                                getCharacterByName(projectile.getBelongsTo()).getLastDirection());
                     }
                 }
             }
         }
     }
 
+    /**
+     * Sets the character whom a cutscene should be triggered with upon entering a room
+     * @param characterName The name of the character for the cutscene
+     */
     public void setCutsceneCharacter(String characterName) {
         cutsceneCharacter = characterName;
     }
 
+    /**
+     * @return The cutscene character
+     */
     public String getCutsceneCharacter() { return cutsceneCharacter; }
 }

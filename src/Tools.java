@@ -111,9 +111,16 @@ public class Tools {
         }
     }
 
+    /**
+     * Creates a freeze animation for a character
+     * @param animationArray The animationArray of the character
+     * @param direction The direction the character should face
+     * @return The freeze animation
+     */
     public static Animation getFreezeAnimation(
             ArrayList<Animation> animationArray,  String direction) {
         Image freezeImage;
+        // Select the image according to the way the character is facing
         switch (direction) {
             case "up":
                 freezeImage = animationArray.get(0).getImage(0);
@@ -131,13 +138,23 @@ public class Tools {
                 freezeImage = animationArray.get(0).getImage(0);
                 break;
         }
+        // Add the freezeImage to the animation and return it
         Animation freezeAnimation = new Animation();
         freezeAnimation.addFrame(freezeImage, 100);
         return freezeAnimation;
     }
 
+    /**
+     * Returns the way two characters should be facing while in dialogue
+     * @param first The rectangle of the first character
+     * @param second The rectangle of the second character
+     * @return
+     */
     public static ArrayList<String> getFacing(Rectangle first, Rectangle second) {
+        // Create a vector from the coordinates of the rectangles
         Vector2f vector = new Vector2f(first.getX()-second.getX(), first.getY()-second.getY());
+
+        // Get the angle for the vector and add the appropriate direction to the returnArray
         double angle = vector.getTheta();
         ArrayList<String> returnArray = new ArrayList<>();
         if ((angle <= 45 && angle >= 0) || (angle <= 360 && angle > 315)) {
@@ -156,6 +173,12 @@ public class Tools {
         return returnArray;
     }
 
+    /**
+     * Reads a setting file and returns the requested value
+     * @param filePath The path of the file to be read
+     * @param key The name of the field that should be returned
+     * @return The requested value
+     */
     public static int readSettings(String filePath, String key) {
         ArrayList<String> settingsArray = readFileToArray(filePath);
         // Loop through the setting and look for the required key
