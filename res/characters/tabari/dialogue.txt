@@ -1,0 +1,11 @@
+null,Chest
+null:
+Sup lil' dude? Press "D" if you want to keep talking
+I'm Tabari, and I'll be your assistant today
+KTH has been swarmed by demons
+You're our only hope!
+Bring me my chest, it's in the north west corner of Borggården
+I'll reward you with some information
+Chest:
+Man, thx for the chest. U dope af
+Go to META, I think they can help you save the school!

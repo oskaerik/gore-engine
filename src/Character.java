@@ -51,7 +51,8 @@ public class Character extends Entity {
         this.type = type;
 
         // The movementPath is the path of the character, does not change
-        movementPath = Tools.readFileToArray("res/characters/" + getName() + "/movement.txt");
+        movementPath = Tools.readFileToArray("res/characters/"
+                + getName().replaceAll("\\d", "") + "/movement.txt");
         // All characters that are NOT player need generated dialogue
         if (!name.equals("player")) {
             if (movementPath != null) {
