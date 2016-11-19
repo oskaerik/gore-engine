@@ -5,20 +5,20 @@ import org.newdawn.slick.geom.Rectangle;
 import java.util.ArrayList;
 
 /**
- * The Player class, the Player object is a child of the Character object. It also has a range
- * and holds information about who the player is in dialogue with.
+ * The Player class, the Player object is a child of the Character object. The player class holds
+ * information about the objects the player rectangle and range intersect with.
+ *
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
 public class Player extends Character {
+
     // The range of the player, how far the player can reach when picking up items
     // and engaging in dialogue
     private Circle range;
 
-    // The player can be in dialogue with a specific character, this is null if not in dialogue
-
     /**
-     * Constructor of the Player class
+     * Constructor of the Player class.
      *
      * @param rectangle The player's rectangle
      * @param speed     The player's speed, how fast the world objects move
@@ -35,17 +35,20 @@ public class Player extends Character {
     }
 
     /**
-     * @return The player's range circle
+     * Method used to get the cirlce representing the players range.
+     *
+     * @return Circle representing the player's range.
      */
     public Circle getRange() {
         return range;
     }
 
     /**
-     * Tries to add an item to the players inventory, returns true of possible, returns false if not
+     * Method used to try to add an item to the players inventory, returns true of possible, returns
+     * false if not. If true, adds item to inventory. Player can hold max 10 items.
      *
-     * @param item The item that should be added
-     * @return A boolean indicating whether it was possible to add the item to the player's inventory
+     * @param item The item that should be added.
+     * @return A boolean indicating whether it was possible to add the item to the player's inventory.
      */
     public boolean tryAddToInventory(Item item) {
         if (getInventory().getItems().size() < 10) {
@@ -57,10 +60,10 @@ public class Player extends Character {
     }
 
     /**
-     * Removes an item from the player's inventory, based on the index, and returns it
+     * Method used to remove an item from the player's inventory, based on the index, and returns it.
      *
-     * @param itemIndex The index of the item to be removed from the inventory
-     * @return The item that was removed from the inventory
+     * @param itemIndex The index of the item to be removed from the inventory.
+     * @return The item that was removed from the inventory.
      */
     public Item removeFromInventory(int itemIndex) {
         if (getInventory().getItems().size() > 0 && getInventory().getItems().size() > itemIndex) {
@@ -71,10 +74,10 @@ public class Player extends Character {
     }
 
     /**
-     * Returns an ArrayList of the items that the player's range intersects
+     * Method used to return an ArrayList of the items that the player's range intersects.
      *
-     * @param items An ArrayList containing the items to be checked
-     * @return An ArrayList with the intersected items
+     * @param items An ArrayList containing the items to be checked.
+     * @return An ArrayList with the intersected items.
      */
     public ArrayList<Item> getItemsInRange(ArrayList<Item> items) {
         ArrayList<Item> intersectedItems = new ArrayList<>();
@@ -87,10 +90,10 @@ public class Player extends Character {
     }
 
     /**
-     * Returns the first character in an ArrayList that the player range intersects
+     * Returns the first character in an ArrayList that the player range intersects.
      *
-     * @param characters An ArrayList containing the characters to be checked
-     * @return The first character found
+     * @param characters An ArrayList containing the characters to be checked.
+     * @return The first character found.
      */
     public Character getCharacterInRange(ArrayList<Character> characters) {
         for (Character character : characters) {
@@ -102,10 +105,10 @@ public class Player extends Character {
     }
 
     /**
-     * Returns the first intersected exit in an ArrayList of exits that the player intersects
+     * Returns the first intersected exit in an ArrayList of exits that the player intersects.
      *
-     * @param exits An ArrayList containing the exits to be checked
-     * @return The first exit found
+     * @param exits An ArrayList containing the exits to be checked.
+     * @return The first exit found.
      */
     public Exit getIntersectedExit(ArrayList<Exit> exits) {
         for (Exit exit : exits) {
