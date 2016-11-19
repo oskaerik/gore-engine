@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * The class for NPC characters
+ * The class for NPC characters. Each NPC character holds its own Inventory object, movement path,
+ * animation, direction and dialogue.
  *
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1

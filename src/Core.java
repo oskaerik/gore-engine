@@ -6,9 +6,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The Core class handles handles the core structure of the game. It has a method to set up the
+ * The Core class handles the core structure of the game. It has a method to set up the
  * game window, a method that updates the game world every frame, and a method that renders
  * every frame.
+ *
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
@@ -26,7 +27,7 @@ public class Core extends BasicGame {
     // if the inventory is open, if the player is in a dialogue etc
     private GameState gameState;
 
-    // Time handling for start game screen
+    // Time handling for start and end game screens
     private long startTime;
 
     // Start and end screen image
@@ -34,14 +35,16 @@ public class Core extends BasicGame {
     private Image endScreen;
 
     /**
-     * Constructor for the Core class
-     * @param title Title of the game window
+     * Constrcutor of the Core class.
+     *
+     * @param title The game title.
      */
     public Core(String title) { super(title); }
 
     /**
-     * The main method, sets up the game window and starts the game
-     * @param args Command-line arguments
+     * The main method, sets up the game window and starts the game.
+     *
+     * @param args Command-line arguments.
      */
     public static void main(String[] args) {
         try {
@@ -56,9 +59,10 @@ public class Core extends BasicGame {
     }
 
     /**
-     * Initializing method, runs when the game is set up
-     * @param gameContainer GameContainer object handling game loop etc
-     * @throws SlickException Generic exception
+     * Initializing method, runs when the game is set up. Used to create the gameState.
+     *
+     * @param gameContainer GameContainer object handling game loop etc.
+     * @throws SlickException Generic exception.
      */
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
@@ -76,9 +80,10 @@ public class Core extends BasicGame {
 
     /**
      * Update method that runs every frame
-     * @param gameContainer GameContainer An object handling the game mechanics
-     * @param delta Amount of time that has passed since last updateGraphics (ms)
-     * @throws SlickException Generic exception
+     *
+     * @param gameContainer GameContainer An object handling the game mechanics.
+     * @param delta Amount of time that has passed since last updateGraphics (ms).
+     * @throws SlickException Generic exception.
      */
     @Override
     public void update(GameContainer gameContainer, int delta) throws SlickException {
@@ -89,10 +94,11 @@ public class Core extends BasicGame {
     }
 
     /**
-     * Renders every frame
-     * @param gameContainer GameContainer An object handling the game mechanics
-     * @param graphics Graphics component used to draw to the screen
-     * @throws SlickException Generic exception
+     * Renders every frame during the game runtime.
+     *
+     * @param gameContainer GameContainer An object handling the game mechanics.
+     * @param graphics Graphics component used to draw to the screen.
+     * @throws SlickException Generic exception.
      */
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
