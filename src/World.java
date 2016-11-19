@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * The World class contains all the objects in the world, updates them and checks for key input
+ * The World class contains all the objects in the world, updates them and checks for key input.
+ * Makes use of most other classes and coordinates interaction between them (intersections mostly).
  * @author Oskar Eriksson and Gustave Rousselet
  * @version 0.1
  */
