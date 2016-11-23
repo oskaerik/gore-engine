@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="90" height="90" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="tiles.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="55">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="81" name="exits" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="exits.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="Exit" value="borggarden"/>
+    <property name="SpawnX" type="int" value="-719"/>
+    <property name="SpawnY" type="int" value="-4"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Exit" value="borggarden"/>
+    <property name="SpawnX" type="int" value="298"/>
+    <property name="SpawnY" type="int" value="-13"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Exit" value="glassey"/>
+    <property name="SpawnX" type="int" value="161"/>
+    <property name="SpawnY" type="int" value="270"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="161" name="items" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="transparent.png" width="128" height="160"/>
+ </tileset>
+ <tileset firstgid="241" name="characters" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="transparent.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="CharacterName" value="goblin1"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="CharacterName" value="goblin2"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="CharacterName" value="skeleton1"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="CharacterName" value="skeleton2"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="CharacterName" value="skeleton3"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="CharacterName" value="skeleton4"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="CharacterName" value="goblin3"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="CharacterName" value="goblin4"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="ground" width="90" height="90">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3QsQ2AMAADwfQMwP6bpqclCcY6Sz+Ab4x1uwvauWtB4+W/lFZ5PG04c+bMmTPnP8SZM2fOnDPjzJkzZ86ZcebMmTPnzDhz5syZc2acOXPmzDkzzpw5c+acGWfOnDlzzowzZ86cOWfGmTNnzpwz48yZM2fOmXHmzJkz58w4c+bMmXNmnDlz5sw5M86cOXPmnBlnzpw5c86MM2fOZ51bluwszl/HmXNTnDk3xZlzU5w5N8WZc1OcOTfFmXNTnDk3xfmss+3fBMRilvOQfgAA
+  </data>
+ </layer>
+ <layer name="blocks_exits" width="90" height="90">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2dUY6DMAwF6anaa+zu/e+yHyhCyRpKif3wWjNSvqo+wVR1TALisSzLw2lUwMvFkZ/XMJaTn7Xjq4B1HuO57zk4yvTyU9mzRyaee/CsIbvnb6ecu/ma/P7TGM2z9dnzw3w8r+D5HLOeLagbf8numXlw5ahueFDJ8yfXICN4Pses571MPPdEep7tNVpWBSLrBp43Mtfnl1NOBjLX52qeIzLx3JO5f8bzBp7PkblutKwKRHqmr9vgOkVD5r6uZVUgs+dq8yCe48ncb+D5fSaee7z2S8dMPPd4e25u8NzjfR6enhfHnLuJ9Ozx/8CzDZ5tqBsavNYhxkw89+BZA3VDQ6Rnj3UTPNvMeN7bA6sAnjV4z4PUDZvIfgPPG5HronjeyLz+3LIqQP+swWu9p4FnGzxryFI39vZ08GyDZ5ssnveo5Jl10Xi4HtTA9aAGPGu42/Nen0G/ccyn66J4vgbrzzZ41sC6qAY8a8CzhtnziHwednHMuZsMnunrrmfiuSeD53dZFfDqc8dMj9xqz6fgOZ5ZH0fzIJ438KzhP8yDVYY3UbmNmXcHzLx7YPa9Bd5Ee4YVPGvAswY8a8CzBjxrwLMGPGvAswY8a8CzBjxr8LwfCWy87/sCGzxrwLMGPGsYPV/dc9jbu8j62x0dr9dxj3l378ON4+fiuPu4z4xfRgajsZB+AAA=
+  </data>
+ </layer>
+ <layer name="items" width="90" height="90" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4NC3OTuOQfgAA
+  </data>
+ </layer>
+ <layer name="characters" width="90" height="90">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3OWQ2AMABAsfl3y80nKpa3kFZBxwAAAAAAAAAAAJjrqQNA6q0DAAAsYa8DC9rqAAAAAAAAAAAAAAAAAABA4KwDP3PVAYDF3XUASBx1AAAm+ACfv8iNkH4AAA==
+  </data>
+ </layer>
+</map>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="tiles.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="81" name="exits" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="exits.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="Exit" value="dhouse"/>
+    <property name="SpawnX" type="int" value="-274"/>
+    <property name="SpawnY" type="int" value="-1095"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="161" name="characters" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="transparent.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="CharacterName" value="boss1"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="CharacterName" value="boss2"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="CharacterName" value="boss3"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="241" name="items" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="transparent.png" width="128" height="160"/>
+ </tileset>
+ <layer name="ground" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3NsQ0AAAjDsJ7B/5fyBWVwpMxOes3xXC6Xy+VyuVwul/vVbbQWcw3cEA4AAA==
+  </data>
+ </layer>
+ <layer name="blocks_exits" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3NsQ0AIAwDQWdE9l+GloImTaA4S19aV0mq0brU+Z9Nj8vlcrlcLpfL5XJ/dV+0AWrPSswQDgAA
+  </data>
+ </layer>
+ <layer name="items" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQEAAACCIP+vbkhAAQAA8Gh7blyXEA4AAA==
+  </data>
+ </layer>
+ <layer name="characters" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3PAREAIAzEsPl3ARhFBfwOEgVtFdDRTAdc8MPja1Y6ADhipAOAmA3AQHQsEA4AAA==
+  </data>
+ </layer>
+</map>

@@ -544,15 +544,15 @@
   <tile id="0">
    <properties>
     <property name="Exit" value="borggarden"/>
-    <property name="SpawnX" value="0"/>
-    <property name="SpawnY" value="0"/>
+    <property name="SpawnX" value="294"/>
+    <property name="SpawnY" value="-480"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
     <property name="Exit" value="meta"/>
-    <property name="SpawnX" value="0"/>
-    <property name="SpawnY" value="0"/>
+    <property name="SpawnX" value="-515"/>
+    <property name="SpawnY" type="int" value="-520"/>
    </properties>
   </tile>
  </tileset>
@@ -566,7 +566,7 @@
  </layer>
  <layer name="blocks_exits" width="30" height="41">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3VwQkAIAwDwPrpht1/FYfQUtAL5H2fQDIicqjdqcV92Z3aFZfL5d5yu7+Ty+VyuVwul8v93T3tBgjUonQ4EwAA
+   H4sIAAAAAAAAA+3SsQkAIAxE0aTJhrr/KE5gI0QR3sGvX3MVEfWgmdG+kdxXbvWz229xuVzuL+5JXC6Xy+VyuVwu914Lg6O6QzgTAAA=
   </data>
  </layer>
  <layer name="items" width="30" height="41">

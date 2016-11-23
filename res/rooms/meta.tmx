@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="tiles.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="Blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="81" name="characters" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="transparent.png" width="128" height="160"/>
+ </tileset>
+ <tileset firstgid="161" name="items" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="transparent.png" width="128" height="160"/>
+ </tileset>
+ <tileset firstgid="241" name="exits" tilewidth="16" tileheight="16" tilecount="80" columns="8">
+  <image source="exits.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="Exit" value="osquar"/>
+    <property name="SpawnX" type="int" value="364"/>
+    <property name="SpawnY" type="int" value="268"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="ground" width="60" height="60">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3ZQQ6CMBCFYfYcgNNw/2u5cWGambEDlM57fSZ/oqCRz9YSdNvWu+2LJC938nInL3fy9nV887YdTe1zrH278bia1/L1HLe33/oMqngj513vKPNdr3c/mrOeNzM/Znq9cc++3vqes3qtdQzNm5nPvXN+pPcc8H6zi7yMyYvTmbyP7n16fLVe4Scvd/LiNPJ8xLJW93pZkvd/b12rVvPOPvanvdEahWqOvJXHuB2LkddHs61vjq+3VqH4s170Iq+1XmV+P69Y5PWK/jeq3hUvovOqt8p6ZX3XvHPU7/asF73IG61XK81nyz/b8ZbX21a1K17kOZ31oicvd/JyJy938nInL3fycrfi7QO2hdNaQDgAAA==
+  </data>
+ </layer>
+ <layer name="blocks_exits" width="60" height="60">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3b2w3CMBBEUacKGkgP6YH+G6EDflkLiaDNOrMzc6SV+L2KbSwe2xhjExskj8JB7t0LXiP3qjzfSu7l5l5u7uXmXm7fep/TMPn1fN3bm3sjtN4jOR17M9wbufdeavs360wvU/OZ+zPS3bJ6PX9CaK4+r2buXWtlL8p6Xrl/u/vnfGbQ7f1X7X6leH/O6NirtJ6z3Bu5915q+1fxfM5wb4TYq7R/s9wbsfbO33EjfSZ5Jf+egZt7ub2Ge5m5l5tar9r57F5uV/5Hrcu8Abs3ssBAOAAA
+  </data>
+ </layer>
+ <layer name="items" width="60" height="60">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAADwZkvEChtAOAAA
+  </data>
+ </layer>
+ <layer name="characters" width="60" height="60">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAADwZkvEChtAOAAA
+  </data>
+ </layer>
+</map>
