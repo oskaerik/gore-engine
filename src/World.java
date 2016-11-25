@@ -2,6 +2,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -95,6 +96,11 @@ public class World {
             currentRoom.updateEntities(delta, player, gameState);
         } else {
             currentRoom.freezeEntities(true);
+        }
+
+        // Checks if the player has died
+        if (player.getHealth() <= 0) {
+            gameState.gameOver();
         }
     }
 
@@ -251,6 +257,10 @@ public class World {
         if (gameContainer.getInput().isKeyPressed(Input.KEY_P) && Core.DEBUG_ENABLED == 1) {
             debug = !debug;
         }
+
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_S) && debug) {
+            player.takeDamage(100);
+        }
     }
 
     /**
@@ -317,6 +327,7 @@ public class World {
         if (exit != null) {
             currentRoom = rooms.get(exit.getDestination());
             currentRoom.updateSpawnOffset(exit.getSpawnX(), exit.getSpawnY());
+            currentRoom.setEnterTime(new Date().getTime());
         }
     }
 

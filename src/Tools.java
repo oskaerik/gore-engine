@@ -190,4 +190,16 @@ public class Tools {
         }
         return 0;
     }
+
+    /**
+     * Reads a setting file and returns the requested value
+     * @param filePath The path of the file to be read
+     * @param key The name of the field that should be returned
+     * @return The requested value
+     */
+    public static String[] getWinCondition(String filePath) {
+        ArrayList<String> winArray = readFileToArray(filePath);
+        // Look at index zero, which is the win condition - ignore other rows
+        return winArray.get(0).split(" ");
+    }
 }

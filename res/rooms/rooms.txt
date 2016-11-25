@@ -2,4 +2,4 @@ borggarden tabari
 osquar
 meta dkm_enter
 dhouse
-glassey
+glassey ric

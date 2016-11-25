@@ -38,6 +38,9 @@ public class Room {
     // The character with whom the cutscene dialogue should be with
     private String cutsceneCharacter;
 
+    // Time when the player entered the room
+    private long enterTime;
+
     /**
      * @param mapDirectory Name of the map .tmx-file in the map-folder
      * @param name Name of the map
@@ -60,6 +63,7 @@ public class Room {
         xOffset = 0;
         yOffset = 0;
         date = new Date();
+        enterTime = date.getTime();
         cutsceneCharacter = "";
 
         // Generate the world objects
@@ -186,15 +190,12 @@ public class Room {
             Character hitCharacter = projectile.moveProjectile(getBlocks(), getCharacters(), delta);
             if (hitCharacter != null) {
                 hitCharacter.takeDamage(projectile.getDamage());
-                checkIfAlive();
+                checkIfAlive(gamestate);
             }
-            if (!projectile.getBelongsTo().equals("player") && projectile.getRect().intersects(player.getRect())
-                    && projectile.isShot()) {
+            if (!projectile.getBelongsTo().equals("player")
+                    && projectile.getRect().intersects(player.getRect()) && projectile.isShot()) {
                 projectile.setShot(false);
                 player.takeDamage(projectile.getDamage());
-                if (player.getHealth() <= 0) {
-                    gamestate.gameOver();
-                }
             }
         }
     }
@@ -284,12 +285,19 @@ public class Room {
      * Checks if all characters are alive, if a characters health is zero or below,
      * the character is removed from the room
      */
-    public void checkIfAlive() {
+    public void checkIfAlive(GameState gameState) {
         Iterator<Character> it = characters.iterator();
         while (it.hasNext()) {
             Character character = it.next();
             if (character.getHealth() <= 0) {
                 it.remove();
+
+                // Check if the character was a win condition
+                String[] winCondition = Tools.getWinCondition("res/rooms/win.txt");
+                if (getName().equals(winCondition[0])
+                        && character.getName().equals(winCondition[1])) {
+                    gameState.winGame();
+                }
             }
         }
     }
@@ -388,9 +396,10 @@ public class Room {
                         && getCharacterByName(projectile.getBelongsTo()).getType().equals("enemy")) {
                     date = new Date();
                     // Check if the time elapsed since the last projectile shot is more than
-                    // a given amount of time
+                    // a given amount of time and that the player just didn't enter the room
                     if ((date.getTime() - projectile.getLastShot())
-                            > getCharacterByName(projectile.getBelongsTo()).getShootingInterval()) {
+                            > getCharacterByName(projectile.getBelongsTo()).getShootingInterval()
+                            && (date.getTime() - enterTime) > 1000) {
                         // Set the current time to "the last time shot" and shoot a new projectile
                         projectile.toggleShotLastTime(date.getTime());
                         projectile.shoot(
@@ -415,4 +424,8 @@ public class Room {
      * @return The cutscene character
      */
     public String getCutsceneCharacter() { return cutsceneCharacter; }
+
+    public void setEnterTime(long enterTime) {
+        this.enterTime = enterTime;
+    }
 }

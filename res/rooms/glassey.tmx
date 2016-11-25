@@ -38,6 +38,12 @@
     <property name="CharacterType" value="enemy"/>
    </properties>
   </tile>
+  <tile id="3">
+   <properties>
+    <property name="CharacterName" value="ric"/>
+    <property name="CharacterType" value="enemy"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="241" name="items" tilewidth="16" tileheight="16" tilecount="80" columns="8">
   <image source="transparent.png" width="128" height="160"/>
@@ -59,7 +65,7 @@
  </layer>
  <layer name="characters" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3PAREAIAzEsPl3ARhFBfwOEgVtFdDRTAdc8MPja1Y6ADhipAOAmA3AQHQsEA4AAA==
+   H4sIAAAAAAAAA+3OyQkAIAwAwfTfhUeh1mBAgmHmvY+NgL/My348uSBjVw9AA6t6AIBWDrfsXKYQDgAA
   </data>
  </layer>
 </map>

@@ -32,7 +32,8 @@ public class Core extends BasicGame {
 
     // Start and end screen image
     private Image startScreen;
-    private Image endScreen;
+    private Image gameOverScreen;
+    private Image winGameScreen;
 
     /**
      * Constrcutor of the Core class.
@@ -72,7 +73,8 @@ public class Core extends BasicGame {
         // Start and end screen
         startTime = new Date().getTime();
         startScreen = new Image("res/startscreen/startscreen.png");
-        endScreen = new Image("res/startscreen/endscreen.png");
+        gameOverScreen = new Image("res/startscreen/endscreen.png");
+        winGameScreen = new Image("res/startscreen/winscreen.png");
 
         // Set the world to null before the start screen is gone
         world = null;
@@ -112,9 +114,18 @@ public class Core extends BasicGame {
             }
         } else if (gameState.getCurrentState().equals("gameover")) {
             // If game over, draw the end screen, then quit game
-            endScreen.draw();
+            world = null;
+            gameOverScreen.draw();
             if ((new Date().getTime() - gameState.getEndTime())
-                    > Tools.readSettings("res/settings.txt", "END_SCREEN_TIME")); {
+                    > Tools.readSettings("res/settings.txt", "END_SCREEN_TIME")) {
+                gameContainer.exit();
+            }
+        } else if (gameState.getCurrentState().equals("wingame")) {
+            // If game over, draw the end screen, then quit game
+            world = null;
+            winGameScreen.draw();
+            if ((new Date().getTime() - gameState.getEndTime())
+                    > Tools.readSettings("res/settings.txt", "END_SCREEN_TIME")) {
                 gameContainer.exit();
             }
         } else {

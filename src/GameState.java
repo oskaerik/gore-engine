@@ -70,6 +70,14 @@ public class GameState {
     }
 
     /**
+     * Method used to toggle the wingame state of the game when the player dies.
+     */
+    public void winGame() {
+        currentMode = "wingame";
+        endTime = new Date().getTime();
+    }
+
+    /**
      * Method used to get the end time (time when the player has died).
      *
      * @return Time when the player has died (in milliseconds).
