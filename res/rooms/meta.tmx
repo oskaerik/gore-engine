@@ -25,9 +25,26 @@
  </tileset>
  <tileset firstgid="81" name="characters" tilewidth="16" tileheight="16" tilecount="80" columns="8">
   <image source="transparent.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="CharacterName" value="dkm_bar"/>
+    <property name="CharacterType" value="friend"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="CharacterName" value="dkm_enter"/>
+    <property name="CharacterType" value="friend"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="161" name="items" tilewidth="16" tileheight="16" tilecount="80" columns="8">
   <image source="transparent.png" width="128" height="160"/>
+  <tile id="0">
+   <properties>
+    <property name="ItemName" value="Fireball"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="241" name="exits" tilewidth="16" tileheight="16" tilecount="80" columns="8">
   <image source="exits.png" width="128" height="160"/>
@@ -51,12 +68,12 @@
  </layer>
  <layer name="items" width="60" height="60">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAADwZkvEChtAOAAA
+   H4sIAAAAAAAAA+3OQREAAAgDoPVvYVNT7HwICUgAAAAAAAAAAAAAfprrAAAAABQtanpOi0A4AAA=
   </data>
  </layer>
  <layer name="characters" width="60" height="60">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA+3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAADwZkvEChtAOAAA
+   H4sIAAAAAAAAA+3OQREAAAQAMBXpH0YFD85nS7AIAAAAAAAAmMvvAAAAAAAAHKvvAAAsaalhb9RAOAAA
   </data>
  </layer>
 </map>

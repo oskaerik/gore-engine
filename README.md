@@ -55,16 +55,16 @@ For a character that should only stay still, you can have a file that looks like
 ```
 1 S
 ```
-This means the character will stay still for 1 frame and then it will restart.
+This means the character will stay still for 1 millisecond and then it will restart.
 
 For a character that should move, you could have a file that looks something like this:
 ```
-100 D
-100 L
-100 R
-100 U
+1000 D
+1000 L
+1000 R
+1000 U
 ```
-This character will walk downwards for 100 frames, then left, then right, then up, then repeat.
+This character will walk downwards for 1000 ms, then left, then right, then up, then repeat.
 
 #### Placing characters in the world
 Using Tiled, place a transparent tile on layer 3 and have the fields:

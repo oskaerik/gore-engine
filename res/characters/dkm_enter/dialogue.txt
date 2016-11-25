@@ -1,0 +1,10 @@
+null
+null:
+Welcome to META!
+The place where potential comes to die!
+I work for DKM
+Go talk at my colleague by the bar
+He might be able to help you...
+BTW, if you're carrying too much
+Open your inventory by pressing "I"
+Then drop items by pressing "A"

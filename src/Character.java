@@ -86,8 +86,8 @@ public class Character extends Entity {
         if (movementArray != null) {
             for (int i = 0; i < movementArray.size(); i++) {
                 String[] pixelsAndDirection = movementArray.get(i).split(" ");
-                int pixels = Integer.parseInt(pixelsAndDirection[0]);
-                if (pixels > 0) {
+                int ms = Integer.parseInt(pixelsAndDirection[0]);
+                if (ms > 0) {
                     switch (pixelsAndDirection[1]) {
                         case "D":
                             setFrozen(false);
@@ -116,8 +116,8 @@ public class Character extends Entity {
                             break;
                     }
 
-                    pixels--;
-                    movementArray.set(i, Integer.toString(pixels) + " " + pixelsAndDirection[1]);
+                    ms -= delta;
+                    movementArray.set(i, Integer.toString(ms) + " " + pixelsAndDirection[1]);
                     return;
                 }
             }
