@@ -6,6 +6,11 @@ GORE Engine is an easy to use 2D game engine written in Java using Slick2D.
 ## How to use
 Below are instructions on how to use the game engine.
 
+### Example
+We think that our game example is the best way to learn. You can run the example by cloning the folder, opening a terminal in the gore-engine directory and typing ```java -jar example.jar```
+
+The source code for the example is included in the engines resources.
+
 ### General
 #### Settings
 In the settings.txt-file, specify the width and height of the game window, the max FPS allowed and if debug mode should be enabled etc. The names of the fields are pretty self explanatory.
